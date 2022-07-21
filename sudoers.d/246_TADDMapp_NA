@@ -1,0 +1,229 @@
+# Begin NA TADDM Application standard template Ver 1.1.2  Date 2015-04-28  * Master * Refer NA15117135  Begin #
+# Description
+# Software products and versions
+# Supported OS platforms
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except Special for groups ABC, DEF and MNO only
+#
+# Version control
+#       v1.1 foxworth@us.ibm.com  - changed group names to 8 characters or less to comply with AIX; 
+#                         add gzip and tar negations, misc. changes.  Details:
+# -+ User_Alias IBM_GCMSPA_ADM = %gcmsmnt   # std alias name.
+# +                     /bin/cd /opt/IBM/ldap/*, \
+# -                  	 /bin/cd /opt/IBM/ldap/V6.1, \
+# +                     /opt/IBM/ldap/*/bin/ibmdirctl, /opt/IBM/ldap/*/sbin/idsdiradm, \
+# -      	      	 /opt/IBM/ldap/V6.1/bin/ibmdirctl, /opt/IBM/ldap/V6.1/sbin/idsdiradm,\
+# + 	                !/usr/bin/gzip  /* *,!/usr/bin/gzip *..*, !/usr/bin/gzip *./*
+# + 	                !/usr/bin/tar * /* * /* *,!/usr/bin/tar *..*, !/usr/bin/tar *./*
+# -                    	 /opt/gcms/dbq_pkg/bst/bin/*, /opt/TIV/taddm/dist/bin/BulkLoad.sh, \
+# -                    	 /opt/TIV/taddm/dist/bin/loadidml.sh, /opt/TIV/taddm/dist/bin/loadscope.jy, \
+#       v1.1.1 highc@us.ibm.com - missed recording the approval designation
+#                    in the # Begin/End comments, added.
+#       V1.1.2 highc@us.ibm.com - Change negations to reference standard negations out of
+#	      010_STD_NEG_GLB.  Some of the old negations included [\:space\:] and
+#	      left security exposures; update to new negations is mandatory.
+#	      Establish standard place holders for use w/ SPREP for user
+#	      and host alias.
+
+
+# Begin NA TADDM Application standard template Ver 1.1.2  Date 2015-04-28  * BAU * Refer NA15117135  Begin #
+#
+#A- Standard BAU sudo entries:
+# Requires that sudoedit be enabled
+# Requires that group gcmspa exist on server and managed by TADDM Owner
+#   Adjust to actual group names if required for local circumstances:
+#
+
+User_Alias IBM_GCMSCL_BAU = %gcmscl
+User_Alias IBM_GCMSCM_BAU = %gcmscm
+User_Alias IBM_GCMSPA_BAU = %gcmspa
+User_Alias IBM_GCMSPA_ADM = %gcmsmnt # NOTE: A different group MUST
+                      ###     be used for the _ADM commands.
+                      #       This group will ONLY be populated as needed during 
+                      #       install/problem/change,
+                      #       then emptied again after 'triggering event.'
+
+# Update Host_Alias to actual server list or use keyword 'ALL' as appropriate.
+Host_Alias TADDM_DB2_HOSTS = ALL          # In this case, we want this defined on all hosts, indicate subsets as appropriate.
+Host_Alias TADDM_APPLICATION_HOSTS = ALL  # In this case, we want this defined on all hosts, indicate subsets as appropriate.
+Host_Alias TADDM_ALL_HOSTS = TADDM_DB2_HOSTS,TADDM_APPLICATION_HOSTS
+
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+#-----[ Start GCMS TADDM Platform Admin BAU Section ]-------#
+#
+
+Cmnd_Alias IBM_GCMSPA_BAU_CMD1 = sudoedit /opt/IBM/db2/V*/license/nodelock, \
+                                 /opt/IBM/db2/*/install/db2_deinstall, \
+                                 /opt/IBM/db2/*/instance/db2icrt, \
+                                 /opt/IBM/db2/*/instance/db2iupdt, \
+                                 /opt/IBM/db2/*/instance/db2imigr, \
+                                 /opt/IBM/db2/*/instance/db2idrop, \
+                                 /opt/IBM/db2/*/adm/db2licm, \
+                                 /opt/IBM/db2/*/instance/db2ilist, \
+                                 /opt/IBM/db2/*/install/db2ls, \
+                                 /opt/IBM/db2/*/instance/das*, \
+                                 /opt/ibm/db2/*/install/db2_deinstall, \
+                                 /opt/ibm/db2/*/instance/db2icrt, \
+                                 /opt/ibm/db2/*/instance/db2iupdt, \
+                                 /opt/ibm/db2/*/instance/db2imig, \
+                                 /opt/ibm/db2/*/instance/db2idrop, \
+                                 /opt/ibm/db2/*/adm/db2licm, \
+                                 /opt/ibm/db2/*/instance/db2ilist, \
+                                 /opt/ibm/db2/*/install/db2ls, \
+                                 /opt/ibm/db2/*/instance/das*, \
+                                 /opt/IBM/db2/*/bin/db2val, \
+                                 /opt/IBM/ldap/*/bin/ibmdirctl, \
+                                 /opt/IBM/ldap/*/sbin/idsdiradm, \
+                                 /bin/cd /opt/IBM/ldap/*, \
+                                 sudoedit /etc/hosts, \
+                                 sudoedit /etc/services, \
+                                 sudoedit /etc/security/limits, \
+                                 sudoedit /etc/security/limits.conf, \
+                                 /bin/su - cmdb*, /usr/bin su - cmdb*, \
+                                 /bin/su - cmdb* *, /usr/bin su - cmdb* *, \
+                                 /bin/su - dasusr*, /usr/bin su - dasusr*, \
+                                 /bin/su - dasusr* *, /usr/bin su - dasusr* *, \
+                                 /bin/su - db2fenc*, /usr/bin su - db2fenc*, \
+                                 /bin/su - db2fenc* *, /usr/bin su - db2fenc* *, \
+                                 /bin/su - db2cmdb*, /usr/bin su - db2cmdb*, \
+                                 /bin/su - db2cmdb* *, /usr/bin su - db2cmdb* *, \
+                                 /bin/su - ecmdb*, /usr/bin su - ecmdb*, \
+                                 /bin/su - ecmdb* *, /usr/bin su - ecmdb* *,\
+                                 /bin/su - db2ecmdb, /usr/bin su - db2ecmdb, \
+                                 /bin/su - db2ecmdb *, /usr/bin su - db2ecmdb *, \
+                                 /bin/su - db2inst*, /usr/bin su - db2inst*, \
+                                 /bin/su - db2inst* *, /usr/bin su - db2inst* *, \
+                                 /bin/su - ids*, /usr/bin su - ids*, \
+                                 /bin/su - ids* *, /usr/bin su - ids* *, \
+                                 /bin/su - gcmsmon, /usr/bin su - gcmsmon, \
+                                 /bin/su - gcmsmon *, /usr/bin su - gcmsmon *, \
+                                 /bin/su - etlprod, /usr/bin su - etlprod, \
+                                 /bin/su - etlprod *, /usr/bin su - etlprod *, \
+                                 /bin/chmod -R [0-7][0-7][0] /install/*, \
+                                 /bin/chown -R *cmdb*.* /install/*
+
+Cmnd_Alias IBM_NEGATE_PA = IBM_CHMOD_NEG, IBM_CHOWN_NEG
+
+IBM_GCMSPA_BAU  TADDM_ALL_HOSTS = NOPASSWD: IBM_GCMSPA_BAU_CMD1, IBM_NEGATE_PA
+
+#
+#-----[ End GCMS TADDM Platform Admin BAU Section ]-------#
+#
+#-----[ Start GCMS TADDM Configuration Manager Section BAU ]-------#
+#
+# Requires that sudoedit be enabled
+# Requires that group gcmscm exist on server and managed by TADDM Owner
+#
+
+Runas_Alias IBM_GCMSCM_BAU_RUNAS = cmdbusr1
+
+Cmnd_Alias IBM_GCMSCM_BAU_CMD1 = sudoedit /home/cmdbusr1/.ssh/known_hosts, \
+                                 sudoedit /home/cmdbusr1/.ssh/authorized_keys, \
+                                 sudoedit /home/cmdbusr1/.ssh/authorized_keys2, \
+                                 sudoedit /opt/TIV/taddm/dist/etc/anchor.properties, \
+                                 sudoedit /opt/TIV/taddm/dist/etc/gateway.properties, \
+                                 /opt/TIV/taddm/dist/bin/control status, \
+                                 !/opt/TIV/taddm/dist/bin/control stop, \
+                                 !/opt/TIV/taddm/dist/bin/control start, \
+                                 !/opt/TIV/taddm/dist/bin/control restart, \
+                                 /opt/TIV/taddm/dist/bin/startgui.sh, \
+                                 /opt/gcms/dbq_pkg/*, \
+                                 /bin/chmod -R [0-7][0-7][04] /opt/gcms/dbq_pkg/*, \
+                                 /usr/bin/mkdir /opt/gcms/dbq_pkg/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/bst/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/srt/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/sched/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/scope_load/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/bst/bin/*, \
+                                 !sudoedit /opt/gcms/dbq_pkg/bst/bst.control, \
+                                 !sudoedit /opt/gcms/dbq_pkg/bst/bin/bst.tool, \
+                                 !sudoedit /opt/gcms/dbq_pkg/srt/srt.tool, \
+                                 /bin/tar -cvf * /opt/TIV/taddm/dist/log/*, \
+                                 /bin/gzip /opt/TIV/taddm/dist/log/*.tar, \
+                                 /bin/rm -f /opt/TIV/taddm/dist/log/*.tar, \
+                                 /bin/rm -f /opt/TIV/taddm/dist/log/*.gz, \
+                                 /bin/chmod -R [0-7][0-7][04] /opt/TIV/taddm/dist/log/sensors, \
+                                 /bin/rm -Rf /opt/TIV/taddm/dist/log/sensors/*, \
+                                 /opt/TIV/taddm/dist/log/gather_logs.ksh, \
+                                 /opt/TIV/taddm/dist/sdk/bin/api.sh, \
+                                 /opt/TIV/taddm/dist/support/bin/*.jy
+                                 
+Cmnd_Alias IBM_GCMSCM_BAU_CMD2 = /bin/chown cmdbusr1.* /opt/gcms/dbq_pkg/*, /usr/bin/chown cmdbusr1.* /opt/gcms/dbq_pkg/*
+Cmnd_Alias IBM_NEGATE_CM = IBM_CHMOD_NEG, IBM_CHOWN_NEG, IBM_RM_NEG, IBM_MKDIR_NEG, IBM_TAR_NEG, IBM_GZIP_NEG
+
+IBM_GCMSCM_BAU TADDM_APPLICATION_HOSTS = (IBM_GCMSCM_BAU_RUNAS) NOPASSWD: IBM_GCMSCM_BAU_CMD1, IBM_NEGATE_CM
+IBM_GCMSCM_BAU TADDM_APPLICATION_HOSTS = NOPASSWD: IBM_GCMSCM_BAU_CMD2, IBM_NEGATE_CM
+
+#
+#-----[ End GCMS TADDM Configuration Manager Section BAU ]-------#
+#
+#-----[ Start GCMS TADDM Configuration Librarian Section BAU ]-------#
+#
+# Requires that sudoedit be enabled
+# Requires that group gcmscm exist on server and managed by TADDM Owner
+#
+
+Runas_Alias IBM_GCMSCL_BAU_RUNAS = cmdbusr1
+
+Cmnd_Alias IBM_GCMSCL_BAU_CMD1 = /usr/bin/ssh, \
+                                 /opt/TIV/taddm/dist/bin/control status, \
+                                 !/opt/TIV/taddm/dist/bin/control stop, \
+                                 !/opt/TIV/taddm/dist/bin/control start, \
+                                 !/opt/TIV/taddm/dist/bin/control restart, \
+                                 /opt/TIV/taddm/dist/bin/startgui.sh, \
+                                 /opt/gcms/dbq_pkg/*, \
+                                 /opt/gcms/dbq_pkg/bst/bin/*, \
+                                 /bin/chmod -R [0-7][0-7][04] /opt/gcms/dbq_pkg/*, \
+                                 /usr/bin/mkdir /opt/gcms/dbq_pkg/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/bst/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/srt/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/sched/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/scope_load/*, \
+                                 sudoedit /opt/gcms/dbq_pkg/bst/bin/*, \
+                                 !sudoedit /opt/gcms/dbq_pkg/bst/bst.control, \
+                                 !sudoedit /opt/gcms/dbq_pkg/bst/bin/bst.tool, \
+                                 !sudoedit /opt/gcms/dbq_pkg/srt/srt.tool, \
+                                 /opt/TIV/taddm/dist/support/bin/*.jy, \
+                                 /opt/TIV/taddm/dist/bin/BulkLoad.sh, \
+                                 /opt/TIV/taddm/dist/bin/loadscope.jy, \
+                                 /opt/TIV/taddm/dist/bin/loadidml.sh, \
+                                 /opt/TIV/taddm/dist/sdk/bin/api.sh
+
+Cmnd_Alias IBM_NEGATE_CL = IBM_CHMOD_NEG, IBM_CHOWN_NEG, IBM_RM_NEG, IBM_MKDIR_NEG, IBM_TAR_NEG, IBM_GZIP_NEG
+
+IBM_GCMSCL_BAU TADDM_APPLICATION_HOSTS = (IBM_GCMSCL_BAU_RUNAS) NOPASSWD: IBM_GCMSCL_BAU_CMD1, IBM_NEGATE_CL
+
+#
+#-----[ End GCMS TADDM Configuration Librarian Section BAU ]-------#
+#
+# End NA TADDM Application standard template Ver 1.1.2  Date 2015-04-28  * BAU * Refer NA15117135  END #
+#
+# Begin NA TADDM standard template Ver 1.1   Date 2014-09-05 * Maintenance * Refer NA15117135 Begin #
+#
+# Description
+# Software products and versions  if required ( ie may have 2 groups one support linux #the other AIX for example)
+# Supported OS platforms  If required see above
+# local functional ID  If required  ie if different than the master
+# local path changes  If required  ie if different than the master
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups ABC, DEF and MNO only
+#
+#-----[ Begin GCMS TADDM Platform Admin Change/Installation Section ]-------#
+#
+
+Cmnd_Alias IBM_GCMSPA_ADM_CMD1 = /bin/su -
+
+IBM_GCMSPA_ADM TADDM_ALL_HOSTS = IBM_GCMSPA_ADM_CMD1
+
+#
+#-----[ End GCMS TADDM Platform Admin Change/Installation Section ]-------#
+#
+# End NA TADDM standard template Ver 1.1   Date 2014-09-05 * Maintenance * Refer NA15117135 End #
+#
+# End NA TADDM Application standard template Ver 1.1.2  Date 2015-04-28  * Master * Refer NA15117135  End #

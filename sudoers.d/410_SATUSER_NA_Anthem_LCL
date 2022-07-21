@@ -1,0 +1,50 @@
+# Begin  Customer SATUSER standard template Ver 1.0 Date yyyy-mm-dd  * Master * Refer NA16021017 Begin #
+# Description <: complete this header>
+# Software products and versions
+# Supported OS platforms - 
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates 
+#
+# Version control
+# V1.0 - shortname@us.ibm.com - put your shortname and  correct country code
+#          plus any comments you want included into the sudoers file.
+#
+# 
+# <:NA notes- rename this file to your application name, ensure you keep it a
+#      'pure' unix text file, otherwise it may not work right when #included.
+#      Recommend use of VIM to edit:  
+#      Reminder when replacing 'SATUSER' below, use all CAPS, that is 
+#      syntatically required by sudo. >
+#
+#=======================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_SATUSER_BAU = %satuser
+
+Host_Alias	SATUSER_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# -----Do not change anything below this line, excepting to replace ----------
+# -----         <:path *> content with local pathing.       ------------------
+#
+Cmnd_Alias IBM_SATUSER_BAU_CMDS =  /bin/rpm, /usr/sbin/chpasswd, \
+                /home/satuser/html_hc_check_v1.04.sh, /usr/bin/faillog, \
+                /usr/bin/tonic, /home/satuser/scan_priv_users.sh, \
+                /bin/cp sudoers /etc/, /bin/cp /etc/sudoers ./, \
+                /usr/sbin/useradd, /usr/sbin/userdel, \
+                /usr/sbin/usermod, /usr/sbin/groupadd, /usr/sbin/groupdel, \
+                /usr/sbin/groupmod, /usr/sbin/pwck, /usr/sbin/grpck, \
+                /bin/logins, /usr/bin/passwd, /usr/bin/faillog, \
+                /usr/bin/chage, /usr/bin/gpasswd, /opt/admin/[!'..']*
+
+#=====================================================================================
+#  NOPASSWD use approved on basis that the authorized
+#  id is vaulted and the id is used for automation.
+#=====================================================================================
+# Assigned To group
+IBM_SATUSER_BAU  SATUSER_HOSTS=(root) NOPASSWD: IBM_SATUSER_BAU_CMDS, IBM_ALL_NEG
+
+
+# End  Customer SATUSER standard template Ver 1.0 Date yyyy-mm-dd    * Master * Refer NA16021017  End #

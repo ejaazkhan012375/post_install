@@ -1,0 +1,706 @@
+# Begin  Customer WLP FTP LINUX standard template Ver 1.0 Date 2015-10-12 * Master * Refer NA15289037 Begin #
+# Description: WLP FTP/LFTP/VFABRIC Support
+# Software products and versions
+# Supported OS platforms - RHEL 6.x
+# local functional ID: bcbsga 
+#
+# Version control
+# V1.0 - magle@us.ibm.com - Initial version.
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias	IBM_FTP_ADMIN=%ftpadm
+
+User_Alias	IBM_FTP_OPS=%ftpops
+
+User_Alias	IBM_FTP_ONCALL=%ftponadm
+
+
+Host_Alias	FTP_HOSTS=vaathlx004,vaplplx001,vaplplx002,vaplplx003,vaplplx004,vaathlx003,va10tlvapp073,va10tlvapp074,va10tlvapp077, \
+                	  va10tlvapp078,va10plvapp075,va10plvapp076,va10plvapp079,va10plvapp080,va10plvsmt300,va10plvsmt301,va10plvsmt303, \
+			  va10plvsmt304
+
+# IBM WellPoint FTP Team User ID Asset Management (standard list)
+
+# IBM WellPoint FTP Team (IBM managed commands)
+Cmnd_Alias	IBM_FTP_EXEC_ADMIN_CMNDS=\
+                    /bin/chmod -R [0-7][0-7][0145] /ftp2/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /covalent/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /development/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /secureftp/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /u01/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /siebel/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /bp01/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /bp02/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /ftp/*,\
+                    /bin/rm -rf /ftp2/*,\
+                    /bin/rm -rf /covalent/*,\
+                    /bin/rm -rf /development/*,\
+                    /bin/rm -rf /secureftp/*,\
+                    /bin/rm -rf /u01/*,\
+                    /bin/rm -rf /siebel/*,\
+                    /bin/rm -rf /bp01/*,\
+                    /bin/rm -rf /bp02/*,\
+                    /bin/rm -rf /ftp/*,\
+                    /covalent/servers/ftptest/bin/apache_startup.sh,\
+                    /covalent/servers/m9llalx012/bin/apache_startup.sh,\
+                    /covalent/servers/m9llalx013/bin/apache_startup.sh,\
+                    /sbin/service proftpd restart,\
+                    /sbin/service sshd restart,\
+                    /sbin/service proftpd status,\
+                    /sbin/service sshd status,\
+                    /usr/bin/unix2dos,\
+                    /usr/bin/dos2unix,\
+                    /bin/mount,\
+                    /bin/umount,\
+                    /usr/bin/smbmount,\
+                    /usr/bin/smbumount,\
+                    /usr/sbin/tcpdump,\
+                    /bin/traceroute,\
+                    /bin/tracert,\
+                    /usr/bin/htpasswd,\
+                    sudoedit /etc/proftpd.conf,\
+                    sudoedit /etc/fstab,\
+                    sudoedit /etc/proftpd.conf,\
+                    sudoedit /etc/fstab,\
+		    sudoedit /etc/automt.cifs,\
+		    /bin/ls -ltra /etc/proftpd*,\
+		    /bin/cp /etc/proftpd.conf /etc/proftpd.conf.*,\
+		    /bin/mkdir -m775 /ftp2/scripts,\
+		    /bin/mkdir -m775 /fpt2/scripts/log/proftpdlogs,\ 
+   		    sudoedit /etc/logrotate.d/proftpd,\ 
+		    /bin/ls -ltra /var/log,\
+		    /bin/ls -ltra /var/log/proftpd*,\
+		    /bin/ls -ltra /var/log/xferlog*,\
+		    	/bin/mv /var/spool/cron/bcbsga /var/spool/cron/bcbsga.[0-9][0-9][0-9][0-9][0-9][0-9],\
+		 	/bin/mv /var/spool/cron/bcbsga.[0-9][0-9][0-9][0-9][0-9][0-9] /var/spool/cron/bcbsga,\
+			/bin/mv /var/log/proftpd.log /var/log/proftp.log.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/gzip /var/log/proftpd.log.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/mv /var/log/xferlog /var/log/xferlog.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/gzip /var/log/xferlog.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/mv /var/log/ftpd/tls.log /var/log/ftpd/tls.log.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/gzip /var/log/ftpd/tls.log.[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/gzip /var/log/secure-[0-9][0-9][0-9][0-9][0-9][0-9],\
+			/bin/mv /var/log/secure-[0-9][0-9][0-9][0-9][0-9][0-9] /u01/etc/log_bkup,\
+			/bin/mv /var/log/proftpd.log.[0-9][0-9][0-9][0-9][0-9][0-9] /u01/etc/log_bkup,\
+			/bin/mv /var/log/xferlog.[0-9][0-9][0-9][0-9][0-9][0-9] /u01/etc/log_bkup,\
+			/bin/ls -ltra /var/log/proftpd.log*,\
+			/bin/ls -ltra /var/log/xferlog*,\
+			/bin/ls -ltra /var/log/ftpd/tls.log*,\
+			/bin/cat /var/log/messages,\
+			/bin/cat /var/log/xferlog,\
+			/bin/cat /var/log/proftpd.log,\
+			/usr/bin/smbclient -L * -A /etc/credentials1,\
+                    /bin/su - acsp*
+
+
+Cmnd_Alias	IBM_FTP_EXEC_OPS_CMNDS=\
+                    /bin/su - acst*,\
+                    /bin/su - anth_va62,\
+                    /bin/su - arvatousa,\
+                    /bin/su - avaya,\
+                    /bin/su - bcbsg*,\
+                    /bin/su - cc64*,\
+                    /bin/su - cmsieedip,\
+                    /bin/su - CustomerOps, \
+                    /bin/su - enloe,\
+                    /bin/su - entgatep,\
+                    /bin/su - ESI_*,\
+                    /bin/su - ghi,\
+                    /bin/su - gldnwest*,\
+                    /bin/su - hp3000va,\
+                    /bin/su - labcorp,\
+                    /bin/su - lumenos,\
+                    /bin/su - ofacftp,\
+                    /bin/su - opan,\
+                    /bin/su - opca*,\
+                    /bin/su - patrol,\
+                    /bin/su - psoft*,\
+                    /bin/su - pushme,\
+                    /bin/su - qproduction,\
+                    /bin/su - quest,\
+                    /bin/su - siebel*,\
+                    /bin/su - srcpco*,\
+                    /bin/su - srcwestbiz,\
+                    /bin/su - stfrancis,\
+                    /bin/su - stjohns,\
+                    /bin/su - trigon,\
+                    /bin/su - ucla,\
+                    /bin/su - ucsdedu,\
+                    /bin/su - vsacomm,\
+                    /bin/chmod [0-7][0-7][0145] /ftp2/*,\
+                    /bin/chmod [0-7][0-7][0145] /covalent/*,\
+                    /bin/chmod [0-7][0-7][0145] /development/*,\
+                    /bin/chmod [0-7][0-7][0145] /secureftp/*,\
+                    /bin/chmod [0-7][0-7][0145] /u01/*,\
+                    /bin/chmod [0-7][0-7][0145] /siebel/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /bp01/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /bp02/*,\
+                    /bin/chmod -R [0-7][0-7][0145] /ftp/*,\
+                    /bin/chgrp acsp* /ftp2/*,\
+                    /bin/chgrp acsp* /covalent/*,\
+                    /bin/chgrp acsp* /development/*,\
+                    /bin/chgrp acsp* /secureftp/*,\
+                    /bin/chgrp acsp* /u01/*,\
+                    /bin/chgrp acsp* /siebel/*,\
+                    /bin/chgrp acst* /ftp2/*,\
+                    /bin/chgrp acst* /covalent/*,\
+                    /bin/chgrp acst* /development/*,\
+                    /bin/chgrp acst* /secureftp/*,\
+                    /bin/chgrp acst* /u01/*,\
+                    /bin/chgrp acst* /siebel/*,\
+                    /bin/chgrp anth_va62 /ftp2/*,\
+                    /bin/chgrp anth_va62 /covalent/*,\
+                    /bin/chgrp anth_va62 /development/*,\
+                    /bin/chgrp anth_va62 /secureftp/*,\
+                    /bin/chgrp anth_va62 /u01/*,\
+                    /bin/chgrp anth_va62 /siebel/*,\
+                    /bin/chgrp arvatousa /ftp2/*,\
+                    /bin/chgrp arvatousa /covalent/*,\
+                    /bin/chgrp arvatousa /development/*,\
+                    /bin/chgrp arvatousa /secureftp/*,\
+                    /bin/chgrp arvatousa /u01/*,\
+                    /bin/chgrp arvatousa /siebel/*,\
+                    /bin/chgrp avaya /ftp2/*,\
+                    /bin/chgrp avaya /covalent/*,\
+                    /bin/chgrp avaya /development/*,\
+                    /bin/chgrp avaya /secureftp/*,\
+                    /bin/chgrp avaya /u01/*,\
+                    /bin/chgrp avaya /siebel/*,\
+                    /bin/chgrp bcbsg* /ftp2/*,\
+                    /bin/chgrp bcbsg* /covalent/*,\
+                    /bin/chgrp bcbsg* /development/*,\
+                    /bin/chgrp bcbsg* /secureftp/*,\
+                    /bin/chgrp bcbsg* /development/*,\
+                    /bin/chgrp bcbsg* /secureftp/*,\
+                    /bin/chgrp bcbsg* /u01/*,\
+                    /bin/chgrp bcbsg* /siebel/*,\
+                    /bin/chgrp cc64* /ftp2/*,\
+                    /bin/chgrp cc64* /covalent/*,\
+                    /bin/chgrp cc64* /development/*,\
+                    /bin/chgrp cc64* /secureftp/*,\
+                    /bin/chgrp cc64* /u01/*,\
+                    /bin/chgrp cc64* /siebel/*,\
+                    /bin/chgrp cmsieedip /ftp2/*,\
+                    /bin/chgrp cmsieedip /covalent/*,\
+                    /bin/chgrp cmsieedip /development/*,\
+                    /bin/chgrp cmsieedip /secureftp/*,\
+                    /bin/chgrp cmsieedip /u01/*,\
+                    /bin/chgrp cmsieedip /siebel/*,\
+                    /bin/chgrp CustomerOps /ftp2/*,\
+                    /bin/chgrp CustomerOps /covalent/*,\
+                    /bin/chgrp CustomerOps /development/*,\
+                    /bin/chgrp CustomerOps /secureftp/*,\
+                    /bin/chgrp CustomerOps /u01/*,\
+                    /bin/chgrp CustomerOps /siebel/*,\
+                    /bin/chgrp enloe /ftp2/*,\
+                    /bin/chgrp enloe /covalent/*,\
+                    /bin/chgrp enloe /development/*,\
+                    /bin/chgrp enloe /secureftp/*,\
+                    /bin/chgrp enloe /u01/*,\
+                    /bin/chgrp enloe /siebel/*,\
+                    /bin/chgrp entgatep /ftp2/*,\
+                    /bin/chgrp entgatep /covalent/*,\
+                    /bin/chgrp entgatep /development/*,\
+                    /bin/chgrp entgatep /secureftp/*,\
+                    /bin/chgrp entgatep /u01/*,\
+                    /bin/chgrp entgatep /siebel/*,\
+                    /bin/chgrp ESI_* /ftp2/*,\
+                    /bin/chgrp ESI_* /covalent/*,\
+                   /bin/chgrp ESI_* /development/*,\
+                    /bin/chgrp ESI_* /secureftp/*,\
+                    /bin/chgrp ESI_* /u01/*,\
+                    /bin/chgrp ESI_* /siebel/*,\
+                    /bin/chgrp ghi /ftp2/*,\
+                    /bin/chgrp ghi /covalent/*,\
+                    /bin/chgrp ghi /development/*,\
+                    /bin/chgrp ghi /secureftp/*,\
+                    /bin/chgrp ghi /u01/*,\
+                    /bin/chgrp ghi /siebel/*,\
+                    /bin/chgrp gldnwest* /ftp2/*,\
+                    /bin/chgrp gldnwest* /covalent/*,\
+                    /bin/chgrp gldnwest* /development/*,\
+                    /bin/chgrp gldnwest* /secureftp/*,\
+                    /bin/chgrp gldnwest* /u01/*,\
+                    /bin/chgrp gldnwest* /siebel/*,\
+                    /bin/chgrp hp3000va /ftp2/*,\
+                    /bin/chgrp hp3000va /covalent/*,\
+                    /bin/chgrp hp3000va /development/*,\
+                    /bin/chgrp hp3000va /secureftp/*,\
+                    /bin/chgrp hp3000va /u01/*,\
+                    /bin/chgrp hp3000va /siebel/*,\
+                    /bin/chgrp labcorp /ftp2/*,\
+                    /bin/chgrp labcorp /covalent/*,\
+                    /bin/chgrp labcorp /development/*,\
+                    /bin/chgrp labcorp /secureftp/*,\
+                    /bin/chgrp labcorp /u01/*,\
+                    /bin/chgrp labcorp /siebel/*,\
+                    /bin/chgrp lumenos /ftp2/*,\
+                    /bin/chgrp lumenos /covalent/*,\
+                    /bin/chgrp lumenos /development/*,\
+                    /bin/chgrp lumenos /secureftp/*,\
+                    /bin/chgrp lumenos /u01/*,\
+                    /bin/chgrp lumenos /siebel/*,\
+                    /bin/chgrp ofacftp /ftp2/*,\
+                    /bin/chgrp ofacftp /covalent/*,\
+                    /bin/chgrp ofacftp /development/*,\
+                    /bin/chgrp ofacftp /secureftp/*,\
+                    /bin/chgrp ofacftp /u01/*,\
+                   /bin/chgrp ofacftp /siebel/*,\
+                    /bin/chgrp opan /ftp2/*,\
+                    /bin/chgrp opan /covalent/*,\
+                    /bin/chgrp opan /development/*,\
+                    /bin/chgrp opan /secureftp/*,\
+                    /bin/chgrp opan /u01/*,\
+                    /bin/chgrp opan /siebel/*,\
+                    /bin/chgrp opca* /ftp2/*,\
+                    /bin/chgrp opca* /covalent/*,\
+                    /bin/chgrp opca* /development/*,\
+                    /bin/chgrp opca* /secureftp/*,\
+                    /bin/chgrp opca* /u01/*,\
+                    /bin/chgrp opca* /siebel/*,\
+                    /bin/chgrp patrol /ftp2/*,\
+                    /bin/chgrp patrol /covalent/*,\
+                    /bin/chgrp patrol /development/*,\
+                    /bin/chgrp patrol /secureftp/*,\
+                    /bin/chgrp patrol /u01/*,\
+                    /bin/chgrp patrol /siebel/*,\
+                    /bin/chgrp psoft* /ftp2/*,\
+                    /bin/chgrp psoft* /covalent/*,\
+                    /bin/chgrp psoft* /development/*,\
+                    /bin/chgrp psoft* /secureftp/*,\
+                    /bin/chgrp psoft* /u01/*,\
+                    /bin/chgrp psoft* /siebel/*,\
+                    /bin/chgrp pushme /ftp2/*,\
+                    /bin/chgrp pushme /covalent/*,\
+                    /bin/chgrp pushme /development/*,\
+                    /bin/chgrp pushme /secureftp/*,\
+                    /bin/chgrp pushme /u01/*,\
+                    /bin/chgrp pushme /siebel/*,\
+                    /bin/chgrp qproduction /ftp2/*,\
+                    /bin/chgrp qproduction /covalent/*,\
+                    /bin/chgrp qproduction /development/*,\
+                    /bin/chgrp qproduction /secureftp/*,\
+                    /bin/chgrp qproduction /u01/*,\
+                    /bin/chgrp qproduction /siebel/*,\
+                    /bin/chgrp quest /ftp2/*,\
+                    /bin/chgrp quest /covalent/*,\
+                    /bin/chgrp quest /development/*,\
+                    /bin/chgrp quest /secureftp/*,\
+                    /bin/chgrp quest /u01/*,\
+                    /bin/chgrp quest /siebel/*,\
+                    /bin/chgrp siebel* /ftp2/*,\
+                    /bin/chgrp siebel* /covalent/*,\
+                    /bin/chgrp siebel* /development/*,\
+                    /bin/chgrp siebel* /secureftp/*,\
+                    /bin/chgrp siebel* /u01/*,\
+                    /bin/chgrp siebel* /siebel/*,\
+                    /bin/chgrp srcpco* /ftp2/*,\
+                    /bin/chgrp srcpco* /covalent/*,\
+                    /bin/chgrp srcpco* /development/*,\
+                    /bin/chgrp srcpco* /secureftp/*,\
+                    /bin/chgrp srcpco* /u01/*,\
+                    /bin/chgrp srcpco* /siebel/*,\
+                    /bin/chgrp srcwestbiz /ftp2/*,\
+                    /bin/chgrp srcwestbiz /covalent/*,\
+                    /bin/chgrp srcwestbiz /development/*,\
+                    /bin/chgrp srcwestbiz /secureftp/*,\
+                    /bin/chgrp srcwestbiz /u01/*,\
+                    /bin/chgrp srcwestbiz /siebel/*,\
+                    /bin/chgrp stfrancis /ftp2/*,\
+                    /bin/chgrp stfrancis /covalent/*,\
+                    /bin/chgrp stfrancis /development/*,\
+                    /bin/chgrp stfrancis /secureftp/*,\
+                    /bin/chgrp stfrancis /u01/*,\
+                    /bin/chgrp stfrancis /siebel/*,\
+                    /bin/chgrp stjohns /ftp2/*,\
+                    /bin/chgrp stjohns /covalent/*,\
+                    /bin/chgrp stjohns /development/*,\
+                    /bin/chgrp stjohns /secureftp/*,\
+                    /bin/chgrp stjohns /u01/*,\
+                    /bin/chgrp stjohns /siebel/*,\
+                    /bin/chgrp trigon /ftp2/*,\
+                    /bin/chgrp trigon /covalent/*,\
+                    /bin/chgrp trigon /development/*,\
+                    /bin/chgrp trigon /secureftp/*,\
+                /bin/chgrp trigon /u01/*,\
+                    /bin/chgrp trigon /siebel/*,\
+                    /bin/chgrp ucla /ftp2/*,\
+                    /bin/chgrp ucla /covalent/*,\
+                    /bin/chgrp ucla /development/*,\
+                    /bin/chgrp ucla /secureftp/*,\
+                    /bin/chgrp ucla /u01/*,\
+                    /bin/chgrp ucla /siebel/*,\
+                    /bin/chgrp ucsdedu /ftp2/*,\
+                    /bin/chgrp ucsdedu /covalent/*,\
+                    /bin/chgrp ucsdedu /development/*,\
+                    /bin/chgrp ucsdedu /secureftp/*,\
+                    /bin/chgrp ucsdedu /u01/*,\
+                    /bin/chgrp ucsdedu /siebel/*,\
+                    /bin/chgrp vsacomm /ftp2/*,\
+                    /bin/chgrp vsacomm /covalent/*,\
+                    /bin/chgrp vsacomm /development/*,\
+                    /bin/chgrp vsacomm /secureftp/*,\
+                    /bin/chgrp vsacomm /u01/*,\
+                    /bin/chgrp vsacomm /siebel/*,\
+                    /bin/chown acsp* /ftp2/*,\
+                    /bin/chown acsp* /covalent/*,\
+                    /bin/chown acsp* /development/*,\
+                    /bin/chown acsp* /secureftp/*,\
+                    /bin/chown acsp* /u01/*,\
+                    /bin/chown acsp* /siebel/*,\
+                    /bin/chown acst* /ftp2/*,\
+                    /bin/chown acst* /covalent/*,\
+                    /bin/chown acst* /development/*,\
+                    /bin/chown acst* /secureftp/*,\
+                    /bin/chown acst* /u01/*,\
+                    /bin/chown acst* /siebel/*,\
+                    /bin/chown anth_va62 /ftp2/*,\
+                    /bin/chown anth_va62 /covalent/*,\
+                    /bin/chown anth_va62 /development/*,\
+                    /bin/chown anth_va62 /secureftp/*,\
+                    /bin/chown anth_va62 /u01/*,\
+                    /bin/chown anth_va62 /siebel/*,\
+                    /bin/chown arvatousa /ftp2/*,\
+                    /bin/chown arvatousa /covalent/*,\
+                    /bin/chown arvatousa /development/*,\
+                    /bin/chown arvatousa /secureftp/*,\
+                    /bin/chown arvatousa /u01/*,\
+                    /bin/chown arvatousa /siebel/*,\
+                    /bin/chown avaya /ftp2/*,\
+                    /bin/chown avaya /covalent/*,\
+                    /bin/chown avaya /development/*,\
+                    /bin/chown avaya /secureftp/*,\
+                    /bin/chown avaya /u01/*,\
+                    /bin/chown avaya /siebel/*,\
+                    /bin/chown bcbsg* /ftp2/*,\
+                    /bin/chown bcbsg* /covalent/*,\
+                    /bin/chown bcbsg* /development/*,\
+                    /bin/chown bcbsg* /secureftp/*,\
+                    /bin/chown bcbsg* /u01/*,\
+                    /bin/chown bcbsg* /siebel/*,\
+                    /bin/chown cc64* /ftp2/*,\
+                    /bin/chown cc64* /covalent/*,\
+                    /bin/chown cc64* /development/*,\
+                    /bin/chown cc64* /secureftp/*,\
+                    /bin/chown cc64* /u01/*,\
+                    /bin/chown cc64* /siebel/*,\
+                    /bin/chown cmsieedip /ftp2/*,\
+                    /bin/chown cmsieedip /covalent/*,\
+                    /bin/chown cmsieedip /development/*,\
+                    /bin/chown cmsieedip /secureftp2/*,\
+                    /bin/chown cmsieedip /u01/*,\
+                    /bin/chown cmsieedip /siebel/*,\
+                    /bin/chown CustomerOps /ftp2/*,\
+                    /bin/chown CustomerOps /covalent/*,\
+                    /bin/chown CustomerOps /development/*,\
+                    /bin/chown CustomerOps /secureftp/*,\
+                    /bin/chown CustomerOps /u01/*,\
+                   /bin/chown CustomerOps /siebel/*,\
+                    /bin/chown enloe /ftp2/*,\
+                    /bin/chown enloe /covalent/*,\
+                    /bin/chown enloe /development/*,\
+                    /bin/chown enloe /secureftp/*,\
+                    /bin/chown enloe /u01/*,\
+                    /bin/chown enloe /siebel/*,\
+                    /bin/chown entgatep /ftp2/*,\
+                    /bin/chown entgatep /covalent/*,\
+                    /bin/chown entgatep /development/*,\
+                    /bin/chown entgatep /secureftp/*,\
+                    /bin/chown entgatep /u01/*,\
+                    /bin/chown entgatep /siebel/*,\
+                    /bin/chown ESI_* /ftp2/*,\
+                    /bin/chown ESI_* /covalent/*,\
+                    /bin/chown ESI_* /development/*,\
+                    /bin/chown ESI_* /secureftp/*,\
+                    /bin/chown ESI_* /u01/*,\
+                    /bin/chown ESI_* /siebel/*,\
+                    /bin/chown ghi /ftp2/*,\
+                    /bin/chown ghi /covalent/*,\
+                    /bin/chown ghi /development/*,\
+                    /bin/chown ghi /secureftp/*,\
+                    /bin/chown ghi /u01/*,\
+                    /bin/chown ghi /siebel/*,\
+                    /bin/chown gldnwest* /ftp2/*,\
+                    /bin/chown gldnwest* /covalent/*,\
+                    /bin/chown gldnwest* /development/*,\
+                    /bin/chown gldnwest* /secureftp/*,\
+                    /bin/chown gldnwest* /u01/*,\
+                    /bin/chown gldnwest* /siebel/*,\
+                    /bin/chown hp3000va /ftp2/*,\
+                    /bin/chown hp3000va /covalent/*,\
+                    /bin/chown hp3000va /development/*,\
+                    /bin/chown hp3000va /secureftp/*,\
+                    /bin/chown hp3000va /u01/*,\
+                    /bin/chown hp3000va /siebel/*,\
+                    /bin/chown labcorp /ftp2/*,\
+                   /bin/chown labcorp /covalent/*,\
+                    /bin/chown labcorp /development/*,\
+                    /bin/chown labcorp /secureftp/*,\
+                    /bin/chown labcorp /u01/*,\
+                    /bin/chown labcorp /siebel/*,\
+                    /bin/chown lumenos /ftp2/*,\
+                    /bin/chown lumenos /covalent/*,\
+                    /bin/chown lumenos /development/*,\
+                    /bin/chown lumenos /secureftp/*,\
+                    /bin/chown lumenos /u01/*,\
+                    /bin/chown lumenos /siebel/*,\
+                    /bin/chown ofacftp /ftp2/*,\
+                    /bin/chown ofacftp /covalent/*,\
+                    /bin/chown ofacftp /development/*,\
+                    /bin/chown ofacftp /secureftp/*,\
+                    /bin/chown ofacftp /u01/*,\
+                    /bin/chown ofacftp /siebel/*,\
+                    /bin/chown opan /ftp2/*,\
+                    /bin/chown opan /covalent/*,\
+                    /bin/chown opan /development/*,\
+                    /bin/chown opan /secureftp/*,\
+                    /bin/chown opan /u01/*,\
+                    /bin/chown opan /siebel/*,\
+                    /bin/chown opca* /ftp2/*,\
+                    /bin/chown opca* /covalent/*,\
+                    /bin/chown opca* /development/*,\
+                    /bin/chown opca* /secureftp/*,\
+                    /bin/chown opca* /u01/*,\
+                    /bin/chown opca* /siebel/*,\
+                    /bin/chown patrol /ftp2/*,\
+                    /bin/chown patrol /covalent/*,\
+                    /bin/chown patrol /development/*,\
+                    /bin/chown patrol /secureftp/*,\
+                    /bin/chown patrol /u01/*,\
+                    /bin/chown patrol /siebel/*,\
+                    /bin/chown psoft* /ftp2/*,\
+                    /bin/chown psoft* /covalent/*,\
+                    /bin/chown psoft* /development/*,\
+                    /bin/chown psoft* /secureftp/*,\
+                  /bin/chown psoft* /u01/*,\
+                    /bin/chown psoft* /siebel/*,\
+                    /bin/chown pushme /ftp2/*,\
+                    /bin/chown pushme /covalent/*,\
+                    /bin/chown pushme /development/*,\
+                    /bin/chown pushme /secureftp/*,\
+                    /bin/chown pushme /u01/*,\
+                    /bin/chown pushme /siebel/*,\
+                    /bin/chown qproduction /ftp2/*,\
+                    /bin/chown qproduction /covalent/*,\
+                    /bin/chown qproduction /development/*,\
+                    /bin/chown qproduction /secureftp/*,\
+                    /bin/chown qproduction /u01/*,\
+                    /bin/chown qproduction /siebel/*,\
+                    /bin/chown quest /ftp2/*,\
+                    /bin/chown quest /covalent/*,\
+                    /bin/chown quest /development/*,\
+                    /bin/chown quest /secureftp/*,\
+                    /bin/chown quest /u01/*,\
+                    /bin/chown quest /siebel/*,\
+                    /bin/chown siebel* /ftp2/*,\
+                    /bin/chown siebel* /covalent/*,\
+                    /bin/chown siebel* /development/*,\
+                    /bin/chown siebel* /secureftp/*,\
+                    /bin/chown siebel* /u01/*,\
+                    /bin/chown siebel* /siebel/*,\
+                    /bin/chown srcpco* /ftp2/*,\
+                    /bin/chown srcpco* /covalent/*,\
+                    /bin/chown srcpco* /development/*,\
+                    /bin/chown srcpco* /secureftp/*,\
+                    /bin/chown srcpco* /u01/*,\
+                    /bin/chown srcpco* /siebel/*,\
+                    /bin/chown srcwestbiz /ftp2/*,\
+                    /bin/chown srcwestbiz /covalent/*,\
+                    /bin/chown srcwestbiz /development/*,\
+                    /bin/chown srcwestbiz /secureftp/*,\
+                    /bin/chown srcwestbiz /u01/*,\
+                    /bin/chown srcwestbiz /siebel/*,\
+                    /bin/chown stfrancis /ftp2/*,\
+                    /bin/chown stfrancis /covalent/*,\
+                    /bin/chown stfrancis /development/*,\
+                    /bin/chown stfrancis /secureftp/*,\
+                    /bin/chown stfrancis /u01/*,\
+                    /bin/chown stfrancis /siebel/*,\
+                    /bin/chown stjohns /ftp2/*,\
+                    /bin/chown stjohns /covalent/*,\
+                    /bin/chown stjohns /development/*,\
+                    /bin/chown stjohns /secureftp/*,\
+                    /bin/chown stjohns /u01/*,\
+                    /bin/chown stjohns /siebel/*,\
+                    /bin/chown trigon /ftp2/*,\
+                    /bin/chown trigon /covalent/*,\
+                    /bin/chown trigon /development/*,\
+                    /bin/chown trigon /secureftp/*,\
+                    /bin/chown trigon /u01/*,\
+                    /bin/chown trigon /siebel/*,\
+                    /bin/chown ucla /ftp2/*,\
+                    /bin/chown ucla /covalent/*,\
+                    /bin/chown ucla /development/*,\
+                    /bin/chown ucla /secureftp/*,\
+                    /bin/chown ucla /u01/*,\
+                    /bin/chown ucla /siebel/*,\
+                    /bin/chown ucsdedu /ftp2/*,\
+                    /bin/chown ucsdedu /covalent/*,\
+                    /bin/chown ucsdedu /development/*,\
+                    /bin/chown ucsdedu /secureftp/*,\
+                    /bin/chown ucsdedu /u01/*,\
+                    /bin/chown ucsdedu /siebel/*,\
+                    /bin/chown vsacomm /ftp2/*,\
+                    /bin/chown vsacomm /covalent/*,\
+                    /bin/chown vsacomm /development/*,\
+                    /bin/chown vsacomm /secureftp/*,\
+                    /bin/chown vsacomm /u01/*,\
+                    /bin/chown vsacomm /siebel/*,\
+                    /bin/chown bcbsg*\:bcbsg* /ftp2/*,\
+                    /bin/chown bcbsg*\:bcbsg* /covalent/*,\
+                   /bin/chown bcbsg*\:bcbsg* /development/*,\
+                    /bin/chown bcbsg*\:bcbsg* /secureftp/*,\
+                    /bin/chown bcbsg*\:bcbsg* /u01/*,\
+                    /bin/chown bcbsg*\:bcbsg* /siebel/*,\
+                    /bin/chown opca*\:opca* /ftp2/*,\
+                    /bin/chown opca*\:opca* /covalent/*,\
+                    /bin/chown opca*\:opca* /development/*,\
+                    /bin/chown opca*\:opca* /secureftp/*,\
+                    /bin/chown opca*\:opca* /u01/*,\
+                    /bin/chown opca*\:opca* /siebel/*,\
+                    /bin/ls /ftp2,\
+                    /bin/ls /ftp2/*,\
+                    /bin/ls /covalent,\
+                    /bin/ls /covalent/*,\
+                    /bin/ls /development,\
+                    /bin/ls /development/*,\
+                    /bin/ls /secureftp,\
+                    /bin/ls /secureftp/*,\
+                    /bin/ls /u01,\
+                    /bin/ls /u01/*,\
+                    /bin/ls /siebel,\
+                    /bin/ls /siebel/*,\
+                    /bin/ls -l /ftp2,\
+                    /bin/ls -l /ftp2/*,\
+                    /bin/ls -l /covalent,\
+                    /bin/ls -l /covalent/*,\
+                    /bin/ls -l /development,\
+                    /bin/ls -l /development/*,\
+                    /bin/ls -l /secureftp,\
+                    /bin/ls -l /secureftp/*,\
+                    /bin/ls -l /u01,\
+                    /bin/ls -l /u01/*,\
+                    /bin/ls -l /siebel,\
+                    /bin/ls -l /siebel/*,\
+                    /bin/ls -l /bp01,\
+                    /bin/ls -l /bp01/*,\
+                    /bin/ls -l /bp02,\
+                    /bin/ls -l /bp02/*,\
+                    /bin/ls -l /ftp,\
+                    /bin/ls -l /ftp/*,\
+                    /bin/cat /ftp2/*,\
+                    /bin/cat /covalent/*,\
+                    /bin/cat /development/*,\
+                    /bin/cat /secureftp/*,\
+                    /bin/cat /u01/*,\
+                    /bin/cat /siebel/*,\
+                    /bin/cat /ftp/*,\
+                    /bin/zcat /ftp2/*,\
+                    /bin/zcat /covalent/*,\
+                    /bin/zcat /development/*,\
+                    /bin/zcat /secureftp/*,\
+                    /bin/zcat /u01/*,\
+                    /bin/tail /ftp2/*,\
+                    /bin/tail /covalent/*,\
+                    /bin/tail /development/*,\
+                    /bin/tail /secureftp/*,\
+                    /bin/tail /u01/*,\
+                    /bin/tail /siebel/*,\
+                    /bin/mkdir /ftp2/*,\
+                    /bin/mkdir /covalent/*,\
+                    /bin/mkdir /development/*,\
+                    /bin/mkdir /secureftp/*,\
+                    /bin/mkdir /ftp/*,\
+                    /bin/mkdir /siebel/*,\
+                    /bin/mkdir /u01/*,\
+                    /bin/rmdir /ftp2/*,\
+                    /bin/rmdir /covalent/*,\
+                    /bin/rmdir /development/*,\
+                    /bin/rmdir /secureftp/*,\
+                    /bin/rmdir /u01/*,\
+                    /bin/rmdir /siebel/*,\
+                    /bin/rmdir /ftp/*,\
+                    /bin/rmdir /bp01/*,\
+                    /bin/rmdir /bp02/*,\
+                    /bin/rm /ftp2/*,\
+                    /bin/rm /covalent/*,\
+                    /bin/rm /development/*,\
+                    /bin/rm /secureftp/*,\
+                    /bin/rm /u01/*,\
+                    /bin/rm /siebel/*,\
+                    /bin/rm -rf /bp01/*,\
+                    /bin/rm -rf /bp02/*,\
+                    /bin/rm -rf /ftp/*
+
+# Note:  The Sudo implementation team (generally the SA team)
+#  may move this alias to a 'communal spot' if multiple templates
+#  need to reference it.  IBM_NA_MOUNT_NEG
+ Cmnd_Alias      IBM_FTP_ONC_COM =	/bin/su - srcefx, \
+					/usr/bin/vim /etc/automt.cifs,\
+					/bin/umount -lf /*,\
+					/sbin/service autofs reload
+
+
+# Note:  The Sudo implementation team (generally the SA team)
+#  may move this alias to a 'communal spot' if multiple templates
+#  need to reference it.  IBM_NA_MOUNT_NEG
+ Cmnd_Alias      IBM_NA_MOUNT_NEG = \
+    !/bin/mount /,\
+    !/bin/mount /usr*,\
+    !/bin/mount /home*,\
+    !/bin/mount /var*,\
+    !/bin/mount /tmp*,\
+    !/bin/mount /proc*,\
+    !/bin/mount /syslocal*, \
+    !/bin/mount  /* * ,\
+    !/bin/mount *..*, \
+    !/bin/mount *./*, \
+    !/usr/sbin/mount /,\
+    !/usr/sbin/mount /usr*,\
+    !/usr/sbin/mount /home*,\
+    !/usr/sbin/mount /var*,\
+    !/usr/sbin/mount /tmp*,\
+    !/usr/sbin/mount /proc*,\
+    !/usr/sbin/mount /syslocal*, \
+    !/usr/sbin/mount  /* * ,!/usr/sbin/mount *..*, !/usr/sbin/mount *./*
+ 
+# Note:  The Sudo implementation team (generally the SA team)
+#  may move this alias to a 'communal spot' if multiple templates
+#  need to reference it.  IBM_NA_UMOUNT_NEG
+ Cmnd_Alias      IBM_NA_UMOUNT_NEG = \
+    !/bin/umount /,\
+    !/bin/umount /usr*,\
+    !/bin/umount /home*,\
+    !/bin/umount /var*,\
+    !/bin/umount /tmp*,\
+    !/bin/umount /proc*,\
+    !/bin/umount /syslocal*, \
+    !/bin/umount  /* * , \
+    !/bin/umount *..*, \
+    !/bin/umount *./*, \
+    !/usr/sbin/umount /,\
+    !/usr/sbin/umount /usr*,\
+    !/usr/sbin/umount /home*,\
+    !/usr/sbin/umount /var*,\
+    !/usr/sbin/umount /tmp*,\
+    !/usr/sbin/umount /proc*,\
+    !/usr/sbin/umount /syslocal*, \
+    !/usr/sbin/umount  /* * ,!/usr/sbin/umount *..*, !/usr/sbin/umount *./*
+
+
+
+# IBM FTP Team approval from Sandra Robinson
+IBM_FTP_ADMIN	FTP_HOSTS=IBM_FTP_EXEC_ADMIN_CMNDS,\
+                          IBM_FTP_EXEC_OPS_CMNDS,\
+			  IBM_ALL_NEG, IBM_NA_UMOUNT_NEG, IBM_NA_MOUNT_NEG
+
+
+IBM_FTP_OPS	FTP_HOSTS=IBM_FTP_EXEC_OPS_CMNDS,IBM_ALL_NEG
+
+
+IBM_FTP_ONCALL	FTP_HOSTS=IBM_FTP_ONC_COM
+
+# End  Customer WLP FTP LINUX  standard template Ver 1.0 Date 2015-10-12    * Master * Refer NA15289037 End #

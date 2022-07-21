@@ -1,0 +1,14 @@
+[local1-baseos]
+name=repo1-base
+baseurl=https://30.230.144.184/repository/RHEL8_BUILD/rhel-8-for-x86_64-baseos-rpms
+enabled=1
+gpgcheck=0
+skip_if_unavailable=1
+retries=0
+[local1-appstream]
+name=repo1-appstream
+baseurl=https://30.230.144.184/repository/RHEL8_BUILD/rhel-8-for-x86_64-appstream-rpms
+enabled=1
+gpgcheck=0
+skip_if_unavailable=1
+retries=0

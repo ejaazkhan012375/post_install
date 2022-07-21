@@ -1,0 +1,55 @@
+# Begin Anthem CONTROLM standard template Ver 1.0 Date 2017-04-04  * Master * Refer NA17094010 -  Begin #
+# Description Below are the commands which should have the sudo previlages for Control-M apllication
+# Software products and versions : Control-M V6.4 V7 V8
+# Supported OS platforms - AIX & Linux
+# local functional ID : ctmagt64, ctmagt70, ctmagt80
+# local path changes
+# local OS groups for the Master : ctmutil
+# self serve access permitted for all sub templates 
+#
+# Version control
+# V1.0 - prasanna25@in.ibm.com/prasanna.natrajan@anthem.com - Prasanna Natarajan Control-M Administrator
+#
+
+User_Alias IBM_CONTROLM_BAU = %controlm, %ctmagt64, ctmagt64, srcctmag, %srcctmag
+
+Host_Alias CONTROLM_HOSTS = ALL
+
+Cmnd_Alias IBM_CONTROLM_BAU_CMDS = /controlm/ctmagt64/ctm/scripts/start-ag, \
+	/controlm/ctmagt64/ctm/scripts/shut-ag, \
+	/controlm/ctmagt70/ctm/scripts/start-ag, \
+	/controlm/ctmagt70/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt80/ctm/scripts/start-ag, \
+	/controlm8/ctmagt80/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt8a/ctm/scripts/start-ag, \
+	/controlm8/ctmagt8a/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt8b/ctm/scripts/start-ag, \
+	/controlm8/ctmagt8b/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt8c/ctm/scripts/start-ag, \
+	/controlm8/ctmagt8c/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt8d/ctm/scripts/start-ag, \
+	/controlm8/ctmagt8d/ctm/scripts/shut-ag, \
+	/controlm8/ctmagt8e/ctm/scripts/start-ag, \
+	/controlm8/ctmagt8e/ctm/scripts/shut-ag, \
+	/controlm9/ctmagt90/ctm/scripts/start-ag, \
+	/controlm9/ctmagt90/ctm/scripts/shut-ag, \
+	/srctmagc/ctm/scripts/start-ag, \
+	/srctmagc/ctm/scripts/shut-ag, \
+	/srctmagm/ctm/scripts/start-ag, \
+	/srctmagm/ctm/scripts/shut-ag, \
+	/srctmagg/ctm/scripts/start-ag, \
+	/srctmagg/ctm/scripts/shut-ag, \
+	/srctmag5/ctm/scripts/start-ag, \
+	/srctmag5/ctm/scripts/shut-ag, \
+	/srctmag6/ctm/scripts/start-ag, \
+	/srctmag6/ctm/scripts/shut-ag, \
+	/srctmag7/ctm/scripts/start-ag, \
+	/srctmag7/ctm/scripts/shut-ag, \
+	/srctmag8/ctm/scripts/start-ag, \
+	/srctmag8/ctm/scripts/shut-ag, \
+	/srcctmag/ctm/scripts/start-ag, \
+	/srcctmag/ctm/scripts/shut-ag # etc ...
+
+IBM_CONTROLM_BAU  CONTROLM_HOSTS = IBM_CONTROLM_BAU_CMDS
+
+# End Anthem CONTROM standard template Ver 1.0 Date 2017-04-04 *Master * Refer NA17094010 - End #

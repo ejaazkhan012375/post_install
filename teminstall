@@ -1,0 +1,24 @@
+#!/bin/ksh
+#
+# Updated 4/15/21 jasonbur - Updated version to 9.5.15.71
+/etc/init.d/besclient stop 2>/dev/null
+if [ -f "/var/opt/BESClient/besclient.config" ]; then
+	cp /var/opt/BESClient/besclient.config /tmp/besclient.config
+fi
+rm -rf /var/opt/BESClient 2>/dev/null
+rm -rf /etc/opt/BESClient 2>/dev/null
+rpm -e BESAgent-8.1.617.0-rhe5 2>/dev/null
+rpm -e BESAgent-8.2.1310.0-rhe5 2>/dev/null
+rpm -e BESAgent-9.0.787.0-rhe5.x86_64.rpm 2>/dev/null
+rpm -e BESAgent-9.2.8.74-rhe5.x86_64  2>/dev/null
+mkdir -p /var/opt/BESClient 
+if [ -f "/tmp/besclient.config" ]; then
+	cp /tmp/besclient.config /var/opt/BESClient/besclient.config
+else
+	cp /mnt/post_install/new_build/BES/besclient.config /var/opt/BESClient
+fi
+rpm -vi /mnt/post_install/new_build/BES/BESAgent-9.5.15.71-rhe6.x86_64.rpm
+#rpm -vi /mnt/post_install/new_build/BES/BESAgent-9.5.14.73-rhe6.x86_64.rpm
+mkdir -p /etc/opt/BESClient
+cp /mnt/post_install/new_build/actionsite.afxm /etc/opt/BESClient/
+/etc/init.d/besclient start

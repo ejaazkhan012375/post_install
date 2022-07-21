@@ -1,0 +1,7 @@
+
+if [ $UID -eq 0 ]; then
+        umask 027
+else
+        umask 022
+fi
+

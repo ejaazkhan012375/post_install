@@ -1,0 +1,32 @@
+# Begin Anthem SA standard template Ver 2.0.1  Date 2015-11-01  * Master * Refer NA15307035 Begin #
+#
+#
+# Version control
+#  ADJ based on GLB standard version V 2.0.0
+#  ADJ Version 2.0.1, add NOPASSWD to entry, no other change.
+#  #NOPASSWD reviewed:  All team members are running adhoc automation using ssh 
+#  #  to a large number of servers, and entering a password is not practical.  
+#  #  The team has implemented logging needed so that the commands issued via SSH
+#  #  are logged to the person who has executed the automation.
+#------------------------------------------------------------------------------
+
+#==============================================================================
+# User Aliases
+#==============================================================================
+# Replace sample group names with real group names for your account or
+# elminate alias if defined elsewhere.
+# The User_Alias name must start with IBM_UNIX_SA to identify the Alias 
+#   as an SA alias.
+# 
+User_Alias 	IBM_SA_BAU = %unixadm,%UnixAdm
+#
+#==============================================================================
+# Host Aliases
+#==============================================================================
+Host_Alias	IBM_SA_HOSTS = ALL # Use ALL or 
+#                                    indicate subsets as appropriate.
+#
+IBM_SA_BAU  IBM_SA_HOSTS = NOPASSWD: ALL,!IBM_NONE_SA,!IBM_SHELLS_ALL,IBM_UNIX_SA_CMDS, \ 
+     NOEXEC: IBM_SHELLESCAPE_ALL,!IBM_NONE_EDITOR
+#
+# End Anthem SA standard template Ver 2.0.1  Date 2015-11-01  * Master * Refer NA15307035 End #

@@ -1,0 +1,86 @@
+# Begin Global Apache Web Server standard template Ver 1.3.4  Date 2015-04-01  * Master * Refer NA15112018 Begin #
+# Description Apache  and IBM HTTP Server
+# Software products and versions
+# Supported OS platforms
+# local functional ID - 
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except Special for groups ABC, DEF and MNO only
+#
+#=====================================================================================
+# NOTE this version requires sudoers.sampleconfig.V8.4 or newer which
+# 		can be located from: http://ibm.biz/GsudoStandardAlias 
+#=====================================================================================
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+# V1.3.4 - jekri@dk.ibm.com - Security update - replaced chown negations with 
+#  standard chown negation from sudoers.sampleconfig http://ibm.biz/GsudoStandardAlias 		
+#
+# -    !/usr/bin/chown *[\:space\:]/* *,!/usr/bin/chown *..*,!/usr/bin/chown *./*, \
+# -    !/bin/chown *[\:space\:]/* *,!/usr/bin/chown *..*,!/usr/bin/chown *./* ,\
+# -    !/usr/bin/chown -R *[\:space\:]/* *,!/usr/bin/chown -R *..*,!/usr/bin/chown -R *./*, \
+# -    !/bin/chown -R *[\:space\:]/* *,!/usr/bin/chown -R *..*,!/usr/bin/chown -R *./*, \
+# -IBM_AWS_BAU  IBM_AWS_HOSTS = IBM_AWS_BAU_CMDS
+# +IBM_AWS_BAU  IBM_AWS_HOSTS = IBM_AWS_BAU_CMDS, IBM_CHOWN_NEG
+#
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_AWS_BAU = wsadmin, %wsadm
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_AWS_ADM = %wsutil
+
+Host_Alias	IBM_AWS_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+
+Cmnd_Alias IBM_AWS_BAU_CMDS = \
+    /usr/HTTPServer*/bin/bin/, \
+    /bin/kill, \
+    /bin/chown -R wsadmin\:wsadm /usr/HTTPServer/ , \
+    /usr/HTTPServer*/bin/httpd -v , \
+    /usr/HTTPServer*/bin/httpd -l, \
+    /sbin/service httpd restart, \
+    /etc/init.d/apache2 start, \
+    /etc/init.d/apache2 stop, \
+    /etc/init.d/apache2 restart
+
+IBM_AWS_BAU  IBM_AWS_HOSTS = IBM_AWS_BAU_CMDS, IBM_CHOWN_NEG
+
+
+# Begin  Global Apache Web Server standard template Ver 1.3.4  Date 2015-04-01  * Maintenance * Refer NA15112018 Begin #
+# Description:  Apache and IBM HTTP Server
+# Software products and versions  if required ( ie may have 2 groups one support linux the other AIX for example)
+# Supported OS platforms If required see above
+# local functional ID  If required  ie if different than the master
+# local path changes  If required  ie if different than the master
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups ABC, DEF and MNO only
+
+
+Cmnd_Alias IBM_AWS_ADM_CMDS = \
+	/usr/bin/su - root, /bin/su - root, \
+	/usr/HTTPServer/bin/httpd -v, \
+	/usr/HTTPServer/bin/httpd -l, \
+	/sbin/service httpd restart, \
+	/etc/init.d/apache2 start, \
+	/etc/init.d/apache2 stop, \
+	/etc/init.d/apache2 restart
+
+IBM_AWS_ADM  IBM_AWS_HOSTS = IBM_AWS_ADM_CMDS
+
+# End  Global Apache Web Server standard template Ver 1.3.4  Date 2015-04-01   * Maintenance * Refer NA15112018 End #
+
+# End  Global Apache Web Server standard template Ver 1.3.4  Date 2015-04-01   * Master * Refer NA15112018 End #
+
+

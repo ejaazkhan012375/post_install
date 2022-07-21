@@ -1,0 +1,55 @@
+# Begin Anthem CTSA standard template Ver 1.1 Date 2022-02-18  * Master * Refer NA22049015 -  Begin #
+# Description: Cross Technology Support Admin commands for ANTHEM Account.
+# Software products and versions : 
+# Supported OS platforms : AIX and Linux
+#
+# Version control
+# V1.0 - IBM_CTSA_BAU Cross Technology Support Admins to execute automation scripts for BAU support.
+# V1.1 - 2022-02-07 - Added TSM commands for BAU support.
+#
+
+User_Alias IBM_CTSA_BAU = %ctadmgrp
+
+Cmnd_Alias IBM_CTSA_BAU_CMDS =	/usr/bin/df, /usr/bin/du, /usr/bin/ls, /usr/bin/systemctl, /usr/bin/ps, /usr/bin/gzip, /usr/sbin/fdisk, \
+				/usr/bin/lsblk, /usr/sbin/pvcreate, /usr/sbin/vgcreate, /usr/sbin/vgextend, /usr/sbin/lvcreate, \
+				/usr/sbin/lvextend, /usr/sbin/mkfs, /usr/sbin/lvscan, /usr/bin/mount, /usr/bin/uptime, /usr/bin/top, \
+				/usr/bin/sar, /usr/bin/free, /usr/bin/vmstat, /usr/bin/iostat, /usr/bin/find, /usr/sbin/cfgmgr -v, \
+				/usr/sbin/lspv, /usr/bin/lsmpio, /usr/sbin/lsvg, /usr/sbin/extendvg, /usr/sbin/lslv, /usr/sbin/mklv, \
+				/usr/sbin/chlv, /usr/sbin/lsfs, /usr/sbin/chfs, /usr/sbin/crfs, /usr/sbin/sar, /usr/sbin/vmstat, \
+				/usr/sbin/topas, /usr/sbin/iostat, /usr/sbin/restart_services, \
+				/usr/tivoli/tsm/client/ba/bin/dsmc, /usr/tivoli/tsm/client/ba/bin/dsmcad, \
+				/usr/tivoli/tsm/client/ba/bin/dsmtrace, /usr/tivoli/tsm/client/ba/bin/dsmadmc, \
+				/usr/tivoli/tsm/client/ba/bin64/dsmc, /usr/tivoli/tsm/client/ba/bin64/dsmcad, \
+				/usr/tivoli/tsm/client/ba/bin64/dsmtrace, /usr/tivoli/tsm/client/ba/bin64/dsmadmc, \
+				/usr/tivoli/tsm/client/ba/bin64/dsmadmc, /usr/tivoli/tsm/server/bin/dsmadmc, /bin/rm ./TSM.PWD, /bin/find, \
+				sudoedit /usr/tivoli/tsm/client/ba/bin*/dsm.sys, sudoedit /usr/tivoli/tsm/client/ba/bin*/dsm.opt, \
+				sudoedit /usr/tivoli/tsm/client/api/bin*/dsm.sys, sudoedit /usr/tivoli/tsm/client/api/bin*/dsm.opt, \
+				sudoedit /usr/tivoli/tsm/client/ba/bin*/inclexcl.txt, /bin/chgrp * /usr/tivoli/tsm/*, \
+				/bin/chown * /usr/tivoli/tsm/*, /bin/chmod -R [0-7][0145][0145] /usr/tivoli/tsm/*, \
+				/bin/chmod -R [0-7][0145][0145] /opt/tivoli/tsm/*, /bin/chmod [0-7][0145][0145] /usr/tivoli/tsm/*, \
+				/bin/chmod [0-7][0145][0145] /opt/tivoli/tsm/*, /bin/rmdir /usr/tivoli/tsm/*, /bin/rmdir /opt/tivoli/tsm/*, \
+				/bin/mkdir /usr/tivoli/tsm/*, /bin/mkdir /opt/tivoli/tsm/*, /bin/touch /usr/tivoli/tsm/*, \
+				/bin/touch /opt/tivoli/tsm/*, sudoedit /opt/tivoli/tsm/client/ba/bin*/inclexcl, /usr/bin/smitty sysback, \
+				sudoedit /usr/tivoli/tsm/client/ba/bin*/inclexcl, sudoedit /usr/tivoli/tsm/client/api/bin*/inclexcl, \
+				/opt/tivoli/tsm/client/ba/bin/dsmc, /opt/tivoli/tsm/client/ba/bin/dsmcad, \
+				/opt/tivoli/tsm/client/ba/bin/dsmtrace, /opt/tivoli/tsm/client/ba/bin/dsmadmc, \
+				/opt/tivoli/tsm/client/ba/bin64/dsmc, /opt/tivoli/tsm/client/ba/bin64/dsmcad, \
+				/opt/tivoli/tsm/client/ba/bin64/dsmtrace, /opt/tivoli/tsm/client/ba/bin64/dsmadmc, \
+				/etc/rc.tsm, /usr/bin/dsm, /usr/bin/dsmadmc, /usr/bin/dsmc, /usr/bin/dsmcad, \
+				sudoedit /opt/tivoli/tsm/StorageAgent/bin/dsmsta.opt, sudoedit /opt/tivoli/tsm/client/ba/bin*/dsm.sys, \
+				sudoedit /opt/tivoli/tsm/client/ba/bin*/dsm.opt, sudoedit /opt/tivoli/tsm/client/api/bin*/dsm.sys, \
+				sudoedit /opt/tivoli/tsm/client/api/bin*/dsm.opt, sudoedit /opt/tivoli/tsm/client/ba/bin*/inclexcl.txt, \
+				/bin/chgrp tsmadmin /opt/tivoli/tsm/*, /bin/chgrp tsm /opt/tivoli/tsm/*, \
+				/bin/chown tsmadmin /opt/tivoli/tsm/*, /bin/chown tsm /opt/tivoli/tsm/*, \
+				/bin/rm /opt/tivoli/tsm/server/bin/adsmserv.lock, \
+				/bin/rm /opt/tivoli/tsm/StorageAgent/bin/adsmserv.lock, sudoedit /opt/tivoli/tsm/client/api/bin*/inclexcl
+  
+
+#
+# Privilege assignment, follows the same restrictions as an IBM Unix SA per 010_STD_SA_GLB.
+#
+
+IBM_CTSA_BAU  ALL = (ALL) IBM_CTSA_BAU_CMDS,!IBM_NONE_SA,!IBM_SHELLS_ALL,!IBM_UNIX_SA_CMDS, \ 
+            NOEXEC: IBM_SHELLESCAPE_ALL,!IBM_NONE_EDITOR,IBM_ALL_NEG
+
+# End Anthem CTSA standard template Ver 1.1 Date 2022-02-18  * Master * Refer NA22049015 - End #

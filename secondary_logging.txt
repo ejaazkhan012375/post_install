@@ -1,0 +1,5 @@
+
+#Enhanced history logging
+if [ -f /usr/local/support/log.profile ]; then
+. /usr/local/support/log.profile ]
+fi

@@ -1,0 +1,142 @@
+# Begin ANTHEM WebSphere MQ standard template Ver 1.1 Date 2017-05-27 * Master * Refer NA17146023 Begin #
+# Description: Additional account specific commands for the ANTHEM account
+# Software products and versions: WebSphere MQ
+# Supported OS platforms: Unix
+#
+# Version control
+# V1.1 - sruyyuru@in.ibm.com - Original version of the ANTHEM_ADJ file.
+#
+#### Sudo Implementation team, please set Host_Alias and User_Alias
+#### in 122_MQ_GLB as follows:
+##  Host_Alias MQ_HOSTS = ALL
+##  User_Alias IBM_MQ_BAU_ALL = %mqmauth
+##  User_Alias IBM_MQ_ADM_ALL = %mqmutil
+##   User_Alias IBM_MQ_ADM = %mqmitm
+##   Host_Alias MQ_HOSTS = ALL
+##  The other User_Aliases may be removed as we have a single team which does all support.
+
+#### About NOPASSWD use in WebSphere MQ  template (422_MQ_NA_ANTHEM_ADJ) for Anthem 
+#   The situation is that local Anthem customer policy does not permit SUDO access (other than sudoing to another userid) for any individual technicians userid.  Their policy is to only grant the maintenance section Sudo commands to a Non-Logonable service ID, in this specific case "mqm".
+#   The MQ tech logs in with their own userid, and does a "sudo su - mqm" (which is in the StandardBAU section of the template). This does NOT use the nopasswd option, and the MQ tech is required to use their password to complete the sudo.
+#   Now, as the "mqm" user (which has been granted the temporary required Group for maintenance level sudo), the MQ tech can then issue the maintenance section Sudo commands.  However, since the password for the "mqm" userid is NOT known (as it's a non-logonable userid), it's necessary to use the NOPASSWD option.
+
+#### About RPM Commands usage
+#  The RPM commands are identical to the Global template, with just the /usr added to path (and path changes are OK with no approvals).
+#  So keep the RPM commands as is (since they're in the Global Template)
+
+
+# -----Do not change anything below this line ----------
+# Begin ANTHEM WebSphere MQ 1.0 Date 2017-05-26 * Maintenance * Refer xxxxx-unapproved Begin #
+Cmnd_Alias IBM_MQ_LIN_ADM_ADJ_CMDS = \
+/usr/bin/dltmqinst,\
+/usr/bin/sudo -u mqmitm /opt/IBM/ITM/bin/itmcmd agent -o * stop mq,\
+/usr/bin/sudo -u mqmitm /bin/kill -9 *,\
+/bin/kill -9 *,\
+/bin/mount -o ro\,bg\,soft vaathmr681\:/techserv /techserv,\
+/bin/mount -o ro\,bg\,soft va10vnas006b1.us.ad.wellpoint.com\:/vol/VOL_ICOAugmentation /techserv,\
+/bin/mount -o ro\,bg\,soft mom9vnas003b.us.ad.wellpoint.com\:/vol/va10papnas005b_VOL_ICOAugmentation /techserv,\
+/bin/mount -o ro\,bg\,soft\,vers=3\,proto=tcp mom9vnas003b.us.ad.wellpoint.com\:/vol/va10papnas005b_VOL_ICOAugmentation /techserv,\
+/bin/umount -f /techserv,\
+/bin/umount /techserv,\
+/bin/chown  mqm\:mqm /home/mqm/*,\
+/bin/chown  mqm\:mqm /opt/mqm/*,\
+/bin/chown  mqm\:mqm /var/mqm/*,\
+/bin/rpm -ivh *,\
+/bin/rpm -ev *,\
+/bin/rpm -U *,\
+/bin/rpm -Uvh *,\
+!/bin/rpm * /* *,!/bin/rpm *..*, !/bin/rpm *./*,\
+/local_home/mqm/*/mqlicense.sh -text_only,\
+/local_home/mqm/*/mqlicense.sh -accept,\
+/local_home/mqm/*/crtmqpkg,\
+/local_home/mqm/*/crtmqfp,\
+/usr/local/bin/ulimit -d unlimited,\
+/usr/local/bin/ulimit -s unlimited,\
+/usr/bin/setmqinst
+
+IBM_MQ_ALL_ADM  MQ_HOSTS = NOPASSWD: IBM_MQ_LIN_ADM_ADJ_CMDS, IBM_CHOWN_NEG
+
+Cmnd_Alias IBM_MQ_LIN_MQMITM_ADJ_CMDS = \
+/opt/IBM/ITM/bin/itmcmd agent -o * stop mq,\
+/opt/IBM/ITM/bin/itmcmd agent -o * start mq,\
+/bin/kill -9 *
+
+IBM_MQ_ALL_ADM  MQ_HOSTS = (mqmitm) NOPASSWD: IBM_MQ_LIN_MQMITM_ADJ_CMDS
+
+#Needed on AIX (WellPoint ONLY) only during the change window used for product maintenance
+Cmnd_Alias IBM_MQ_AIX_ADM_ADJ_CMDS = \
+/usr/mqm/bin/dltmqinst,\
+/usr/bin/sudo -u mqmitm /opt/IBM/ITM/bin/itmcmd agent -o * stop mq,\
+/usr/bin/sudo -u mqmitm /bin/kill -9 *,\
+/bin/kill -9 *,\
+/bin/mount -o ro\,bg\,soft vaathmr681\:/techserv /techserv,\
+/bin/mount -o ro\,bg\,soft mom9vnas003b.us.ad.wellpoint.com\:/vol/va10papnas005b_VOL_ICOAugmentation /techserv,\
+/bin/mount -o ro\,bg\,soft va10vnas006b1.us.ad.wellpoint.com\:/vol/VOL_ICOAugmentation /techserv,\
+/bin/umount -f /techserv,\
+/bin/umount /techserv,\
+/usr/sbin/lsuser -f  ALL,\
+/usr/sbin/slibclean,\
+/usr/mqm/bin/dltmqlnk,\
+/usr/mqm/bin/crtmqlnk,\
+/techserv/wsdtx/wtx[0-9]*/DTXINST,\
+/bin/chown mqm\:mqm /home/mqm/*,\
+/bin/chown mqm\:mqm /usr/mqm/* ,\
+/bin/chown mqm\:mqm /var/mqm/*,\
+/usr/sbin/inutoc,\
+/usr/bin/smit installp,\
+/usr/bin/smit update_all,\
+/usr/bin/smit install_latest,\
+/usr/bin/smit remove,\
+/usr/local/bin/ulimit -d unlimited,\
+/usr/local/bin/ulimit -s unlimited,\
+/usr/mqm/bin/setmqinst,\
+/usr/bin/smit nim
+
+IBM_MQ_ALL_ADM MQ_HOSTS = NOPASSWD: IBM_MQ_AIX_ADM_ADJ_CMDS, IBM_CHOWN_NEG
+
+#Needed on HP-UX (WellPoint ONLY) only during the change window used for product maintenance
+Cmnd_Alias IBM_MQ_HPU_ADM_ADJ_CMDS = \
+/opt/mqm/bin/dltmqinst,\
+/usr/bin/sudo -u mqmitm /opt/IBM/ITM/bin/itmcmd agent -o * stop mq,\
+/usr/bin/sudo -u mqmitm /bin/kill -9 *,\
+/bin/kill -9 *,\
+/bin/mount -o ro\,bg\,soft vaathmr681\:/techserv /techserv,\
+/bin/mount -o ro\,bg\,soft mom9vnas003b.us.ad.wellpoint.com\:/vol/va10papnas005b_VOL_ICOAugmentation /techserv,\
+/bin/mount -o ro\,bg\,soft va10vnas006b1.us.ad.wellpoint.com\:/vol/VOL_ICOAugmentation /techserv,\
+/usr/bin/umount -f /techserv,\
+/usr/bin/umount /techserv,\
+/bin/chown mqm\:mqm /home/mqm/*,\
+/bin/chown mqm\:mqm /opt/mqm/*,\
+/bin/chown mqm\:mqm /var/mqm/*,\
+/usr/sbin/swinstall -s,\
+/usr/sbin/swremove,\
+/home/mqm/*/mqlicense.sh -accept,\
+!/*/mqlicense.sh *..*,\
+/usr/local/bin/ulimit -d unlimited,\
+/usr/local/bin/ulimit -s unlimited,\
+/opt/mqm/bin/setmqinst
+
+IBM_MQ_ALL_ADM MQ_HOSTS = NOPASSWD: IBM_MQ_HPU_ADM_ADJ_CMDS, IBM_CHOWN_NEG
+
+
+# Needed on Solaris only during the change window used for product maintenance:
+Cmnd_Alias IBM_MQ_SOL_ADM_ADJ_CMDS = \
+/bin/chown mqm\:mqm /home/mqm/*,\
+/bin/chown mqm\:mqm /opt/mqm/*,\
+/bin/chown mqm\:mqm /var/mqm/*,\
+/usr/sbin/pkgadd,\
+/usr/sbin/pkgrm,\
+/usr/bin/pkginfo,\
+/usr/bin/pkgparam,\
+/home/mqm/*/mqlicense.sh -text_only,\
+/home/mqm/*/mqlicense.sh -accept,\
+/home/mqm/*/crtmqpkg,\
+/home/mqm/*/crtmqfp,\
+/usr/local/sbin/*/ulimit -d unlimited,\
+/usr/local/sbin/*/ulimit -s unlimited,\
+/opt/mqm/bin/*/setmqinst
+
+IBM_MQ_ALL_ADM MQ_HOSTS = NOPASSWD: IBM_MQ_SOL_ADM_ADJ_CMDS, IBM_CHOWN_NEG
+
+# End ANTHEM WebSphere MQ Ver 1.1 Date 2017-05-27 * Maintenance * Refer NA17146023 End #
+# End ANTHEM WebSphere MQ standard template Ver 1.1 Date 2017-05-27 * Master * Refer NA17146023 End #

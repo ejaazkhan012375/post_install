@@ -1,0 +1,100 @@
+# Begin Global CACF End Point standard template - Ver 1.0.6  Date 2020-05-05  * Master * Refer NA20139026  Begin #
+# Description : Complex, agentless IT automation.
+# Software products and versions : All.
+# Supported OS platforms : All Unix/Linux variants.
+# This sudo profile is designed for use on systems that will be managed with
+#  Red Hat Ansible Engine and/or Red Hat Ansible Tower with a focus on supporting CACF
+#
+# Version control:
+#
+#   Updates in this version:                                                   #
+#   v1.0.6 - highc@us.ibm.com
+#	   New:  Forked from 152_ANSIBLE_ENGINE_GLB_V1.0.6.txt
+#	   Eliminate all Control System entries, restrict to End Point entries.
+#      	   In order to accomodate the ability to do 'su' from one unprivileged
+#          user to a second unprivileged user, we are going to enable the 
+#          ansible id to 'all shells'.  According to the ansible documentation,
+#          this is necessary.  Net:  This allows 'least
+#          privilege.'  The alternative appears to be requiring running more
+#          end point id's to run with full root privilege.
+#          https://docs.ansible.com/ansible/latest/user_guide/become.html
+#	   Caution:  ansible tasks will need the following if they are 
+#           switching between non-privileged users.
+#            become_flags: "-I"
+#            ansible_ssh_pipelining: true
+#
+#  To satisfy the security review of NOPASSWD via this automation:
+#
+# IBM standard Secondary Logging and Ansible application logging
+# must be properly established and configured on the CONTROL host.
+#   - $ANSIBLE_LOG_PATH: target file may also be setup as 'append only'
+#                        mode with chattr +a. where available.
+#
+# This Template may NOT be placed on the CACF Tower or Ansible Control sys.
+#   The expected pairing is either with a container that has -no- sudo entry
+#   on the CACF Tower or Ansible Control systems, or such Tower/Control system
+#   using the 152_CACF_TOWER template.
+# The user/group referenced by the User_Alias IBM_ANENGINE_BAU
+# *MUST* be configured with no usable login password,
+# access must be done through SSH Public Key Authentication.
+#
+# The Ansible SSH Private Key may be secured using an Ansible supported
+# Vaulting solution.
+# Approval of this template does *NOT* imply approval
+# of using a 'passwordless SSH Private Key' each respective GEO process
+# shall be followed for obtaining an exception.
+#   References:
+#   - https://ibm.biz/globalsshkeyswiki
+#   - https://docs.ansible.com/ansible/latest/user_guide/playbooks_vault.html
+#   - No other automation id's may be added to this group.
+#
+# User Aliases:
+#
+#   - IBM_ANENGINE_BAU should reference the %group that
+#     the ansible user will use.
+#     In this case specifying a user directly instead of a group is
+#     also accepted, as there should be no other users in such group.
+
+# For CACF implementations, replace 'TLC' (Three letter code) with the account
+# specific three letter customer code (but use lower case) as defined for the
+# project.
+# REMINDER:   Remove the '<:' and '>' when doing the customization.
+User_Alias     IBM_ANENGINE_EP_BAU = %automata
+
+#----------------------------------------------------------------------------
+
+
+# Host Aliases
+#
+#   In this template, we require all systems be CACF End Points. 
+#   This template is not permitted to be placed on the CACF Tower 
+#     / Ansible Engine control node.
+
+Host_Alias    ANSIBLE_MANAGED_EP_HOSTS = ALL
+
+#----------------------------------------------------------------------------
+
+#                                                                              #
+# Command Aliases
+#
+# Ansible does not use the sudo + su combination that IBM uses.
+# Ansible uses 'sudo /bin/sh' (or other user login shells), so we need to
+# specifically allow /bin/sh, and other user login shells.
+#
+#   To this end, we will use the standard alias IBM_SHELLS_ALL.
+
+#----------------------------------------------------------------------------
+
+# Privilege Assignment
+#
+# Use of NOPASSWD: reviewed and granted under the configuration conditions
+# and restrictions expressed in the comments of this template.
+# Additionally, under the requirements that the user referenced by the
+# IBM_ANENGINE_BAU alias will not be accessed or used interactively,
+# have no usable password assigned, and enforce remote login exclusively
+# through ssh-key pairs, with properly defined 'from=' and !!label! parameters as
+# described in https://ibm.biz/globalsshkeylabelling
+
+IBM_ANENGINE_EP_BAU  ANSIBLE_MANAGED_EP_HOSTS = (ALL) NOPASSWD:IBM_SHELLS_ALL
+
+# End Global CACF End Point standard template - Ver 1.0.6  Date 2020-05-05  * Master * Refer NA20139026 End #

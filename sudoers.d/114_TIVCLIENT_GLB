@@ -1,0 +1,178 @@
+# Begin Global Tivoli Monitoring Client standard template Ver 1.3.9 Date 2016-04-27 * Master * Refer NA16134032 Begin #
+# Description
+# Software products and versions:
+#		 Tivoli Endpoint
+#		 Tivoli Distributed Monitoring
+#		 IBM Tivoli Monitoring v5
+# 		 IBM Tivoli Monitoring v6
+# Supported OS platforms
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except "Special" for groups ABC, DEF #and MNO only
+#
+# Allows specific environmental variables to be 'added' for users in %tivadm
+# This is necessary for Tivoli Framework.  Users should run '. /etc/Tivoli/setup_env.sh' 
+# prior to running sudo commands.
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+# v1.3.9 - damonl@us.ibm.com - Security update, deleted command due to audit concern.
+# - /bin/tar -x* /tmp/*, \
+#
+# Cleanup
+# -  /usr/bin/head /opt/IBM/ITMscripts/*,\
+# +  /usr/bin/head /opt/IBM/ITMscripts/*,\
+# -  /bin/cat /opt/IBM/ITMscripts/*,\
+# +  /bin/cat /opt/IBM/ITMscripts/*,\
+# -  /bin/chown <:INSERT_CHOWN_OWNERS> /opt/IBM/ITM/*,\
+# -  /bin/chown <:INSERT_CHOWN_OWNERS> /opt/Tivoli/*,\
+# -  /bin/chown -R <:INSERT_CHOWN_OWNERS> /opt/IBM/ITM/*,\
+# -  /bin/chown -R <:INSERT_CHOWN_OWNERS> /opt/Tivoli/*,\
+# +  /bin/chown root\:tivuser /opt/IBM/ITM/*,\
+# +  /bin/chown root\:tivuser /opt/Tivoli/*,\
+# +  /bin/chown -R root\:tivuser /opt/IBM/ITM/*,\
+# +  /bin/chown -R root\:tivuser /opt/Tivoli/*,\
+# -	 NOEXEC:IBM_TIVCLIENT_OS_BAU_CMDS, \
+# +	 IBM_TIVCLIENT_OS_BAU_CMDS, \
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_TIVCLIENT_BAU = %tivcore
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_TIVCLIENT_ADM = %tivcutil
+
+Host_Alias	TIVCLIENT_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+
+Defaults:IBM_TIVCLIENT_BAU		 env_keep+="BINDIR \
+        LIBDIR \
+        DBDIR \
+        o_dispatch \
+        INTERP \
+        TISDIR \
+        PATH \
+        LIBPATH \
+	CANDLEHOME \
+        WLOCALHOST \
+        XUSERFILESEARCHPATH \
+        XNLSPATH \
+        NLSPATH \
+        MANPATH \
+        TMR"
+
+
+
+Cmnd_Alias IBM_TIVCLIENT_INFRA_BAU_CMDS = \
+  /opt/IBM/ITM/bin/,\
+  /bin/su - db2inst1, \
+  /bin/su - tivmqm, \
+  /opt/IBM/ITM/JRE/li*/bin/ , \
+  /opt/IBM/ITM/JRE/lx*/bin/ , \
+  /opt/IBM/ITM/JRE/aix*/bin/ 
+
+Cmnd_Alias IBM_TIVCLIENT_OS_BAU_CMDS = \
+  /usr/bin/crontab -l, \
+  sudoedit /etc/hosts,\
+  sudoedit /opt/IBM/ITM/*, \
+  sudoedit /opt/IBM/ITM/config/*, \
+  sudoedit /opt/IBM/ITM/config/.ConfigData/*, \
+  sudoedit /opt/IBM/ITM/logs/*, \
+  sudoedit /opt/IBM/ITM/registry/*, \
+  sudoedit /opt/IBM/ITM/smitools/config/*, \
+  sudoedit /opt/IBM/ITM/smitools/ini/*, \
+  sudoedit /opt/IBM/ITM/smitools/logs/*, \
+  sudoedit /opt/IBM/ITM/smitools/scripts/*, \
+  sudoedit /opt/IBM/ITM/smitools/security/*, \
+  sudoedit /opt/IBM/ITM/tmp/*, \
+  sudoedit /opt/Tivoli/lcf/dat/1/*, \
+  !sudoedit /opt/IBM/ITM/bin/*, \
+  /bin/cp /etc/hosts /etc/hosts.backup.*,\
+  /bin/cp /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/cp /opt/Tivoli/* /opt/Tivoli/*,\
+  /bin/cp -r /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/cp -r /opt/Tivoli/* /opt/Tivoli/*,\
+  /bin/mv /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/mv /opt/Tivoli/* /opt/Tivoli/*,\
+  /usr/bin/head /opt/IBM/ITM/*,\
+  /usr/bin/head /opt/IBM/ITMscripts/*,\
+  /usr/bin/head /opt/Tivoli/*,\
+  /bin/cat /opt/IBM/ITM/*,\
+  /bin/cat /opt/IBM/ITMscripts/*,\
+  /bin/cat /opt/Tivoli/*,\
+  /bin/ls,\
+  /bin/rm /opt/IBM/ITM/*,\
+  !/bin/rm /opt/IBM/ITM/bin/*,\
+  /bin/rmdir /opt/IBM/ITM/*,\
+  /bin/rmdir /opt/Tivoli/*,\
+  !/bin/rmdir /opt/IBM/ITM/bin/*,\
+  /usr/bin/tail /opt/IBM/ITM/*,\
+  /usr/bin/tail /opt/Tivoli/*,\
+  /usr/bin/tail -f /opt/IBM/ITM/*,\
+  /usr/bin/tail -f /opt/Tivoli/*,\
+  /usr/bin/tail -f /tivoli/*,\
+  /bin/touch /opt/IBM/ITM/*,\
+  /bin/touch /opt/Tivoli/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/ITM/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/ITM/*,\
+  /bin/tar -c* /tmp/*.tar /opt/Tivoli/*, \
+  /bin/tar -x* /tmp/*.tar /tmp/*,\
+  /bin/tar -x* /tmp/*.tar /opt/Tivoli/*, \
+  /bin/kill, \
+  /bin/env "", \
+  /usr/bin/find, \ 		  	 
+  /usr/bin/who /etc/security/failedlogin,\
+  /usr/bin/diff /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /usr/bin/diff /opt/Tivoli/* /opt/Tivoli/*, \
+  /bin/chown root\:tivuser /opt/IBM/ITM/*,\
+  /bin/chown root\:tivuser /opt/Tivoli/*,\
+  /bin/chown -R root\:tivuser /opt/IBM/ITM/*,\
+  /bin/chown -R root\:tivuser /opt/Tivoli/*,\
+  /bin/chmod [0-7][0-7][0145] /tmp/*,\
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/ITM/*,\
+  /bin/chmod [0-7][0-7][0145] /opt/Tivoli/*,\
+  !/bin/chmod * /opt/IBM/ITM/*,\
+  /bin/chmod -R [0-7][0-7][0145] /tmp/*,\
+  /bin/chmod -R [0-7][0-7][0145] /opt/IBM/ITM/*,\
+  /bin/chmod -R [0-7][0-7][0145] /opt/Tivoli/*,\
+  !/bin/chmod -R * /opt/IBM/ITM/bin/*,\
+  /bin/ln -s /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/mkdir /tmp/*,\
+  /bin/mkdir /opt/IBM/ITM/*,\
+  !/bin/mkdir /opt/IBM/ITM/bin/*,\
+  /bin/mkdir /opt/Tivoli/*
+  
+
+IBM_TIVCLIENT_BAU TIVCLIENT_HOSTS = IBM_TIVCLIENT_INFRA_BAU_CMDS,\
+	 IBM_TIVCLIENT_OS_BAU_CMDS, \
+	 IBM_ALL_NEG
+
+# Begin Global Tivoli Monitoring Client standard template Ver 1.3.9 Date 2016-04-27 * Maintenance * Refer NA16134032 Begin #
+# Description
+# Software products and versions - if required ( ie may have 2 groups one support linux the other AIX for example)
+# Supported OS platforms - If required see above
+# local functional ID - If required - ie if different than the "master"
+# local path changes - If required - ie if different than the "master"
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups BAU only
+
+
+Cmnd_Alias IBM_TIVCLIENT_INFRA_ADM_CMDS =\
+   /bin/su - root
+		 
+IBM_TIVCLIENT_ADM TIVCLIENT_HOSTS =  IBM_TIVCLIENT_INFRA_ADM_CMDS
+
+# End Global Tivoli Monitoring Client standard template Ver 1.3.9 Date 2016-04-27 * Maintenance * Refer NA16134032 End #
+
+# End Global Tivoli Monitoring Client standard template Ver 1.3.9 Date 2016-04-27 * Master * Refer NA16134032  End #
+

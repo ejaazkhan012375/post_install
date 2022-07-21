@@ -1,0 +1,75 @@
+# Begin  Global WebSphere standard template Ver 1.4.3  Date 2015-04-01 * Master * Refer  NA15112085 Begin #
+# Description WebSphere Application Server 
+# Software products and versions V5.0 / V5.1 / V6.0 
+# Supported OS platforms AIX
+# local functional ID wasadmin
+# local path changes <:Install Path > = /usr/WebSphere/AppServer
+# local OS groups for the Master  IBMWASS , IBMWASM
+# self serve access permitted for all sub templates except IBMWASM
+#
+# This sudo section should only be used when architectural considerations require WebSphere to be run as root.
+# root privileges are not required to run WebSphere and #after V8.0 they are not required for patching WebSphere
+#
+#=====================================================================================
+# NOTE this version requires sudoers.sampleconfig.V8.4 or newer which
+# 		can be located from: http://ibm.biz/GsudoStandardAlias 
+#=====================================================================================
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+# V1.4.3 - jekri@dk.ibm.com - security update, replaced negating entries with standard
+#          IBM_CHOWN_NEG from 
+#          sudoers.sampleconfig http://ibm.biz/GsudoStandardAlias 
+#
+# -	!/usr/bin/chown *..* , !/usr/bin/chown *./*, !/usr/bin/chown -R *[\:space\:]/* * , \
+# -IBM_WAS_BAU  WAS_HOSTS =  IBM_WAS_BAU_CMDS
+# +IBM_WAS_BAU  WAS_HOSTS =  IBM_WAS_BAU_CMDS, IBM_CHOWN_NEG
+# 
+#-------------------------------------------------------------------------
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_WAS_BAU = wsadmin, %wsadm, %wsadmin
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_WAS_ADM = %wsutil
+
+Host_Alias	WAS_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+Cmnd_Alias  IBM_WAS_BAU_CMDS = \
+	/usr/WebSphere/AppServer/bin/, \
+	/usr/IBM/WebSphere/AppServer/bin/,\
+	/opt/WebSphere/AppServer/bin/,\
+	/opt/IBM/WebSphere/AppServer/bin/,\
+	/usr/bin/kill,\
+	/usr/bin/chown -R wsadmin\:wsadm /usr/WebSphere/AppServer, \
+	/usr/sbin/rmsock, \
+	/usr/bin/su - wsadmin, \
+	/bin/su - wsadmin
+
+IBM_WAS_BAU  WAS_HOSTS =  IBM_WAS_BAU_CMDS, IBM_CHOWN_NEG
+
+
+# Begin Global WebSphere standard template Ver 1.4.3  Date 2015-04-01   * Maintenance * Refer NA15112085 Begin #
+# Description WebSphere maintenance group 
+# Software products and versions - NA
+# Supported OS platforms - If required see above AIX
+# local functional ID - If required - ie if different than the "master"
+# local path changes - If required - ie if different than the "master"
+# local OS groups  
+# self serve access permitted for groups 
+
+Cmnd_Alias 	IBM_WAS_ADM_CMDS = \
+	/usr/bin/su - root
+
+IBM_WAS_ADM  WAS_HOSTS = IBM_WAS_ADM_CMDS
+
+# End  Global WebSphere standard template Ver 1.4.3  Date 2015-04-01  * Maintenance * Refer NA15112085 End #
+
+# End  Global WebSphere standard template Ver 1.4.3  Date 2015-04-01   * Master * Refer  NA15112085 End #

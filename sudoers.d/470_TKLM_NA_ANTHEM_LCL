@@ -1,0 +1,210 @@
+# Begin   Anthem TKLM standard template Ver 1.1   Date 2015-02-04  * Master * Refer NA16055044 Begin #
+# Description
+# Software products and versions - TKLM
+# Supported OS platforms:  Linux
+# change history:
+#   Robert Serzan - RS
+#  V 1.0 - RS - Original Version released as an _LCL
+#  V 1.1 - RS - update to current standards, promoted to an _NA
+#    Replace negations with current standard negations.
+#    Correct Begin / End lines to conform to current standard.
+#   Jim Montgomery - JM	   
+#   Template for Anthem 	 
+#
+##############################
+# IBM TKLM Team sudo entries #
+##############################
+#
+# IBM TKLM Team BAU User Alias
+User_Alias	IBM_SUDOTKLM_BAU = %sudotklm
+
+# IBM TKLM Team Change Window User Alias
+User_Alias	IBM_SUDOTKLM_CHG = %sudotklmc
+
+# IBM TKLM Team Host Alias
+#
+Host_Alias SUDOTKLM_HOSTS = mostl-tklm-1,mostl-tklm-2,varic-tklm-3,varic-tklm-4,vahar-tklm-5
+#
+# IBM TKLM Team Commands Alias for BAU Work
+#
+Cmnd_Alias      TKLMADM_CMNDS_BAU = \
+        /bin/su - tklmdb2, \
+        /usr/bin/passwd tklmdb2, \
+        /bin/kill, \
+        /usr/sbin/lsof, \
+        /usr/sbin/dmidecode, \
+        /bin/ls -* /home/tklmdb2/*, \
+        /bin/ls -* /opt/IBM/db2tklmV2/*, \
+        /bin/ls -* /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/chmod -R [0-7][0145][0145] /home/tklmdb2/*, \
+        /bin/chmod [0-7][0145][0145] /home/tklmdb2/*, \
+        /bin/chmod -R [0-7][0145][0145] /opt/IBM/db2tklmV2/*, \
+        /bin/chmod [0-7][0145][0145] /opt/IBM/db2tklmV2/*, \
+        /bin/chmod -R [0-7][0145][0145] /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/chmod [0-7][0145][0145] /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/rm /home/tklmdb2/*, \
+        /bin/rm /opt/IBM/db2tklmV2/*, \
+        /bin/rm /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/mkdir /home/tklmdb2/*, \
+        /bin/mkdir /opt/IBM/db2tklmV2/*, \
+        /bin/mkdir /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/cat /home/tklmdb2/*, \
+        /bin/cat /opt/IBM/db2tklmV2/*, \
+        /bin/cat /opt/IBM/tivoli/tiptklmV2/*, \
+        /usr/bin/find /home/tklmdb2/*, \
+        /usr/bin/find /opt/IBM/db2tklmV2/*, \
+        /usr/bin/find /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/gzip /home/tklmdb2/*, \
+        /bin/gzip /opt/IBM/db2tklmV2/*, \
+        /bin/gzip /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/gzip -d /home/tklmdb2/*, \
+        /bin/gzip -d /opt/IBM/db2tklmV2/*, \
+        /bin/gzip -d /opt/IBM/tivoli/tiptklmV2/*, \
+        /usr/bin/head /home/tklmdb2/*, \
+        /usr/bin/head /opt/IBM/db2tklmV2/*, \
+        /usr/bin/head /opt/IBM/tivoli/tiptklmV2/*, \
+        /usr/bin/tail /home/tklmdb2/*, \
+        /usr/bin/tail /opt/IBM/db2tklmV2/*, \
+        /usr/bin/tail /opt/IBM/tivoli/tiptklmV2/*, \
+        /usr/bin/tail -f /home/tklmdb2/*, \
+        /usr/bin/tail -f /opt/IBM/db2tklmV2/*, \
+        /usr/bin/tail -f /opt/IBM/tivoli/tiptklmV2/*, \
+        sudoedit /opt/IBM/db2tklmV2/*, \
+        !sudoedit /opt/IBM/db2tklmV2/bin/*, \
+        sudoedit /opt/IBM/tivoli/tiptklmV2/*, \
+        !sudoedit /opt/IBM/tivoli/tiptklmV2/bin/*, \
+        !sudoedit /opt/IBM/tivoli/tiptklmV2/java/bin/*, \
+        !sudoedit  /* *,!sudoedit *..*, !sudoedit *./*,  \
+        /bin/cp /home/tklmdb2/* /home/tklmdb2/*, \
+        /bin/cp /opt/IBM/db2tklmV2/* /opt/IBM/db2tklmV2/*, \
+        /bin/cp /opt/IBM/tivoli/tiptklmV2/* /opt/IBM/tivoli/tiptklmV2/*, \
+        /bin/mv /home/tklmdb2/* /home/tklmdb2/*, \
+        /bin/mv /opt/IBM/db2tklmV2/* /opt/IBM/db2tklmV2/*, \
+        /bin/mv /home/tklmdb2/* /home/tklmdb2/*, \
+        /opt/IBM/tivoli/tiptklmV2/UpdateInstaller/update.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/EARExpander.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/Java2WSDL.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/JspBatchCompiler.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/LTPA_LDAPSecurityProcs.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/LTPA_LDAPSecurityProcs.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/PropFilePasswordEncoder.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/SoapEarEnabler.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/WASPostUpgrade.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/WASPreUpgrade.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/WSDL2Java.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/_nodeuninst.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addSharedLib.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addSharedLib.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addTrustedConnection.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addTrustedConnection.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/addUserRole.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/backupConfig.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/cancelEJBTimers.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/certMonitorInstall.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/certMonitorUninstall.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/changeMem.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/changeUserAttributes.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/clearClassCache.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/clientConfig.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/clientRAR.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/clientUpgrade.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/collector.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/configureDataSource.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/configureESS.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/configureVMMDefaultRegistry.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/configureVMMLDAP.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/convertScriptCompatibility.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/convertlog.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/createTIPDataSource.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/createVariable.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/deployConsole.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/deployEar.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/deployISCWar.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/deployVMM.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/deployZeroCopyEar.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/doFIPS.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/dumpNameSpace.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/enableAppSecurity.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/enableVMMSecurity.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/endptEnabler.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/findEJBTimers.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/genHistoryReport.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/genVersionReport.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/historyInfo.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/ikeyman.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/installRegistryUtils.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/iscdeploy.bat, \
+        /opt/IBM/tivoli/tiptklmV2/bin/iscdeploy.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/launchClient.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/launchWsadminListener.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libNativeFile.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libSystemData.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libUnixRegistryImpl.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libWs60ProcessManagement.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libgetClasses.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libibmaio.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libibmaiodbg.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libpmiJvmpiProfiler.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/libpmiJvmtiProfiler.so, \
+        /opt/IBM/tivoli/tiptklmV2/bin/manageprofiles.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/mb2mdb.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/osgiCfgInit.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/osgiConsole.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/rc.was, \
+        /opt/IBM/tivoli/tiptklmV2/bin/redeployFileTransfer.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/removeNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/removeTrustedConnection.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/removeTrustedConnection.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/renameIdMgrRealm.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/renameNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/restoreConfig.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/retrieveSigners.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/securityProcs.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/securityProcs.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/serverStatus.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/setAuthnSvcLTPAKeys.jacl, \
+        /opt/IBM/tivoli/tiptklmV2/bin/setAuthnSvcRoleAll.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/setInstallRegistryUtilsEnv.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/showlog, \
+        /opt/IBM/tivoli/tiptklmV2/bin/startNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/startServer.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/startStopApp.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/stopNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/stopServer.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/syncNode.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/tipDeployISCWar.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/tipUpdateEar.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/tipUpdateISCWar.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/updateZOSStartArgs.py, \
+        /opt/IBM/tivoli/tiptklmV2/bin/versionInfo.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wasprofile.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wrapper.bat, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wrapper.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wrd-config.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wrd.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/ws_ant.sh, \
+        /opt/IBM/tivoli/tiptklmV2/bin/wsadmin.sh
+
+
+# IBM TKLM Admin BAU Command Alias
+IBM_SUDOTKLM_BAU  SUDOTKLM_HOSTS = TKLMADM_CMNDS_BAU, IBM_ALL_NEG
+
+# Begin   NA TKLM standard template Ver 1.0  Date 2014-07-29  * Maintenance * Refer NA16055044 Begin #
+
+# IBM TKLM Team Commands Alias for Change Windows
+#
+Cmnd_Alias      TKLMADM_CMNDS_CHG = /bin/su -
+
+# IBM TKLM Admin Command Alias for Changes
+IBM_SUDOTKLM_CHG  SUDOTKLM_HOSTS = TKLMADM_CMNDS_CHG
+
+
+# End   NA TKLM standard template Ver 1.0  Date 2014-07-29  * Maintenance * Refer NA16055044 End #
+#
+##########################################
+# End of IBM TKLM Team sudo entries #
+##########################################
+
+
+# End   NA TKLM standard template Ver 1.1   Date 2015-07-30  * Master * Refer NA16055044 End #

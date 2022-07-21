@@ -1,0 +1,144 @@
+# Begin NA DB2 standard template Ver NA2.4.1  Date 2014-12-04  * Master * Refer NA14190049 Begin #
+# Note:  This NA template is 'based on' Global DB2 standard template 103_DB2_GLB_v2.2.0.txt
+# Description: DB2 UDB
+# Software products and versions: DB2 UDB v8, v9.x, V10.x
+# Supported OS platforms: AIX, UNIX and LINUX
+# local functional ID: db2*, <DB2_Instance_ID>
+# local path changes: <DB2_Instance_Home> = xxx/xxx/xxx
+# local product path changes: <DB2_Product_Path> = xxx/xxx/xxx 
+# local OS groups for the Master: <inform_dba_group_here> 
+#
+# Version control
+# V1.1 - jekri@dk.ibm.com - updated template layout with command aliases
+#
+# V1.1.1 - jekri@dk.ibm.com - minor update, the invalid character "-" 
+#                            replaced with "_" in the User_Alias NAMES
+#
+# V1.1.2 - jekri@dk.ibm.com - corrected syntax error DB2_INSTALLER_PATH
+#                             changed to IBM_DB2_INSTALLER_PATH
+#
+# V2.1 - jekri@dk.ibm.com - Added Cmnd_Alias IBM_DB2V10 for DB2 V10 
+#                           and removed sudoedit commands
+# -	sudoedit <:DB2_Product_Path>/V*/license/nodelock, \
+# +Cmnd_Alias IBM_DB2V10= \ section, and command alias to authorized list.
+# -	sudoedit <:DB2_Product_Path>/[!'..']*/profiles.reg, \
+# -	sudoedit /opt/ibm/db2/[!'..']*/profiles.reg, \
+#  NA V2.4 highc@us.ibm.com, dmullan@us.ibm.com 
+#     Make consistent use of <:> placeholders.
+#     Eliminate [!'..'] from -command- paths.
+#  NA V2.4.1 highc@us.ibm.com, dmullan@us.ibm.com 
+#     Align with recent 'standarization' updates from Global-specifically:
+#     Eliminated IBM_DB2_ADM / su - root change window entry:  If a team 
+#       requires this, will need to request an _ADJ per process.
+#     IBM_DB2_SUGRP changed to: IBM_DB2_BAU_SUGRP
+#     added '<:' and '>' to placeholders.
+#     Updated product path placeholder names to include version specific
+#       labels as will be needed by projected automations.
+#     Changed /usr/bin/su to /bin/su, which works on Unix and Linux.
+#     Added special instructions clarifying it is still permissible to 
+#       remove stanza's and alias references for DB2 versions which
+#       are not installed.
+#     sudoedit /etc/services removed as global does not have this.
+#     under DB2V9  changed    <:DB2_Instance_Home>/sqllib/adsm/dsmapipw, \
+#                          to   <<:DB2V9_Product_Path>/*/adsm/dsmapipw, \
+#     under DB2V10 added   <:DB2V10_Product_Path>/*/install/db2chgpath *,\
+#     under DB2V10 added   <:DB2_installation_path>/db2prereqcheck, \
+#  ALL NA V2.4.1 changes are standardization only, and have no 
+#  functional nor security impact.
+#     
+#======================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_DB2_BAU = %db2admin
+User_Alias 	IBM_DB2_BAU_SUGRP = %db2util
+#                               
+#
+
+Host_Alias	DB2_HOSTS = ALL # in this case, we want this defined 
+                # on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to
+# replace <:placeholders> and
+# Special instructions:  If only certain levels of DB2 installed, 
+#    it is permissible to remove the 'stanzas' which assoicate to
+#    levels you do not have installed.
+#   If you do not use a 'master' file and wish to split this
+#    into multiple files (one for each version) you may
+#    eliminate the portion of the entries which are not for
+#    the file's version.  You will need to rename
+#    the templates as needed to reflect the customizations and
+#    accomodate sudo library system(s) as needed.
+#   If appropriate, you can introduce additional host_aliases for 
+#    such as DB2V9_HOSTS and replace DB2_HOSTS 
+#    
+Cmnd_Alias IBM_DB2V8_BAU= \
+   /usr/sbin/installp -u db2*, \ 
+   /opt/ibm/db2/*/instance/db2icrt ,\
+   /opt/ibm/db2/*/instance/db2iupdt ,\ 
+   /opt/ibm/db2/*/instance/db2idrop , \
+   /opt/ibm/db2/*/adm/db2licm ,\
+   /opt/ibm/db2/*/instance/db2imigr ,\ 
+   /opt/ibm/db2/*/instance/db2ilist, \
+   /opt/ibm/db2/*/instance/das*
+
+# Commands used to maintain DB2 version 9 instances
+Cmnd_Alias IBM_DB2V9_BAU= \
+   /opt/ibm/db2/*/adsm/dsmapipw, \
+   /opt/ibm/db2/*/install/db2_deinstall ,\ 
+   /opt/ibm/db2/*/instance/db2icrt ,\
+   /opt/ibm/db2/*/instance/db2iupdt ,\
+   /opt/ibm/db2/*/instance/db2imigr ,\
+   /opt/ibm/db2/*/instance/db2idrop , \	
+   /opt/ibm/db2/*/adm/db2licm , \
+   /opt/ibm/db2/*/instance/db2ilist,\ 
+   /opt/ibm/db2/*/install/db2ls, \
+   /opt/ibm/db2/*/instance/das*, \
+   /opt/ibm/db2/*/bin/db2val
+
+# Commands used to maintain DB2 version 10 instances
+Cmnd_Alias IBM_DB2V10_BAU= \
+   /opt/ibm/db2/*/instance/dascrt *, \
+   /opt/ibm/db2/*/instance/dasdrop *,\
+   /opt/ibm/db2/*/instance/dasmigr *,\
+   /opt/ibm/db2/*/instance/dasupdt *,\
+   /opt/ibm/db2/*/adsm/dsmapipw *, \
+   /opt/ibm/db2/*/install/db2_deinstall *, \
+   /opt/ibm/db2/*/install/tsamp/db2cptsa *,\
+   /opt/ibm/db2/*/bin/db2fmcu *,\
+   /opt/ibm/db2/*/instance/db2icrt *,\
+   /opt/ibm/db2/*/instance/db2idrop *,\
+   /opt/ibm/db2/*/instance/db2isetup  *,\
+   /opt/ibm/db2/*/instance/db2iupdt *,\
+   /opt/ibm/db2/*/instance/db2iupgrade *,\
+   /opt/ibm/db2/*/instance/db2rfe *,\
+   /opt/ibm/db2/*/install/doce_deinstall *,\
+   /opt/ibm/db2/*/install/db2chgpath  *,\
+   /opt/ibm/db2/db2ic/V10.1/doce_install ,\
+   /techserv/db2/[!'..']*/db2setup ,\
+   /techserv/db2/[!'..']*/db2_install, \
+   /techserv/db2/[!'..']*/install/db2chgpath  *,\    
+   /techserv/db2/[!'..']*/db2prereqcheck, \
+   /techserv/db2/[!'..']*/installFixPack
+
+# Commands used to su DB2 instance ids. Vary between servers according
+# instance names.  All instance IDs should be listed in the entry below.
+# One line for each instance id.
+#
+Cmnd_Alias IBM_DB2_INSTANCE_IDS= /bin/su - db2clt
+
+IBM_DB2_BAU_SUGRP DB2_HOSTS =(root) IBM_DB2_INSTANCE_IDS
+IBM_DB2_BAU    DB2_HOSTS =(root) IBM_DB2V8_BAU, (root) IBM_DB2V9_BAU,\
+                          (root) IBM_DB2V10_BAU
+#  Special instructions for IBM_DB2_BAU entry:  As mentioned above,
+#   if you do not have all versions installed, remove the 'call out'
+#   of the command aliases for versions not installed.
+
+# Begin NA DB2 standard template Ver 2.x  Date 20yy-mm-dd * Special * Refer NA14190049 Begin #
+
+ # Eliminated this stanza for NA, as we do not use this support group.
+
+# End NA DB2 standard template Ver 2.x  Date 20yy-mm-dd * Special * Refer NA14190049 End #
+
+# End NA DB2 standard template Ver 2.4.1  Date 2014-12-04  * Master * Refer NA14190049 End #
+

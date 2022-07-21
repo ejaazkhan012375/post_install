@@ -1,0 +1,208 @@
+# Begin  Global WebSphere MQ standard template - Ver 1.4.3 Date 2015-04-01 * Master * Refer NA15112085 Begin #
+# Description WebSphere MQ products
+# Software products and versions
+# Supported OS platforms
+# local functional ID  - MQM
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except Special for groups ABC, DEF and MNO only
+#
+#
+#=====================================================================================
+# NOTE this version requires sudoers.sampleconfig.V8.4 or newer which
+# 		can be located from: http://ibm.biz/GsudoStandardAlias 
+#=====================================================================================
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+# V1.4.3 - jekri@dk.ibm.com -
+# 
+# Security update, replaced negating entries with standard
+#          IBM_CHOWN_NEG from 
+#          sudoers.sampleconfig http://ibm.biz/GsudoStandardAlias 
+#
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# +IBM_MQ_ALL_ADM MQ_HOSTS = IBM_MQ_ALL_ADM_CMDS, IBM_CHOWN_NEG
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# +IBM_MQ_AIX_ADM	MQ_HOSTS = IBM_MQ_AIX_ADM_CMDS, IBM_CHOWN_NEG
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# +IBM_MQ_HPU_ADM	 MQ_HOSTS = IBM_MQ_HPU_ADM_CMDS, IBM_CHOWN_NEG
+# -	!/usr/bin/chown *[\:space\:]/* *,!/usr/bin/chown *..*, !/usr/bin/chown *./*, \
+# +IBM_MQ_SOL_ADM	 MQ_HOSTS = IBM_MQ_SOL_ADM_CMDS, IBM_CHOWN_NEG
+#
+#  Functional update - Alias Names renamed to follow standard
+#
+# -User_Alias      IBM_MQ_BAU_AIX = <:%mq_team_aix>
+# -User_Alias      IBM_MQ_BAU_LIN = <:%mq_team_linux>
+# -User_Alias      IBM_MQ_BAU_HPU = <:%mq_team_hpu>
+# -User_Alias      IBM_MQ_BAU_ALL = IBM_MQ_BAU_AIX,IBM_MQ_BAU_LIN,IBM_MQ_BAU_HPU,IBM_MQ_BAU_SOL
+# +User_Alias      IBM_MQ_AIX_BAU = <:%mq_team_aix>
+# +User_Alias      IBM_MQ_LIN_BAU = <:%mq_team_linux>
+# +User_Alias      IBM_MQ_HPU_BAU = <:%mq_team_hpu>
+# +User_Alias      IBM_MQ_ALL_BAU = IBM_MQ_AIX_BAU,IBM_MQ_LIN_BAU,IBM_MQ_HPU_BAU,IBM_MQ_SOL_BAU
+# -User_Alias      IBM_MQ_ADM_AIX = <:%mq_team_aix_adm>
+# -User_Alias      IBM_MQ_ADM_LIN = <:%mq_team_linux_adm>
+# -User_Alias      IBM_MQ_ADM_HPU = <:%mq_team_hpu_adm> 
+# -User_Alias      IBM_MQ_ADM_ALL = IBM_MQ_ADM_AIX, IBM_MQ_ADM_LIN, IBM_MQ_ADM_HPU, IBM_MQ_ADM_SOL
+# +User_Alias      IBM_MQ_AIX_ADM = <:%mq_team_aix_adm>
+# +User_Alias      IBM_MQ_LIN_ADM = <:%mq_team_linux_adm>
+# +User_Alias      IBM_MQ_HPU_ADM = <:%mq_team_hpu_adm> 
+# +User_Alias      IBM_MQ_ALL_ADM = IBM_MQ_AIX_ADM, IBM_MQ_LIN_ADM, IBM_MQ_HPU_ADM, IBM_MQ_SOL_ADM
+# -IBM_MQ_BAU_ALL	MQ_HOSTS = IBM_MQ_BAU_CMDS  
+# +IBM_MQ_ALL_BAU	MQ_HOSTS = IBM_MQ_BAU_CMDS  
+# -Cmnd_Alias IBM_MQ_ADM_ALL_CMDS = \
+# +Cmnd_Alias IBM_MQ_ALL_ADM_CMDS = \
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# -IBM_MQ_ADM_ALL MQ_HOSTS = IBM_MQ_ADM_ALL_CMDS 
+# +IBM_MQ_ALL_ADM MQ_HOSTS = IBM_MQ_ALL_ADM_CMDS, IBM_CHOWN_NEG
+# -Cmnd_Alias  IBM_MQ_ADM_AIX_CMDS = \
+# +Cmnd_Alias  IBM_MQ_AIX_ADM_CMDS = \
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# -Cmnd_Alias  IBM_MQ_ADM_AIX_NIM_CMDS =/bin/smit nim
+# +Cmnd_Alias  IBM_MQ_AIX_NIM_ADM_CMDS =/bin/smit nim
+# -IBM_MQ_ADM_AIXN	MQ_HOSTS = IBM_MQ_ADM_AIX_NIM_CMDS 
+# -IBM_MQ_ADM_AIX	MQ_HOSTS = IBM_MQ_ADM_AIX_CMDS
+# +IBM_MQ_AIXN_ADM	MQ_HOSTS = IBM_MQ_AIX_NIM_ADM_CMDS 
+# +IBM_MQ_AIX_ADM	MQ_HOSTS = IBM_MQ_AIX_ADM_CMDS, IBM_CHOWN_NEG
+# -Cmnd_Alias  IBM_MQ_ADM_HPU_CMDS =\
+# +Cmnd_Alias  IBM_MQ_HPU_ADM_CMDS =\
+# -	!/bin/chown *[\:space\:]/* *,!/bin/chown *..*, !/bin/chown *./*, \
+# -IBM_MQ_ADM_HPU	 MQ_HOSTS = IBM_MQ_ADM_HPU_CMDS
+# +IBM_MQ_HPU_ADM	 MQ_HOSTS = IBM_MQ_HPU_ADM_CMDS, IBM_CHOWN_NEG
+# -Cmnd_Alias  IBM_MQ_ADM_SOL_CMDS =\
+# +Cmnd_Alias  IBM_MQ_SOL_ADM_CMDS =\
+# -	!/usr/bin/chown *[\:space\:]/* *,!/usr/bin/chown *..*, !/usr/bin/chown *./*, \
+# -IBM_MQ_ADM_SOL	 MQ_HOSTS = IBM_MQ_ADM_SOL_CMDS
+# +IBM_MQ_SOL_ADM	 MQ_HOSTS = IBM_MQ_SOL_ADM_CMDS, IBM_CHOWN_NEG
+#
+#-------------------------------------------------------------------------
+#
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_MQ_AIX_BAU = %mqmauth
+User_Alias      IBM_MQ_LIN_BAU = %mqmauth
+User_Alias      IBM_MQ_HPU_BAU = %mqmauth
+User_Alias      IBM_MQ_SOL_BAU = %mqmauth # for this example, assume the team that supports AIX also supports solaris
+User_Alias      IBM_MQ_ALL_BAU = IBM_MQ_AIX_BAU,IBM_MQ_LIN_BAU,IBM_MQ_HPU_BAU,IBM_MQ_SOL_BAU
+#
+# Use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_MQ_AIX_ADM = %mqmutil
+User_Alias      IBM_MQ_AIXN_ADM  = %mqmutil # if nim is not in use, do not put a group to this.
+User_Alias      IBM_MQ_LIN_ADM = %mqmutil
+User_Alias      IBM_MQ_HPU_ADM = %mqmutil 
+User_Alias      IBM_MQ_SOL_ADM = %mqmutil # for this example, assume the team that supports AIX also supports solaris
+User_Alias      IBM_MQ_ALL_ADM = IBM_MQ_AIX_ADM, IBM_MQ_LIN_ADM, IBM_MQ_HPU_ADM, IBM_MQ_SOL_ADM
+
+Host_Alias	MQ_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+# Needed all the time on all versions of UNIX:
+#
+# BAU commands for the MQ team, needed all the time on all versions of UNIX:
+
+Cmnd_Alias      IBM_MQ_BAU_CMDS =\ 
+	/bin/su - mqm   
+
+IBM_MQ_ALL_BAU	MQ_HOSTS = IBM_MQ_BAU_CMDS  
+
+# Begin  Global WebSphere MQ standard template - Ver 1.4.3 Date 2015-04-01  * Maintenance * Refer NA15112085 Begin #
+# Description  Maintenance commands for MQ
+# Software products and versions if required ( ie may have 2 groups one support linux the other AIX for example)
+# Supported OS platforms If required see above
+# local functional ID If required  ie if different than the master
+# local path changes If required ie if different than the master
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups ABC, DEF and MNO only
+
+
+Cmnd_Alias IBM_MQ_ALL_ADM_CMDS = \
+	/bin/chown  mqm\:mqm /home/mqm/*, \
+	/bin/chown  mqm\:mqm /opt/mqm/*, \
+	/bin/chown  mqm\:mqm /var/mqm/*, \
+	/bin/rpm -ivh *, \
+	/bin/rpm -ev *, \
+	/bin/rpm -U *, \
+	/bin/rpm -Uvh *, \
+	/local_home/mqm/mqlicense.sh -text_only, \
+	/local_home/mqm/mqlicense.sh -accept, \
+	/local_home/mqm/crtmqpkg, \
+	/local_home/mqm/crtmqfp, \
+	/bin/ulimit -d unlimited, \
+	/bin/ulimit -s unlimited, \
+	/opt/mqm/bin/setmqinst
+
+IBM_MQ_ALL_ADM MQ_HOSTS = IBM_MQ_ALL_ADM_CMDS, IBM_CHOWN_NEG
+
+# Needed on AIX only during the change window used for product maintenance:
+
+#  Reminder:  This sudo entry includes smit/smitty on AIX.
+#  be sure to include the content for env_file=/etc/sudo.env
+#  from the global standard aliases file.
+
+Cmnd_Alias  IBM_MQ_AIX_ADM_CMDS = \
+	/bin/chown  mqm\:mqm /home/mqm/*, \
+	/bin/chown  mqm\:mqm /usr/mqm/* , \
+	/bin/chown  mqm\:mqm /var/mqm/*, \
+	/usr/sbin/inutoc , \
+	/bin/smit installp, \
+	/bin/smit update_all , \
+	/bin/smit install_latest , \
+	/bin/smit remove, \
+	/bin/ulimit -d unlimited, \
+	/bin/ulimit -s unlimited, \
+	/opt/mqm/bin/setmqinst
+
+# Needed on AIX (only for accounts using NIM) only during the change
+# window used for product maintenance:
+
+Cmnd_Alias  IBM_MQ_AIX_NIM_ADM_CMDS =/bin/smit nim
+
+IBM_MQ_AIXN_ADM	MQ_HOSTS = IBM_MQ_AIX_NIM_ADM_CMDS 
+IBM_MQ_AIX_ADM	MQ_HOSTS = IBM_MQ_AIX_ADM_CMDS, IBM_CHOWN_NEG
+
+
+# Needed on HP-UX only during the change window used for product maintenance:
+Cmnd_Alias  IBM_MQ_HPU_ADM_CMDS =\
+	/bin/chown  mqm\:mqm /home/mqm/*, \
+	/bin/chown  mqm\:mqm /opt/mqm/*, \
+	/bin/chown  mqm\:mqm /var/mqm/*, \
+	/usr/sbin/swinstall -s, \
+	/usr/sbin/swremove   , \
+	/local_home/mqm/mqlicense.sh -accept, \
+	!/*/mqlicense.sh *..*, \
+	/bin/ulimit -d unlimited, \
+	/bin/ulimit -s unlimited, \
+	/opt/mqm/bin/setmqinst
+
+IBM_MQ_HPU_ADM	 MQ_HOSTS = IBM_MQ_HPU_ADM_CMDS, IBM_CHOWN_NEG
+ 
+# Needed on Solaris only during the change window used for product maintenance:
+Cmnd_Alias  IBM_MQ_SOL_ADM_CMDS =\
+	/usr/bin/chown  mqm\:mqm /home/mqm/*, \
+	/usr/bin/chown  mqm\:mqm /opt/mqm/*, \
+	/usr/bin/chown  mqm\:mqm /var/mqm/*, \
+	/usr/sbin/pkgadd , \
+	/usr/sbin/pkgrm, \
+	/usr/bin/pkginfo, \
+	/usr/bin/pkgparam, \
+	/local_home/mqm/mqlicense.sh, \
+	/local_home/mqm/mqlicense.sh -text-only, \
+	/local_home/mqm/crtmqpkg, \
+	/local_home/mqm/crtmqfp, \
+	/usr/bin/ulimit -d unlimited, \
+	/usr/bin/ulimit -s unlimited, \	
+	/opt/mqm/bin/setmqinst
+
+IBM_MQ_SOL_ADM	 MQ_HOSTS = IBM_MQ_SOL_ADM_CMDS, IBM_CHOWN_NEG
+
+# End  Global WebSphere MQ standard template - Ver 1.4.3 Date 2015-04-01   * Maintenance * Refer NA15112085 End #
+
+# End  Global WebSphere MQ standard template - Ver 1.4.3 Date 2015-04-01 * Master * Refer NA15112085 End #
+
+

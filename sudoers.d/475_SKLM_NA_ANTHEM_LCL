@@ -1,0 +1,333 @@
+# Begin ANTHEM SKLM standard template Ver 1.0 Date 2020-05-14  * Master * Refer NA20202018  Begin 07/20/20
+# Description
+# Software products and versions
+# Supported OS platforms
+
+#
+# Version control
+#-------------------------------------------------------------------------
+# V1.0 - mjkutsch@us.ibm.com - country code = 897
+#        Initial standard template creation from commands from the current TKLM sudo template file
+#-------------------------------------------------------------------------
+
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_SKLM_BAU = %sudotklm
+
+				 
+Host_Alias	SKLM_HOSTS = fl13plvsklm01, fl62plvsklm01, ca47plvsklm001, ca47plvsklm002, \
+                         mn02plvisk001.decare.com, mn02plvisk002.decare.com, \                       
+                        mom9plvsklm01, mom9plvsklm02, mom9plvsklm11, mom9plvsklm12, \
+                        mom9plvsklm21, mom9plvsklm22, mom9plvsklm31, mom9plvsklm32, \
+                        va10plvsklm03, va10plvsklm04, va10plvsklm13, va10plvsklm14, \
+                        va10plvsklm23, va10plvsklm24, va10plvsklm33, va10plvsklm34, \
+                        va22plvsklm06, va22plvsklm07, va33plpisk001, va33plpisk002, \
+                        va33plvsklm05, va33plvsklm15, va33plvsklm25, va33plvsklm35, \
+			sl01plpisk001, sl01plvisk001, ca47plvisk302, va33plvisk300, \
+			va33plvisk301, dc04plvisk001, dc04plvisk002, dc04plvisk004, \
+			dc04plvisk005, dc04plvisk006, dc04plvisk007, dl09plvisk001, \
+			dl09plvisk002, dl09plvisk003, dl09plvisk004, dl09plvisk005, \
+			dl09plvisk006, dl09plvisk007, dl09plvisk008, dc04plvisk300, \
+			dc04plvisk301, dc04plvisk302, dc04plvisk303, dc04plvisk304, \
+			dc04plvisk305, dc04plvisk306 
+                                                                                                     
+
+#
+# -----Do not change anything below this line, excepting to replace ----------
+# -----         <:path *> content with local pathing.       ------------------
+#
+           
+Cmnd_Alias IBM_SKLM_BAU_CMDS = \
+        /bin/su - sklmdb31, \
+        /bin/kill, \
+        /usr/sbin/lsof, \
+        /usr/sbin/dmidecode, \
+        /bin/ls -* /home/sklmdb31/*, \
+        /bin/ls -* /opt/IBM/DB2SKLMV301/*, \
+        /bin/ls -* /opt/IBM/SKLMV301/*, \
+        /bin/ls -* /opt/IBM/WebSphere/*, \
+        /bin/ls -* /opt/IBM/InstallationManager/*, \
+        /bin/ls -* /opt/IBM/IBMIMShared/*, \
+        /bin/ls -* /opt/IBM/*, \
+        /bin/chmod -R [0-7][0-7][0145] /home/sklmdb31/*, \
+        /bin/chmod [0-7][0-7][0145] /home/sklmdb31/*, \
+        /bin/chmod -R [0-7][0-7][0145] /opt/IBM/DB2SKLMV301/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/DB2SKLMV301/*, \
+        /bin/chmod -R [0-7][0-7][0145] /opt/IBM/WebSphere/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/WebSphere/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/InstallationManager/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/InstallationManager/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/SKLMV301/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/SKLMV301/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/IBMIMShared/*, \
+        /bin/chmod [0-7][0-7][0145] /opt/IBM/IBMIMShared/*, \
+        /bin/rm /home/sklmdb31/*, \
+        /bin/rm /opt/IBM/DB2SKLMV301/*, \
+        /bin/rm /opt/IBM/WebSphere/AppServer/*, \
+        /bin/rm /opt/IBM/InstallationManager/*, \
+        /bin/rm /opt/IBM/SKLMV301/*, \
+        /bin/rm /opt/IBM/IBMIMShared/*, \
+        /bin/mkdir /home/sklmdb31/*, \
+        /bin/mkdir /opt/IBM/DB2SKLMV301/*, \
+        /bin/mkdir /opt/IBM/WebSphere/AppServer/*, \
+        /bin/mkdir /opt/IBM/SKLMV301/*, \
+        /bin/mkdir /opt/IBM/InstallationManager/*, \
+        /bin/mkdir /opt/IBM/IBMIMShared/*, \
+        /bin/cat /home/sklmdb31/*, \
+        /bin/cat /opt/IBM/DB2SKLMV301/*, \
+        /bin/cat /opt/IBM/WebSphere/*, \
+        /bin/cat /opt/IBM/SKLMV301/*, \
+        /bin/cat /opt/IBM/InstallationManager/*, \
+        /bin/cat /opt/IBM/IBMIMShared/*, \
+        /usr/bin/find /home/sklmdb31/*, \
+        /usr/bin/find /opt/IBM/DB2SKLMV301/*, \
+        /usr/bin/find /opt/IBM/WebSphere/*, \
+        /usr/bin/find /opt/IBM/SKLMV301/*, \
+        /usr/bin/find /opt/IBM/InstallationManager/*, \
+        /usr/bin/find /opt/IBM/IBMIMShared/*, \
+        /bin/gzip /home/sklmdb31/*, \
+        /bin/gzip /opt/IBM/DB2SKLMV301/*, \
+        /bin/gzip /opt/IBM/WebSphere/*, \
+        /bin/gzip /opt/IBM/SKLMV301/*, \
+        /bin/gzip /opt/IBM/InstallationManager/*, \
+        /bin/gzip /opt/IBM/IBMIMShared/*, \
+        /bin/gzip -d /home/sklmdb31/*, \
+        /bin/gzip -d /opt/IBM/DB2SKLMV301/*, \
+        /bin/gzip -d /opt/IBM/WebSphere/*, \
+        /bin/gzip -d /opt/IBM/SKLMV301/*, \
+        /bin/gzip -d /opt/IBM/InstallationManager/*, \
+        /bin/gzip -d /opt/IBM/IBMIMShared/*, \
+        /usr/bin/head /home/sklmdb31/*, \
+        /usr/bin/head /opt/IBM/DB2SKLMV301/*, \
+        /usr/bin/head /opt/IBM/WebSphere/AppServer/*, \
+        /usr/bin/head /opt/IBM/SKLMV301/*, \
+        /usr/bin/head /opt/IBM/InstallationManager/*, \
+        /usr/bin/head /opt/IBM/IBMIMShared/*, \
+        /usr/bin/tail /home/sklmdb31/*, \
+        /usr/bin/tail /opt/IBM/DB2SKLMV301/*, \
+        /usr/bin/tail /opt/IBM/WebSphere/*, \
+        /usr/bin/tail /opt/IBM/SKLMV301/*, \
+        /usr/bin/tail /opt/IBM/InstallationManager/*, \
+        /usr/bin/tail /opt/IBM/IBMIMShared/*, \
+        /usr/bin/tail -f /home/sklmdb31/*, \
+        /usr/bin/tail -f /opt/IBM/DB2SKLMV301/*, \
+        /usr/bin/tail -f /opt/IBM/WebSphere/AppServer/*, \
+        /usr/bin/tail -f /opt/IBM/IBMIMShared/*, \
+        /usr/bin/tail -f /opt/IBM/SKLMV301/*, \
+        /usr/bin/tail -f /opt/IBM/InstallationManager/*, \
+        sudoedit /opt/IBM/DB2SKLMV301/*, \
+        !sudoedit /opt/IBM/DB2SKLMV301/bin/*, \
+        sudoedit /opt/IBM/WebSphere/AppServer/*, \
+        sudoedit /opt/IBM/WebSphere/AppServer/bin/Scripts/*, \
+        !sudoedit /opt/IBM/WebSphere/AppServer/bin/*, \
+        !sudoedit /opt/IBM/WebSphere/AppServer/java/bin/*, \
+        sudoedit /opt/IBM/SKLMV301/*, \        
+        !sudoedit /opt/IBM/SKLMV301/bin/*, \
+        sudoedit /opt/IBM/InstallationManager/*, \
+        !sudoedit /opt/IBM/InstallationManager/bin/*, \
+        /bin/cp /home/sklmdb2/* /home/sklmdb31/*, \
+        /bin/cp /opt/IBM/DB2SKLMV301/* /opt/IBM/DB2SKLMV301/*, \
+        /bin/cp /opt/IBM/WebSphere/AppServer/* /opt/IBM/WebSphere/AppServer/*, \
+        /bin/mv /home/sklmdb31/* /home/sklmdb31/*, \
+        /bin/mv /opt/IBM/DB2SKLMV301/* /opt/IBM/DB2SKLMV301/*, \
+        /bin/mv /home/sklmdb31/* /home/sklmdb31/*, \
+	/opt/IBM/WebSphere/AppServer/bin/CreateCoreGroupPolicy.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/EARExpander.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/GenPluginCfg.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/Java2WSDL.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/JspBatchCompiler.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/LTPA_LDAPSecurityProcs.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/15875 LTPA_LDAPSecurityProcs.py, \
+	/opt/IBM/WebSphere/AppServer/bin/927 PropFilePasswordEncoder.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ResponseFilePasswordEncoder.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/UDDIUserDefinedValueSet.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WASPostUpgrade.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WASPostUpgradeBLAHelper.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WASPreUpgrade.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WSBatchPackager.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WSDL2Java.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WSGrid.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/WebSphereConnectJDBCDriverConversion.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/_nodeuninst.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/addCGSystemAppVariables.py, \
+	/opt/IBM/WebSphere/AppServer/bin/addKrbLoginModuleWSSCaller.py, \
+	/opt/IBM/WebSphere/AppServer/bin/addNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/addSamlLoginConfigs.py, \
+	/opt/IBM/WebSphere/AppServer/bin/applyPerfTuningTemplate.py, \
+	/opt/IBM/WebSphere/AppServer/bin/backupConfig.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/cancelEJBTimers.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ceiconfigreload.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/clearClassCache.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/clientConfig.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/clientRAR.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/clientUpgrade.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/collector.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/compileXPath.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/compileXQuery.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/compileXSLT.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/configCGSharedLib.py, \
+	/opt/IBM/WebSphere/AppServer/bin/configureWebserverDefinition.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/convertScriptCompatibility.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/convertlog.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/createCertRequest.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/createEJBStubs.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/May 01 2012  deployConsole.py, \
+	/opt/IBM/WebSphere/AppServer/bin/deregisterNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/disableProvisioning.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/dumpExtensionRegistry.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/dumpNameSpace.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ejbdeploy.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/enableProvisioning.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/endptEnabler.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventUpgradeDB2.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventUpgradeDB2ZOS.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventUpgradeOracle.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventbucket.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventcatalog.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventemit.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventpurge.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventpurgepool.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/eventquery.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/executeXPath.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/executeXQuery.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/executeXSLT.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/findEJBTimers.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/genHistoryReport.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/genVersionReport.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/historyInfo.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ikeyman.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/installOAuth2Service.py, \
+	/opt/IBM/WebSphere/AppServer/bin/installSamlACS.py, \
+	/opt/IBM/WebSphere/AppServer/bin/installSdoRepository.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/installWSGridMQ.py, \
+	/opt/IBM/WebSphere/AppServer/bin/installWSGridMQClientMode.py, \
+	/opt/IBM/WebSphere/AppServer/bin/isadc.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/iscdeploy.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ivt.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/jobRecovery.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/launchClient.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/launchWsadminListener.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/libWCGNodeDetect.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libWCGNodeDetect64.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libWCGProcessCPU.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libWCGProcessCPU64.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libgetClasses.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libibmaio.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libibmaiodbg.so, \
+	/opt/IBM/WebSphere/AppServer/bin/libpmiJvmtiProfiler.so, \
+	/opt/IBM/WebSphere/AppServer/bin/logViewer.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/lrcmd.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/manageprofiles.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/managesdk.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/migrateConfigTo85.py, \
+	/opt/IBM/WebSphere/AppServer/bin/migrateEAR, \
+	/opt/IBM/WebSphere/AppServer/bin/migration.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/osgiApplicationConsole.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/osgiCfgInit.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/osgiConsole.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/pgc.py, \
+	/opt/IBM/WebSphere/AppServer/bin/pluginCfgMerge.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/postinstall.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/queryCertificate.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/rc.was, \
+	/opt/IBM/WebSphere/AppServer/bin/redeployFileTransfer.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/redeployLRS.py, \
+	/opt/IBM/WebSphere/AppServer/bin/registerNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/registerwstp.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/removeMapPlatformSubject.py, \
+	/opt/IBM/WebSphere/AppServer/bin/removeNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/removePGC.py, \
+	/opt/IBM/WebSphere/AppServer/bin/renameNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/requestCertificate.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/restoreConfig.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/restoreJobManager.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/retrieveSigners.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/revokeCertificate.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/runConfigActions.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/schemagen.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/securityProcs.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/securityProcs.py, \
+	/opt/IBM/WebSphere/AppServer/bin/serverStatus.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/setupCmdLine.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/showlog.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/sibDBUpgrade.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/sibDDLGenerator.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/startNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/startServer.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/stopNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/stopServer.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/syncNode.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/uddiDeploy.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/uddiRemove.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/uninstallSdoRepository.jacl, \
+	/opt/IBM/WebSphere/AppServer/bin/unpackWSGRID, \
+	/opt/IBM/WebSphere/AppServer/bin/updateBindings.py, \
+	/opt/IBM/WebSphere/AppServer/bin/updateZOSStartArgs.py, \
+	/opt/IBM/WebSphere/AppServer/bin/uteconfig.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/versionInfo.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wasprofile.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wrd-config.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wrd.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/ws_ant.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsadmin.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsappid.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsdb2gen.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsdbgen.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsdeploy.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsenhancer.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsgen.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsgridConfig.py, \
+	/opt/IBM/WebSphere/AppServer/bin/wsimport.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsjpaversion.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsmapping.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsreversemapping.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/wsschema.sh, \
+	/opt/IBM/WebSphere/AppServer/bin/xjc.sh, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/ikeycmd, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/ikeyman, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/java, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/java_vm, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/javaw, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/javaws, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/jcontrol, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/jextract, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/keytool, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/kinit, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/klist, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/ktab, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_ca.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_cs.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_de.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_es.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_fr.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_hu.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_it.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_ja.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_ko.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_pl.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_pt_BR.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_ru.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_sk.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_sl.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_tr.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_zh.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/launcher_zh_TW.properties, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/pack200, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/policytool, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/rmid, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/rmiregistry, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/tnameserv, \
+	/opt/IBM/WebSphere/AppServer/java/jre/bin/unpack200, \
+	/bin/mv /tmp/* /opt/IBM/WebSphere/, \
+	/bin/mv /tmp/* /opt/IBM/SKLM301/, \
+	/bin/mv /tmp/* /opt/IBM/DB2SKLMV301/, \
+	/bin/mv /tmp/* /home/sklmdb31/, \
+	/bin/cp /tmp/* /opt/IBM/WebSphere/AppServer/products/sklm/data/
+
+# Assigned To group
+IBM_SKLM_BAU  SKLM_HOSTS = IBM_SKLM_BAU_CMDS, IBM_ALL_NEG
+
+# End ANTHEM SKLM standard template Ver 1.0 Date 2020-05-14    * Master * Refer NA20202018  Begin 07/20/20

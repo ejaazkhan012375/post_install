@@ -1,0 +1,44 @@
+# Begin Global Openstack Autoprovisioning standard template Ver 1.0.0 Date 2016-05-26 * Master * Refer NA16152029 Begin #
+# Description: IBM Openstack managed by SAN team
+# Software products and versions: 1.0
+# Support OS platforms: Linux
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates
+#
+# Version control
+# V1.0.0 - druet@ca.ibm.com / mpop@ca.ibm.com - Initial template
+#
+# =====================================================================================
+#
+# Replace sample group names with real group names for your account
+#
+User_Alias IBM_OPENSTACK_AUTO = %nova, %cinder
+#
+#
+Host_Alias IBM_OPENSTACK_HOST = ALL
+#
+# in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# -----Do not change anything below this line, excepting to replace ----------
+# ----- <:path *> content with local pathing. ------------------
+#
+Cmnd_Alias IBM_OPENSTACK_AUTO_BAU_CMDS = \
+ /usr/bin/nova-rootwrap /etc/nova/rootwrap.conf *, \
+ /usr/sbin/service, \
+ /usr/bin/systemctl, \
+ /bin/systemctl, \
+ /root/openstack-kilo/scripts-configs/cinder/restartCinder.sh, \
+ /root/openstack-kilo/scripts-configs/cinder/host_import2.sh, \
+ /usr/bin/cinder-rootwrap /etc/cinder/rootwrap.conf * , \
+ /root/openstack-kilo/scripts-configs/openstack_kilo_import_hosts_and_vols.sh, \
+ /root/openstack-kilo/scripts-configs/cinder/schedule_volume.sh, \
+ /root/openstack-kilo/scripts-configs/openstack_email_volume_info_report.sh, \
+ /root/openstack-kilo/scripts-configs/storagecli.sh
+
+ 
+# Assigned To group
+IBM_OPENSTACK_AUTO IBM_OPENSTACK_HOST = NOPASSWD: IBM_OPENSTACK_AUTO_BAU_CMDS
+#
+# End Global Openstack Autoprovisioning standard template Ver 1.0.0 Date 2016-05-26 * Master *  Refer NA16152029 End #

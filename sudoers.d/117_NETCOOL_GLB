@@ -1,0 +1,179 @@
+# Begin Global Netcool standard template Ver 1.3.8 Date 2016-04-27 * Master * Refer NA16134010 Begin #
+# Description NetCool products 
+# Software products and versions:  Tivoli Netcool OMNIbus Tivoli Netcool Impact 
+# Tivoli Netcool Webtop/OMNIbus GUI Tivoli Network Manager Tivoli Business 
+# Systems Manager
+# Supported OS platforms
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except Special for groups ABC, DEF and MNO only
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+# v1.3.8 - damonl@us.ibm.com - Security update, deleted command due to audit concern.
+# - /bin/tar -x* /tmp/*, \
+# 
+# Cleanup - Removed NOEXEC from the template
+#-IBM_NETCOOL_BAU NETCOOL_HOSTS = IBM_NETCOOL_INFRA_BAU_CMDS,NOEXEC:IBM_NETCOOL_OS_BAU_CMDS, \
+#+IBM_NETCOOL_BAU NETCOOL_HOSTS = IBM_NETCOOL_INFRA_BAU_CMDS,IBM_NETCOOL_OS_BAU_CMDS, \
+#
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_NETCOOL_BAU = %ncoadmin
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_NETCOOL_ADM = %ncoutil
+
+Host_Alias	NETCOOL_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+#
+Cmnd_Alias IBM_NETCOOL_INFRA_BAU_CMDS = \
+  /opt/IBM/tivoli/netcool/omnibus/bin/nco_pad, \
+  /opt/IBM/tivoli/netcool/omnibus/probes/aix*/nco_p_mttrapd, \
+  /opt/IBM/tivoli/netcool/omnibus/probes/linux*/nco_p_mttrapd, \
+  /opt/IBM/tivoli/netcool/omnibus/probes, \
+  /opt/IBM/tivoli/netcool/omnibus/probes/aix*/, \
+  /opt/IBM/tivoli/netcool/omnibus/probes/linux*/, \
+  /opt/IBM/tivoli/netcool/omnibus/probes, \
+  /opt/IBM/tivoli/netcool/omnibus/platform/aix*/bin/, \
+  /opt/IBM/tivoli/netcool/omnibus/platform/linux*/bin/, \
+  /opt/IBM/tivoli/netcool/precision/bin/, \
+  /opt/IBM/tivoli/netcool/precision/scripts/, \
+  /opt/IBM/tivoli/netcool/precision/scripts/perl/scripts/, \
+  /opt/IBM/tivoli/netcool/precision/scripts/webtools/bin/, \
+  /opt/IBM/tivoli/netcool/precision/platform/aix*/bin/, \
+  /opt/IBM/tivoli/netcool/precision/platform/linux*/bin/, \
+  /etc/init.d/nco, \
+  /etc/rc.nco_pa, \
+  /etc/rc.nco, \
+  /etc/init/nis.conf, \
+  /etc/rc.nci, \
+  /bin/su - ncosys, \
+  /bin/su - netcool, \
+  /bin/su - ncoadmin, \
+  /bin/su - db2lds, \
+  /bin/su - db2inst1, \
+  /bin/su - ncosftp, \
+  /sbin/pam_tally2 -u ncosftp -r, \
+  /sbin/pam_tally2 -u ncosys -r, \
+  /sbin/pam_tally2 -u reporter -r, \
+  /sbin/pam_tally2 -u db2lds -r, \
+  /usr/bin/passwd ncosys, \
+  /usr/bin/passwd reporter, \
+  /usr/bin/passwd db2lds, \
+  /usr/bin/passwd -u ncosys, \
+  /usr/bin/passwd -u reporter, \
+  /usr/bin/passwd -u db2lds, \
+  /usr/bin/passwd -u ncosftp, \
+  /usr/bin/chsec -f /etc/security/lastlog -a "unsuccessful_login_count=0" -s ncosys, \
+  /usr/bin/chsec -f /etc/security/lastlog -a "unsuccessful_login_count=0" -s reporter, \	
+  /usr/bin/chsec -f /etc/security/lastlog -a "unsuccessful_login_count=0" -s db2lds, \
+  /usr/bin/chsec -f /etc/security/lastlog -a "unsuccessful_login_count=0" -s ncosftp, \
+  /usr/bin/chuser "account_locked=false" ncosftp, \
+  /usr/bin/chuser "account_locked=false" ncosys, \
+  /usr/bin/chuser "account_locked=false" reporter, \
+  /usr/bin/chuser "account_locked=false" db2lds, \
+  /sbin/initctl start nis, \
+  /sbin/initctl start ETS, \
+  /sbin/initctl start AP, \
+  /etc/rc.d/rc5.d/S90ncp
+                
+Cmnd_Alias IBM_NETCOOL_OS_BAU_CMDS = \
+  /usr/bin/crontab -l, \
+  /bin/kill,\
+  /usr/bin/pkill, \
+  /bin/env "", \
+  /usr/bin/find, \	    
+  /bin/ls,\
+  sudoedit /etc/hosts, \
+  /usr/bin/tail -f /opt/IBM/*, \
+  /bin/tar -c* /tmp/*.tar /opt/Tivoli/*, \
+  /bin/tar -x* /tmp/*.tar /tmp/*, \
+  /bin/tar -x* /tmp/*.tar /tivrepos_depot/*, \
+  /bin/rm -r /opt/IBM/*, \
+  /bin/rm -r /tmp/persistent_state, \
+  /bin/rm -r /tmp/acsiTemp_ncosys, \
+  /bin/rm -r /tmp/ismp00*, \
+  /bin/rm -r /tmp/javasharedresources, \
+  /bin/rm -r /temporary/Impact/*, \
+  /bin/rm -r /temporary/omnibus/*, \
+  /bin/chmod [0-7][0-7][0145] /temporary/omnibus/*,\
+  /bin/chmod [0-7][0-7][0145] /temporary/Impact/*,\
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/*,\
+  /bin/chmod [0-7][0-7][0145] /products/Impact/*,\
+  /bin/chmod [0-7][0-7][0145] /tivrepos_depot/*,\
+  /bin/chown ncosys /opt/IBM/*,\
+  /bin/chown ncosys /tivrepos_depot/*,\
+  /bin/chown ncosys /products/Impact/*,\
+  /bin/chgrp ncoadmin /opt/IBM/*,\
+  /bin/chgrp ncoadmin /products/Impact/*,\
+  /bin/chgrp ncoadmin /tivrepos_depot/*,\
+  /bin/chgrp ncoadmin /temporary/omnibus/*,\
+  /bin/chgrp ncoadmin /temporary/Impact/*,\
+  /bin/chmod -R [0-7][0-7][0145] /opt/IBM/*,\
+  /bin/chmod -R [0-7][0-7][0145] /products/Impact/*,\
+  /bin/chmod -R [0-7][0-7][0145] /tivrepos_depot/*,\
+  /bin/chmod -R [0-7][0-7][0145] /temporary/omnibus/*,\
+  /bin/chmod -R [0-7][0-7][0145] /temporary/Impact/*,\
+  /bin/chown ncosys /temporary/omnibus/*,\
+  /bin/chown ncosys /temporary/Impact/*,\
+  /bin/chown -R ncosys /opt/IBM/*,\
+  /bin/chown -R ncosys /tivrepos_depot/*,\
+  /bin/chown -R ncosys /products/Impact/*,\
+  /bin/chgrp -R ncoadmin /temporary/omnibus/*,\
+  /bin/chgrp -R ncoadmin /temporary/Impact/*,\
+  /bin/chgrp -R ncoadmin /opt/IBM/*,\
+  /bin/chgrp -R ncoadmin /products/Impact/*,\
+  /bin/chgrp -R ncoadmin /tivrepos_depot/*,\
+  /bin/cat /temporary/omnibus/*,\
+  /bin/cat /temporary/Impact/*,\
+  /bin/cat /opt/IBM/*,\
+  /bin/cat /products/Impact/*,\
+  /bin/cat /tivrepos_depot/*,\
+  /bin/cat /etc/inittab,\
+  /usr/sbin/lsof,\
+  /usr/sbin/iptrace,\
+  /usr/sbin/tcpdump  
+
+IBM_NETCOOL_BAU NETCOOL_HOSTS = IBM_NETCOOL_INFRA_BAU_CMDS,IBM_NETCOOL_OS_BAU_CMDS, \
+  IBM_CAT_NEG, \
+  IBM_CHGRP_NEG, \
+  IBM_CHMOD_NEG, \
+  IBM_CHOWN_NEG, \
+  IBM_FIND_NEG, \
+  IBM_RM_NEG, \
+  IBM_TAIL_NEG, \
+  IBM_TAR_NEG
+
+
+# Begin Global Netcool standard template Ver 1.3.8 Date 2016-04-27 * Maintenance * Refer NA16134010 Begin #
+# Description
+# Software products and versions:  Tivoli Netcool OMNIbus Tivoli Netcool Impact #Tivoli Netcool Webtop/OMNIbus GUI Tivoli Network Manager Tivoli Business #Systems Manager
+
+# Supported OS platforms  If required see above
+# local functional ID  If required  ie if different than the master
+# local path changes  If required  ie if different than the master
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups ABC, DEF and MNO only
+
+
+Cmnd_Alias IBM_NETCOOL_INFRA_ADM_CMDS =\
+  /bin/su - root
+                
+IBM_NETCOOL_ADM NETCOOL_HOSTS = IBM_NETCOOL_INFRA_ADM_CMDS
+
+# End Global Netcool standard template Ver 1.3.8 Date 2016-04-27 * Maintenance * Refer NA16134010 End #
+
+# End Global Netcool standard template Ver 1.3.8 Date 2016-04-27 * Master Refer NA16134010 End #
+

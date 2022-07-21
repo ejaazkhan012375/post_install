@@ -1,0 +1,327 @@
+# Begin Global Tivoli Monitoring Infrastructure standard template Ver 1.3.8 Date 2016-04-27 * Master * Refer NA16134021 Begin #
+# Description
+# Software products and versions:
+#		 Tivoli Framework
+#		 Tivoli Enterprise Console
+#		 Tivoli Distributed Monitoring
+#		 IBM Tivoli Monitoring v5
+# 		 IBM Tivoli Monitoring v6
+#   		 Hostavail
+#   		 Tivoli Firewall Proxy
+# Supported OS platforms
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except "Special" for groups ABC, DEF #and MNO only
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+# v1.3.8 - damonl@us.ibm.com - Security update, deleted command due to audit concern.
+# - /bin/tar -x* /tmp/*, \
+#
+# Cleanup - Removed NOEXEC from the template
+#-	 NOEXEC: IBM_TIVINFRA_OS_BAU_CMDS, \
+#+	 IBM_TIVINFRA_OS_BAU_CMDS, \
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_TIVINFRA_BAU = %tivcore
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_TIVINFRA_ADM = %tivcutil
+
+Host_Alias	TIVINFRA_HOSTS= ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+Defaults:IBM_TIVINFRA_BAU  env_keep+="BINDIR \
+        LIBDIR \
+        DBDIR \
+        o_dispatch \
+        INTERP \
+        TISDIR \
+        PATH \
+        LIBPATH \
+	CANDLEHOME \
+        WLOCALHOST \
+        XUSERFILESEARCHPATH \
+        XNLSPATH \
+        NLSPATH \
+        MANPATH \
+        TMR"
+
+
+Cmnd_Alias IBM_TIVINFRA_BAU_CMDS = \
+  /opt/IBM/ITM/bin/,\
+  /opt/IBM/TEMS/bin/,\
+  /opt/IBM/TEPS/bin/,\
+  /opt/IBM/WPA/bin/,\
+  /usr/local/Tivoli/, \
+  /opt/IBM/ITM/lx8266/iw/scripts/enableISCLite.sh true,\
+  /opt/IBM/ITM/lx8266/iw/scripts/enableISCLite.sh false, \
+  /opt/IBM/TCR/tipv2Components/TCRComponent/bin/stopTCRserver.sh, \
+  /opt/IBM/TCR/tipv2Components/TCRComponent/bin/startTCRserver.sh, \
+  /opt/IBM/TCR/tipv2Components/TCRComponent/cognos/bin64/tcr_cogconfig.sh, \ 
+  /usr/local/Tivoli/custom/, \
+  /usr/epp/,\
+  /usr/gwp/,\
+  /bin/su - sysadmin, \
+  /bin/su - tivadmin, \
+  /bin/su - db2inst1, \
+  /bin/su - netcool, \
+  /bin/su - tivmqm, \
+  /opt/IBM/ITM/JRE/li*/bin/ , \
+  /opt/IBM/ITM/JRE/lx*/bin/ , \
+  /opt/IBM/ITM/JRE/aix*/bin/ 
+
+Cmnd_Alias IBM_TIVINFRA_OS_BAU_CMDS = \
+  sudoedit /etc/hosts,\
+  sudoedit /opt/IBM/ITM/*, \
+  sudoedit /opt/IBM/ITM/config/*, \
+  sudoedit /opt/IBM/ITM/config/.ConfigData/*, \
+  sudoedit /opt/IBM/ITM/logs/*, \
+  sudoedit /opt/IBM/ITM/smitools/config/*, \
+  sudoedit /opt/IBM/ITM/smitools/ini/*, \
+  sudoedit /opt/IBM/ITM/smitools/logs/*, \
+  sudoedit /opt/IBM/ITM/smitools/scripts/*, \
+  sudoedit /opt/IBM/ITM/smitools/security/*, \
+  sudoedit /opt/IBM/ITM/smitools/tmp/*, \
+  sudoedit /opt/IBM/ITM/tables/INSERT_TEMS_NAME/*, \
+  sudoedit /opt/IBM/ITM/tables/INSERT_TEMS_NAME/HTML/*, \
+  sudoedit /opt/IBM/ITM/tables/INSERT_TEMS_NAME/TECLIB/*, \
+  sudoedit /opt/IBM/WPA/*, \
+  sudoedit /opt/IBM/WPA/config/*, \
+  sudoedit /opt/IBM/WPA/config/.ConfigData/*, \
+  sudoedit /opt/IBM/WPA/logs/*, \
+  sudoedit /etc/Tivoli/tec/*, \
+  sudoedit /etc/Tivoli/tec/ets/*, \
+  sudoedit /etc/Tivoli/tec/facts/*, \
+  sudoedit /usr/local/Tivoli/custom/*, \
+  /bin/cp /etc/hosts /etc/hosts.backup.*,\
+  /bin/cp /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/cp /opt/IBM/tivrepos_depot/* /opt/IBM/tivrepos_depot/*,\
+  /bin/cp /opt/IBM/ITMscripts/* /opt/IBM/ITMscripts/*,\
+  /bin/cp /tivrepos_depot/* /tivrepos_depot/*,\
+  /bin/cp /var/spool/Tivoli/* /var/spool/Tivoli/*,\
+  /bin/cp /usr/local/Tivoli/* /usr/local/Tivoli/*,\
+  /bin/cp /tivoli/* /tivoli/*,\
+  /bin/cp /usr/epp/* /usr/epp/*,\
+  /bin/cp /usr/gwp/* /usr/gwp/*,\
+  /bin/cp /opt/IBM/TCR/* /opt/IBM/TCR/*, \
+  /bin/cp /opt/IBM/WPA/* /opt/IBM/WPA/*, \
+  /bin/cp -r /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/cp -r /opt/IBM/tivrepos_depot/* /opt/IBM/tivrepos_depot/*,\
+  /bin/cp -r /opt/IBM/ITMscripts/* /opt/IBM/ITMscripts/*,\
+  /bin/cp -r /tivrepos_depot/* /tivrepos_depot/*,\
+  /bin/cp -r /var/spool/Tivoli/* /var/spool/Tivoli/*,\
+  /bin/cp -r /usr/local/Tivoli/*/* /usr/local/Tivoli/*/*,\
+  /bin/cp -r /tivoli/* /tivoli/*,\
+  /bin/cp -r /usr/epp/* /usr/epp/*,\
+  /bin/cp -r /usr/gwp/* /usr/gwp/*,\
+  /bin/cp -r /opt/IBM/TCR/* /opt/IBM/TCR/*, \
+  /bin/cp -r /opt/IBM/WPA/* /opt/IBM/WPA/*, \
+  /bin/mv /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/mv /opt/IBM/tivrepos_depot/* /opt/IBM/tivrepos_depot/*,\
+  /bin/mv /opt/IBM/ITMscripts/* /opt/IBM/ITMscripts/*,\
+  /bin/mv /tivrepos_depot/* /tivrepos_depot/*,\
+  /bin/mv /var/spool/Tivoli/* /var/spool/Tivoli/*,\
+  /bin/mv /usr/local/Tivoli/* /usr/local/Tivoli/*,\
+  /bin/mv /tivoli/* /tivoli/*,\
+  /bin/mv /usr/epp/* /usr/epp/*,\
+  /bin/mv /usr/gwp/* /usr/gwp/*,\
+  /bin/mv /opt/IBM/TCR/* /opt/IBM/TCR/*, \
+  /bin/mv /opt/IBM/WPA/* /opt/IBM/WPA/*, \
+  !/bin/mv /opt/IBM/ITM/bin/*,\
+  /usr/bin/head /opt/IBM/ITM/*,\
+  /usr/bin/head /opt/IBM/tivrepos_depot/*,\
+  /usr/bin/head /opt/IBM/ITMscripts/*,\
+  /usr/bin/head /tivrepos_depot/*,\
+  /usr/bin/head /usr/local/Tivoli/*,\
+  /usr/bin/head /var/spool/Tivoli/*,\
+  /usr/bin/head /tivoli/*,\
+  /usr/bin/head /usr/epp/*,\
+  /usr/bin/head /usr/gwp/*,\
+  /usr/bin/head /opt/IBM/TCR/*, \
+  /usr/bin/head /opt/IBM/WPA/*, \
+  /bin/cat /opt/IBM/ITM/*,\
+  /bin/cat /opt/IBM/tivrepos_depot/*,\
+  /bin/cat /opt/IBM/ITMscripts/*,\
+  /bin/cat /tivrepos_depot/*,\
+  /bin/cat /usr/local/Tivoli/*,\
+  /bin/cat /var/spool/Tivoli/*,\
+  /bin/cat /tivoli/*,\
+  /bin/cat /usr/epp/*,\
+  /bin/cat /usr/gwp/*,\
+  /bin/cat /etc/Tivoli/*,\
+  /bin/cat /opt/IBM/TCR/*, \
+  /bin/cat /opt/IBM/WPA/*, \
+  /bin/ls,\
+  /bin/rm /opt/IBM/ITM/*,\
+  /bin/rm /opt/IBM/tivrepos_depot/*,\
+  /bin/rm /opt/IBM/ITMscripts/*,\
+  /bin/rm /tivrepos_depot/*,\
+  /bin/rm /usr/local/Tivoli/*,\
+  /bin/rm /var/spool/Tivoli/*,\
+  /bin/rm /tivoli/*,\
+  /bin/rm /usr/epp/*,\
+  /bin/rm /usr/gwp/*,\
+  /bin/rm /opt/IBM/TCR/*, \
+  /bin/rm /opt/IBM/WPA/*, \
+  !/bin/rm /opt/IBM/ITM/bin/*,\
+  /bin/rmdir /opt/IBM/ITM/*,\
+  /bin/rmdir /opt/IBM/tivrepos_depot/*,\
+  /bin/rmdir /opt/IBM/ITMscripts/*,\
+  /bin/rmdir /tivrepos_depot/*,\
+  /bin/rmdir /usr/local/Tivoli/*,\
+  /bin/rmdir /var/spool/Tivoli/*,\
+  /bin/rmdir /tivoli/*,\
+  /bin/rmdir /usr/epp/*,\
+  /bin/rmdir /usr/gwp/*,\
+  /bin/rmdir /opt/IBM/TCR/*, \
+  /bin/rmdir /opt/IBM/WPA/*, \
+  !/bin/rmdir /opt/IBM/ITM/bin/*,\
+  /usr/bin/tail /opt/IBM/ITM/*,\
+  /usr/bin/tail /opt/IBM/tivrepos_depot/*,\
+  /usr/bin/tail /opt/IBM/ITMscripts/*,\
+  /usr/bin/tail /tivrepos_depot/*,\
+  /usr/bin/tail /usr/local/Tivoli/*,\
+  /usr/bin/tail /var/spool/Tivoli/*,\
+  /usr/bin/tail /tivoli/*,\
+  /usr/bin/tail /usr/epp/*,\
+  /usr/bin/tail /usr/gwp/*,\
+  /usr/bin/tail /opt/IBM/TCR/*, \
+  /usr/bin/tail /opt/IBM/WPA/*, \
+  /usr/bin/tail -f /opt/IBM/ITM/*,\
+  /usr/bin/tail -f /opt/IBM/tivrepos_depot/*,\
+  /usr/bin/tail -f /opt/IBM/ITMscripts/*,\
+  /usr/bin/tail -f /tivrepos_depot/*,\
+  /usr/bin/tail -f /usr/local/Tivoli/*,\
+  /usr/bin/tail -f /var/spool/Tivoli/*,\
+  /usr/bin/tail -f /tivoli/*,\
+  /usr/bin/tail -f /usr/epp/*,\
+  /usr/bin/tail -f /usr/gwp/*,\
+  /usr/bin/tail -f /opt/IBM/TCR/*, \
+  /usr/bin/tail -f /opt/IBM/WPA/*, \
+  /bin/touch /opt/IBM/ITM/*,\
+  /bin/touch /opt/IBM/tivrepos_depot/*,\
+  /bin/touch /opt/IBM/ITMscripts/*,\
+  /bin/touch /tivrepos_depot/*,\
+  /bin/touch /usr/local/Tivoli/*,\
+  /bin/touch /var/spool/Tivoli/*,\
+  /bin/touch /tivoli/*,\
+  /bin/touch /opt/IBM/TCR/*, \
+  /bin/touch /opt/IBM/WPA/*, \
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/ITM*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/tivrepos_depot/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/ITMscripts/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /tivrepos_depot/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /usr/local/Tivoli/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /var/spool/Tivoli/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /usr/epp/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /usr/gwp/*,\
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/TCR/*, \
+  /bin/tar -c* /tivrepos_depot/*.tar /opt/IBM/WPA/*, \
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/ITM*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/tivrepos_depot/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/ITMscripts/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /tivrepos_depot/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /usr/local/Tivoli/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /var/spool/Tivoli/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /usr/epp/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /usr/gwp/*,\
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/TCR/*, \
+  /bin/tar -x* /tivrepos_depot/*.tar /opt/IBM/WPA/*, \
+  /bin/tar -x* /tmp/*.tar /tmp/*,\
+  /bin/kill, \
+  /bin/env "", \
+  /usr/bin/find, \		  		 
+  /usr/bin/who /etc/security/failedlogin,\
+  /usr/bin/diff /opt/IBM/ITM/*/* /opt/IBM/ITM/*/*,\
+  /usr/bin/diff /usr/epp/* /usr/epp/*,\
+  /usr/bin/diff /usr/gwp/* /usr/gwp/*,\
+  /usr/bin/diff /opt/IBM/TCR/* /opt/IBM/TCR/*, \
+  /usr/bin/diff /opt/IBM/WPA/* /opt/IBM/WPA/*, \
+  /bin/diff /opt/IBM/ITM/*/* /opt/IBM/ITM/*/*,\
+  /bin/diff /usr/epp/* /usr/epp/*,\
+  /bin/diff /usr/gwp/* /usr/gwp/*,\
+  /bin/diff /opt/IBM/TCR/* /opt/IBM/TCR/*, \
+  /bin/diff /opt/IBM/WPA/* /opt/IBM/WPA/*, \
+  /bin/chown root\:tivcore /usr/local/Tivoli/*,\
+  /bin/chown root\:tivcore /var/spool/Tivoli/*,\
+  /bin/chown root\:tivcore /opt/IBM/ITM/*,\
+  /bin/chown root\:tivcore /opt/IBM/TCR/*, \
+  /bin/chown root\:tivcore /opt/IBM/WPA/*, \
+  /bin/chown root\:tivcore /opt/IBM/tivrepos_depot/*,\
+  /bin/chown root\:tivcore /usr/epp/*,\
+  /bin/chown root\:tivcore /usr/gwp/*,\
+  /bin/chown root\:tivcore /opt/IBM/ITMscripts/*,\
+  /bin/chown root\:tivcore /opt/IBM/tivrepos_depot/*,\
+  /bin/chown -R root\:tivcore /usr/local/Tivoli/*,\
+  /bin/chown -R root\:tivcore /var/spool/Tivoli/*,\
+  /bin/chown -R root\:tivcore /opt/IBM/ITM/*,\
+  /bin/chown -R root\:tivcore /opt/IBM/tivrepos_depot/*,\
+  /bin/chown -R root\:tivcore /usr/epp/*,\
+  /bin/chown -R root\:tivcore /usr/gwp/*,\
+  /bin/chown -R root\:tivcore /opt/IBM/ITMscripts/*,\ 
+  /bin/chown -R root\:tivcore /tivrepos_depot/*,\
+  /bin/chown -R root\:tivcore /opt/IBM/TCR/*, \
+  /bin/chown -R root\:tivcore /opt/IBM/WPA/*, \
+  /bin/chmod [0-7][0-7][0145] /usr/local/Tivoli/*,\
+  /bin/chmod [0-7][0-7][0145] /var/spool/Tivoli/*,\
+  /bin/chmod [0-7][0-7][0145] /tmp/*,\
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/ITM/*,\
+  /bin/chmod [0-7][0-7][0145] /usr/epp/*,\
+  /bin/chmod [0-7][0-7][0145] /usr/gwp/*,\
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/TCR/*, \
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/WPA/*, \
+  /bin/chmod [0-7][0-7][0145] /opt/IBM/tivrepos_depot/*,\
+  /bin/chmod [0-7][0-7][0145] /tivrepos_depot/*,\
+  /bin/ln -s /usr/local/Tivoli/* *,\
+  /bin/ln -s /var/spool/Tivoli/* *,\
+  /bin/ln -s /opt/IBM/ITM/* /opt/IBM/ITM/*,\
+  /bin/ln -s /opt/IBM/tivrepos_depot/*  /opt/IBM/tivrepos_depot/*,\
+  /bin/ln -s /opt/IBM/ITMscripts/* /opt/IBM/ITMscripts/*,\
+  /bin/ln -s /tivrepos_depot/* *,\ 
+  !/bin/ln /opt/IBM/ITM/bin/*,\
+  /bin/mkdir /tmp/*,\
+  /bin/mkdir /usr/local/Tivoli/*,\
+  /bin/mkdir /var/spool/Tivoli/*,\
+  /bin/mkdir /opt/IBM/ITM/*,\
+  /bin/mkdir /opt/IBM/tivrepos_depot/*,\
+  /bin/mkdir /opt/IBM/ITMscripts/*,\
+  /bin/mkdir /tivrepos_depot/*,\
+  /bin/mkdir /usr/epp/*,\
+  /bin/mkdir /opt/IBM/TCR/*, \
+  /bin/mkdir /opt/IBM/WPA/*, \
+  /bin/mkdir /usr/gwp/*
+  
+IBM_TIVINFRA_BAU TIVINFRA_HOSTS=\
+	 IBM_TIVINFRA_BAU_CMDS,\
+	 IBM_TIVINFRA_OS_BAU_CMDS, \
+	 IBM_ALL_NEG
+
+# Begin Global Tivoli Monitoring Infrastructure standard template Ver 1.3.8 Date 2016-04-27 * Maintenance * Refer NA16134021 Begin #
+# Description
+# Software products and versions - if required ( ie may have 2 groups one support linux the other AIX for example)
+# Supported OS platforms - If required see above
+# local functional ID - If required - ie if different than the "master"
+# local path changes - If required - ie if different than the "master"
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups BAU only
+
+
+Cmnd_Alias IBM_TIVINFRA_ADM_CMDS =\
+   /bin/su - root
+		 
+IBM_TIVINFRA_ADM TIVINFRA_HOSTS= IBM_TIVINFRA_ADM_CMDS
+
+# End Global Tivoli Monitoring Infrastructure standard template Ver 1.3.8 Date 2016-04-27 * Maintenance * Refer NA16134021 End #
+
+# End  Global Tivoli Monitoring Infrastructure standard template Ver 1.3.8 Date 2016-04-27  * Master * Refer NA16134021 End #

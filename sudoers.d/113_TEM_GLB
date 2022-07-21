@@ -1,0 +1,357 @@
+# Begin  Global Tivoli Endpoint Manager standard template Ver 1.3.4  Date 2015-10-31 * Master *  Refer NA15329015 Begin #
+# Description
+# Software products and versions
+# Supported OS platforms
+# local functional ID
+# local path changes
+# local OS groups for the Master
+# self serve access permitted for all sub templates except "Special" for groups ABC, DEF #and MNO only
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+# V1.3.4 - avpatra1@in.ibm.com - minor update corection of syntax error, and changed Alias names and
+#     placeholders to standard
+#  -/bin/chown nobody.nobody /var/cache/ibmproxy,\ 
+#  -/bin/chown nobody.nobody /etc/ibmproxy,\
+#  -/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*,\
+#  +/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+#  -/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*,\
+#  +/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+#  -sudoedit /usr/local/conf/extra/*,\
+#  +sudoedit /usr/local/conf/extra/*.conf,\
+#  -sudoedit /etc/my.cnf,\
+#  -/bin/rm /repo/*,\
+#  -/bin/rm -f /repo/*,\
+#  -/bin/rm -rf /repo/*,\ 
+#  -sudoedit /etc/samba/topfolder.conf,\
+#  +sudoedit /etc/samba/accounts/topfolder.conf,\
+#  -sudoedit /etc/samba/accounts/*,\
+#  -sudoedit /etc/samba/accounts/*.conf,\
+#  -/bin/chown nobody.nobody /var/cache/ibmproxy,\ 
+#  -/bin/chown nobody.nobody /etc/ibmproxy,\
+#
+# Standardization update:
+#    Converted explicit negations to instead reference the 'standard'IBM 
+#    negations of:
+#       IBM_CAT_NEG,IBM_CHMOD_NEG,IBM_CHOWN_NEG,IBM_CP_NEG,IBM_LS_NEG,
+#       IBM_FIND_NEG,IBM_GZIP_NEG,IBM_MV_NEG,IBM_MKDIR_NEG,IBM_RM_NEG,IBM_TAIL_NEG  
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_TEM_BAU = %temsme,%iembau
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias      IBM_TEM_ADM = %temutil,%iemadm
+
+Host_Alias	TEM_HOSTS = ALL # in this case, we want this defined on all hosts, indicate subsets as appropriate.
+#
+#  To give access for a TEM Proxy Server:
+Host_Alias	TEM_PROXY = va10plptem001
+#
+#  To give access for a TEM RELAY:
+Host_Alias	TEM_RELAY = va10plptem001
+#
+#  To give access for a GTS Repo:
+Host_Alias	TEM_REPO = va10plptem001
+#
+#  To give access for a Fusion Librarian Box
+Host_Alias	TEM_FUSION = va10plptem001
+
+
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+
+
+################################################################################
+# The following is required to close potential hole allowing any capability to
+# certain commands to exec or traverse into parent directories
+################################################################################
+
+Cmnd_Alias IBM_TEM_NEG=  \
+	IBM_CAT_NEG,IBM_CHGRP_NEG,IBM_CHMOD_NEG,IBM_CHOWN_NEG,IBM_CP_NEG,IBM_LS_NEG,\
+    IBM_FIND_NEG,IBM_GZIP_NEG,IBM_MV_NEG,IBM_MKDIR_NEG, IBM_RM_NEG,IBM_TAIL_NEG,IBM_TOUCH_NEG
+
+##############################################################
+#  TEM Web Proxy Servers
+##############################################################
+Cmnd_Alias IBM_TEMWEB_BAU_CMDS= \
+	/sbin/service ibmproxy *,\
+	/sbin/service named *,\
+	sudoedit /etc/ibmproxy.conf,\
+	sudoedit /opt/ibm/edge/cp/etc/en_US/ibmproxy.conf,\
+	/bin/chmod [0-7][0145][0145] /var/cache/ibmproxy,\
+	/bin/chmod [0-7][0145][0145] /etc/ibmproxy,\
+	/bin/chown nobody.nobody /dev/raw/*,\
+	/bin/chmod [0-7][0145][0145] /dev/raw/*,\
+	/opt/ibm/edge/cp/sbin/cacheagt *,\
+	/opt/ibm/edge/cp/sbin/dpid2 *,\
+	/opt/ibm/edge/cp/sbin/htadm *,\
+	/opt/ibm/edge/cp/sbin/htcformat *,\  
+	/opt/ibm/edge/cp/sbin/ibmproxy *,\
+	/opt/ibm/edge/cp/sbin/pacadmin *,\  
+	/opt/ibm/edge/cp/sbin/pacd *,\  
+	/opt/ibm/edge/cp/sbin/pacd_restart.sh,\
+	/usr/sbin/rndc *,\
+	/usr/sbin/rndc-confgen,\
+	/usr/bin/tail -f /var/log/messages,\
+	/bin/cat /opt/ibm/edge/cp/server_root/logs/*,\
+	/usr/bin/tail -f /opt/ibm/edge/cp/server_root/logs/*,\
+	sudoedit /etc/named.conf,\
+	/bin/cat /var/log/cron,\
+	/usr/bin/tail -f /var/log/cron,\
+	sudoedit /etc/cron.d/tem*,\ 
+	/sbin/service crond restart,\
+	/sbin/ethtool *,\
+	/bin/cat /var/log/messages,\
+	/bin/cat /var/log/dmesg,\
+	/bin/cat /var/log/yum.log, \
+	/bin/raw *,\
+	/sbin/start_udev,\
+	sudoedit /etc/udev/rules.d/60-raw.rules,\
+	sudoedit /etc/sysconfig/rawdevices,\
+	/sbin/chkconfig rawdevices *,\
+	/sbin/service rawdevices *,\
+	/sbin/service besclient *,\
+	/sbin/service besrelay *,\
+	sudoedit /var/opt/BESClient/besclient.config,\
+	sudoedit /var/opt/BESClient/ITD_REGISTRATION_ID.txt,\
+	sudoedit /etc/opt/BESClient/actionsite.afxm,\
+	/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+	/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*.log
+
+IBM_TEM_BAU TEM_PROXY=NOPASSWD:IBM_TEMWEB_BAU_CMDS,IBM_TEM_NEG
+
+##############################################################
+#  TEM Top Level Relay Servers
+##############################################################
+Cmnd_Alias IBM_TEMRELAY_BAU_CMDS=\
+	/bin/mkdir /var/opt/BESClient,\
+	/bin/cp /tmp/temsme/* /var/opt/BESClient/*,\
+	/bin/cp /tmp/temsme/* /etc/opt/BESClient/*,\
+	/bin/cp /var/opt/BESRelay/besrelay.config /var/opt/BESRelay/*,\
+	/bin/cp /var/opt/BESClient/besclient.config /var/opt/BESClient/*,\
+	/bin/chmod [0-7][0145][0145] /var/opt/BESClient,\
+	/bin/chmod [0-7][0145][0145] /var/opt/BESClient/*,\
+	/bin/chmod [0-7][0145][0145] /etc/opt/BESClient,\
+	/bin/chmod [0-7][0145][0145] /etc/opt/BESClient/*,\
+	/etc/init.d/besclient *,\
+	/etc/init.d/besrelay *,\
+	/usr/bin/killall -[19] BESRelay,\
+	/usr/bin/killall -[19] BESClient,\
+	/usr/bin/tail -f /var/log/messages,\
+	sudoedit /var/opt/BESRelay/besrelay.config,\
+	sudoedit /var/opt/BESRelay/Encryption\ Keys/*,\
+	/bin/ls -la /var/opt/BESRelay/*,\
+	/bin/ls -la /var/opt/BESClient/*,\
+	/bin/cat /var/opt/BESRelay/*,\
+	/bin/cat /var/opt/BESClient/*,\
+	/usr/bin/tail -f /var/opt/BESRelay/*,\
+	/usr/bin/tail -f /var/opt/BESClient/*,\
+	/sbin/service crond restart,\
+	/bin/cat /var/log/cron,\
+	/usr/bin/tail -f /var/log/cron,\
+	/sbin/ethtool *,\
+	/bin/cat /var/log/messages,\
+	/bin/cat /var/log/dmesg,\
+	/bin/cat /var/log/yum.log,\
+	/sbin/service besclient *,\
+	/sbin/service besrelay *,\
+	sudoedit /var/opt/BESClient/besclient.config,\
+	sudoedit /var/opt/BESClient/ITD_REGISTRATION_ID.txt,\
+	sudoedit /etc/opt/BESClient/actionsite.afxm,\
+	/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+	/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*.log, \
+	/bin/cat /var/log/BESRelay.log
+
+IBM_TEM_BAU       TEM_RELAY=NOPASSWD:IBM_TEMRELAY_BAU_CMDS,IBM_TEM_NEG
+
+##############################################################
+#  TEM GTS REPO Servers
+##############################################################
+Cmnd_Alias IBM_TEMREPO_BAU_CMDS= \
+	/sbin/service smb *,\
+	/sbin/service winbind *,\
+	/sbin/service nmb *,\
+	/sbin/service ntpd *,\
+	/sbin/service crond *,\
+	/sbin/chkconfig --level [0-6] smb on,\
+	/sbin/chkconfig --level [0-6] smb off,\
+	/sbin/chkconfig --level [0-6] winbind on,\
+	/sbin/chkconfig --level [0-6] winbind off,\
+	/sbin/chkconfig --level [0-6] ntpd on,\
+	/sbin/chkconfig --level [0-6] ntpd off,\
+	/sbin/chkconfig --level [0-6] nmb on,\
+	/sbin/chkconfig --level [0-6] nmb off,\
+	sudoedit /etc/ntp.conf,\
+	sudoedit /etc/samba/smb.conf,\
+	sudoedit /etc/samba/accounts/topfolder.conf,\
+	sudoedit /etc/samba/accounts/*.conf,\
+	sudoedit /etc/krb5.conf,\
+	sudoedit /etc/resolv.conf,\
+	sudoedit /etc/nsswitch.conf,\
+	/bin/cat /etc/ntp.conf,\
+	/bin/cat /etc/samba/smb.conf,\
+	/bin/cat /etc/samba/topfolder.conf,\
+	/bin/cat /etc/samba/accounts/*,\
+	/bin/cat /etc/krb5.conf,\
+	/bin/cat /etc/resolv.conf,\
+	/bin/cat /etc/nsswitch.conf,\
+	/bin/su - temtusr -s /bin/bash,\
+	/bin/cp /repo/* /repo/local/temsme/*,\
+	/bin/cp /repo/local/temsme/* /repo/*,\
+	/bin/cp /repo/local/temsme/* /etc/samba/accounts/*,\
+	/bin/cp -r /repo/* /repo/local/temsme/*,\
+	/bin/cp -r /repo/local/temsme/* /repo/*,\
+	/bin/cp -r /repo/local/temsme/* /etc/samba/accounts/*,\    
+	/bin/chmod [0-7][0145][0145] /repo/*,\
+	/bin/chmod -R [0-7][0145][0145] /repo/*,\
+	/bin/chown /Your_Domain_Name/* /repo/*,\ 
+	/bin/chown -R /Your_Domain_Name/* /repo/*,\
+	/bin/mkdir /repo/*,\
+	/bin/cat /repo/*,\
+	/bin/ls -la /repo/*,\ 
+	/usr/bin/du --si /repo/*,\ 
+	/usr/bin/stat /repo/*,\ 
+	/usr/bin/getfacl /repo/*,\
+	/usr/bin/getfacl -R /repo/*,\
+	/usr/bin/setfacl -m g/Your_Domain_Name/* /repo/*,\ 
+	/usr/bin/setfacl -m u/Your_Domain_Name/* /repo/*,\
+	/usr/bin/setfacl -d g/Your_Domain_Name/* -m g/Your_Domain_Name/* /repo/*,\ 
+	/usr/bin/setfacl -d u/Your_Domain_Name/* -m u/Your_Domain_Name/* /repo/*,\
+	/repo/local/sbin/setperms.sh *,\
+	/repo/local/sbin/createAccount.sh *,\
+	/repo/local/sbin/deleteAccount.sh *,\
+	/repo/local/sbin/createRelay.sh *,\
+	/repo/local/sbin/deleteRelay.sh *,\
+	/bin/ls -la /var/log/samba/,\
+	/bin/cat /var/log/samba/*,\
+	/usr/bin/tail -f /var/log/samba/*,\
+	/bin/cat /var/log/messages,\
+	/usr/bin/tail -f /var/log/messages,\
+	/usr/sbin/ntpdate *,\
+	/sbin/ethtool *,\
+	/bin/cat /var/log/messages,\
+	/bin/cat /var/log/dmesg,\
+	/bin/cat /var/log/yum.log,\
+	/sbin/service besclient *,\
+	/sbin/service besrelay *,\
+	sudoedit /var/opt/BESClient/besclient.config,\
+	sudoedit /var/opt/BESClient/ITD_REGISTRATION_ID.txt,\
+	sudoedit /etc/opt/BESClient/actionsite.afxm,\
+	/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+	/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*.log, \
+	/bin/su - ecmadmin -s /bin/bash,\
+	/bin/su - temtusr -s /bin/bash,\
+	/bin/su - tem2urt -s /bin/bash,\
+	/bin/su - tem2srm -s /bin/bash,\
+	/bin/su - etlsmart -s /bin/bash,\
+	/bin/su - etlbpm -s /bin/bash,\
+	/usr/bin/chage -l ecmadmin,\
+    /usr/bin/faillog -u ecmadmin,\
+	/usr/bin/faillog -r -u ecmadmin,\
+	/usr/bin/chage -l temtusr,\
+	/usr/bin/chage -u temtusr -d *,\
+    /usr/bin/faillog -u temtusr,\
+	/usr/bin/faillog -r -u temtusr,\
+	/usr/bin/chage -l tem2urt, \
+    /usr/bin/chage -u tem2urt -d *, \
+	/usr/bin/faillog -u tem2urt,\
+	/usr/bin/faillog -r -u tem2urt,\
+	/usr/bin/chage -l tem2srm,\
+    /usr/bin/chage -u tem2srm -d *,\
+	/usr/bin/faillog -u tem2srm,\
+	/usr/bin/faillog -r -u tem2srm,\
+	/usr/bin/chage -l etlsmart,\
+    /usr/bin/chage -u etlsmart -d *,\
+	/usr/bin/faillog -u etlsmart,\
+	/usr/bin/faillog -r -u etlsmart, \
+	/usr/bin/chage -l etlbpm,\
+    /usr/bin/chage -u etlbpm -d *,\
+	/usr/bin/faillog -u etlbpm,\
+	/usr/bin/faillog -r -u etlbpm
+	
+
+IBM_TEM_BAU       TEM_REPO=NOPASSWD:IBM_TEMREPO_BAU_CMDS,IBM_TEM_NEG
+
+##############################################################
+#  TEM Librarian
+##############################################################
+Cmnd_Alias IBM_TEMLIB_BAU_CMDS= \
+	/bin/su - mysql -s /bin/bash,\
+	/bin/su - mysql -s /bin/bash *,\
+	/usr/local/bin/apachectl *,\
+	/sbin/service apache *,\
+	/sbin/service mysql *,\
+	/sbin/service vsftpd *,\
+	sudoedit /usr/local/conf/httpd.conf,\
+	sudoedit /usr/local/conf/extra/*.conf,\
+	sudoedit /usr/local/lib/php.ini,\
+	sudoedit /etc/vsftpd/vstpd.conf,\
+	sudoedit /etc/vsftpd.ftpusers,\
+	sudoedit /etc/vsftpd.user_list,\
+	/usr/bin/chage -l mysql,\
+	/usr/bin/faillog -u mysql,\
+	/usr/bin/mysql *,\
+	/bin/chown apache.apache /vsa/*,\
+	/bin/chown mysql.mysql /vsa/*,\
+	/bin/chmod [0-7][0145][0145] /vsa/*,\
+	/bin/chmod -R [0-7][0145][0145] /vsa/*,\
+	/bin/mkdir /vsa/*,\
+	/bin/chown apache.apache /www/*,\ 
+	/bin/chmod [0-7][0145][0145] /www/*,\
+	/bin/chmod -R [0-7][0145][0145] /www/*,\
+	/bin/mkdir /www/*,\
+	/bin/chown mysql /var/lib/mysql/*,\  
+	/bin/chgrp mysql /var/lib/mysql/*,\
+	/bin/chmod [0-7][0145][0145] /var/lib/mysql/*,\
+	/bin/chmod [2][0-7][0145][0145] /var/lib/mysql/*,\
+	/bin/cat /var/log/messages,\
+	/usr/bin/tail -f /var/log/messages,\
+	/bin/cat /var/log/httpd/*,\
+	/usr/bin/tail -f /var/log/httpd/*,\
+	/sbin/service crond restart,\
+	/bin/cat /var/log/cron,\
+	/usr/bin/tail -f /var/log/cron,\
+	/sbin/ethtool *,\
+	/bin/cat /var/log/messages,\
+	/bin/cat /var/log/dmesg,\
+	/bin/cat /var/log/yum.log,\
+	/sbin/service besclient *,\
+	/sbin/service besrelay *,\
+	sudoedit /var/opt/BESClient/besclient.config,\
+	sudoedit /var/opt/BESClient/ITD_REGISTRATION_ID.txt,\
+	sudoedit /etc/opt/BESClient/actionsite.afxm,\
+	/bin/cat /var/opt/BESClient/__BESData/__Global/Logs/*.log,\
+	/usr/bin/tail -f /var/opt/BESClient/__BESData/__Global/Logs/*.log
+
+IBM_TEM_BAU       TEM_FUSION=NOPASSWD:IBM_TEMLIB_BAU_CMDS,IBM_TEM_NEG
+
+
+# Begin  Global Tivoli Endpoint Manager standard template Ver 1.3.4  Date 2015-10-31  * Maintenance * Refer NA15329015 Begin #
+# Description
+# Software products and versions - if required ( ie may have 2 groups one support linux the other AIX for example)
+# Supported OS platforms - If required see above
+# local functional ID - If required - ie if different than the "master"
+# local path changes - If required - ie if different than the "master"
+# local OS groups for * Maintenance *  template
+# self serve access permitted for groups BAU only
+
+
+Cmnd_Alias IBM_TEM_ADM_CMDS  =\
+   /usr/bin/su - root,\
+   /bin/su - root
+		 
+IBM_TEM_ADM  TEM_HOSTS = NOPASSWD:IBM_TEM_ADM_CMDS
+
+# End  Global Tivoli Endpoint Manager standard template Ver 1.3.4  Date 2015-10-31  * Maintenance * Refer NA15329015 End #
+
+# End  Global Tivoli Endpoint Manager standard template Ver 1.3.4  Date 2015-10-31  * Master * Refer NA15329015 End #
+

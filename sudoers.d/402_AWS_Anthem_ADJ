@@ -1,0 +1,69 @@
+# Begin  Anthem AWS_ADJ Template Date 2015-11-03 * Master * Refer NA15307013 Begin #
+# Description IBM HTTP Server / Apache Web Server
+# Software products and versions V5.0 / V5.1 / V6.0 / V 7.x/ V 8.x
+# Supported OS platforms AIX, Linux
+# local functional ID wsadmin
+# Standard product Install path  = /usr/HTTPServer/
+# NOPASSWD is required for a shared ID, the team does not have access to the Shared ID's password
+
+
+Cmnd_Alias  IBM_HTTP_CMDS_ADJ = /usr/HTTPServer*/bin/apachectl*, \
+/usr/IBMIHS*/bin/apachectl*, \
+/usr/WebSphere*/HTTPServer*/bin/apachectl*, \
+/usr/WebSphere*/HTTPServer*/instances/*/bin/apachectl*, \
+/usr/HTTPServer/*/bin/apachectl*, \
+/usr/HTTPServer*/instances/*/bin/apachectl*, \
+/usr/HTTPServer*/websites/*/bin/apachectl*, \
+/usr/HTTPServer/bin/apachectl, \
+/usr/WebSphere/HTTPServer/bin/apachectl, \
+/bin/kill, \
+/usr/WebSphere70/HTTPServer/bin/apachectl*, \
+/local_home/wsadmin/ws_chown.sh
+
+Cmnd_Alias      IBM_HTTP_CMDS_EMPIRE_ADJ  =  \
+ /usr/IBMIHS/*/bin/apachectl*, \
+ /usr/IBMHTTPServer*/bin/apachectl*, \
+ /usr/federation/IBMIHS/V*/bin/apachectl*, \
+ /usr/federation/Apache*/bin/apachectl*, \
+ /opt/IBM/HTTPServer/bin/apachectl*, \
+ /usr/bin/kill, \
+ /usr/HTTPServer70/bin/adminctl, \
+ /usr/HTTPServer70/instances/fct_perf/bin/apachectl, \
+ /usr/HTTPServer70/instances/fct_perf/bin/adminctl, \
+ /usr/HTTPServer70/instances/fct_uat/bin/apachectl, \
+ /usr/HTTPServer70/instances/fct_uat/bin/adminctl, \
+ /opt/IBM/HTTPServer/instances/*/bin/apachectl*
+
+# IBM IHS SU Commands
+Cmnd_Alias      IBM_AWSADMIN_CMDS_SU_ADJ = \
+/bin/su - [a-z][a-z][a-z]usr1, \
+/bin/su - [a-z][a-z][a-z][a-z]usr1, \
+/bin/su - [a-z][a-z][a-z][1-9]usr1, \
+/bin/su - wsadmin
+
+
+Cmnd_Alias      IBM_AWSUTILSUNULL = \
+ /bin/su "", /sbin/su "", /usr/bin/su "", /usr/sbin/su "", \
+ /usr/local/bin/su "", /usr/local/sbin/su "", /bin/su -, /sbin/su -, /usr/bin/su -, \
+ /usr/sbin/su -, /usr/local/bin/su -, /usr/local/sbin/su -
+
+Cmnd_Alias      IBM_AWSUTILSH = \
+ /bin/bsh, /bin/csh, /bin/ksh, /bin/psh, \
+ /bin/tsh, /sbin/sh, /usr/bin/bash, /usr/bin/bsh, /usr/bin/csh, /usr/bin/keysh, \
+ /usr/bin/ksh, /usr/bin/psh, /usr/bin/rksh, /usr/bin/rsh, /usr/bin/sh, /usr/bin/tsh
+
+Cmnd_Alias      IBM_AWSUTILSUROOT = \
+ /bin/su root, /bin/su root, \
+ /sbin/su root, /usr/bin/su root, /usr/sbin/su root, \
+ /usr/local/bin/su root, /usr/local/sbin/su root, /bin/su - root, \
+ /sbin/su - root, /usr/bin/su - root, /usr/sbin/su - root, \
+ /usr/local/bin/su - root, /usr/local/sbin/su - root
+
+Cmnd_Alias    IBM_AWSUTILSU_NONBLANK =  /usr/bin/su - [A-Za-z]*, /bin/su - [A-Za-z]*
+
+
+IBM_AWS_BAU              ALL =  EXEC:NOPASSWD:IBM_HTTP_CMDS_ADJ, IBM_HTTP_CMDS_EMPIRE_ADJ, IBM_AWSADMIN_CMDS_SU_ADJ, !IBM_SHELLS_ALL
+IBM_AWS_ADM              ALL = (ALL) NOPASSWD: !IBM_AWSUTILSUNULL, !IBM_AWSUTILSH, !IBM_AWSUTILSUROOT, !IBM_AWSUTILSU_NONBLANK, !IBM_SHELLS_ALL, IBM_AWSADMIN_CMDS_SU_ADJ
+
+
+# End  Anthem  AWS_ADJ Template, Date 2015-11-03 * Master * Refer NA15307013  End # please reachout to lead Archana Arekapudi(archana@us.ibm.com)#

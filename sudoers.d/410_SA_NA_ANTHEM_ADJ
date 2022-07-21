@@ -1,0 +1,60 @@
+# Begin  Anthem SA standard template Ver 2.0 Date 2016-01-14 * Master * Refer NA15223031-approved- Begin #
+# Description :  Additional account specific SA commands for the ANTHEM account
+# Software products and versions :
+# Supported OS platforms : 
+#
+# Version control
+# V3.0 - As requested by Anthem, user management command resstrictions added to SA_ADM commands
+# V2.0 - recommended by Sudo team.
+# V1.0 - toddk@us.ibm.com 897 - <:put your shortname and  correct country code
+#        IBM_UNIX_SID_BAU user is to keep current script automation intact with NOPASSWD option. 
+#	 IBM_UNIX_SA_ADM  user is only during authorized changes, MIDRANGE TECH SUPPORT team controls who is in ibmutil group
+#	 		  and NOPASSWD option is used since some commands and scripts may break during a installtion process..
+# 
+# <:NA notes- rename this file to your application name, ensure you keep it a
+#      'pure' unix text file, otherwise it may not work right when #included.
+#      Recommend use of VIM to edit:  https://ibm.biz/NAsudoVim
+#      Reminder when replacing 'yourAppName' below, use all CAPS, that is 
+#      syntatically required by sudo. >
+#
+#=====================================================================================
+#
+# Note:  It is -critical- that when you 'customize' 
+User_Alias    IBM_UNIX_SID_BAU = mrcoop,satuser
+User_Alias    IBM_UNIX_SA_ADM = %ibmutil
+#    SA_HOSTS
+# below the names MUST match the user_alias and host_alias that aligns
+# with the NA or GLB template you are adjusting.  It is equally important
+# that the Cmnd_Alias name -not- match exactly with the template you are
+# adjusting, the Cmnd_Alias name needs to be unique Vs any other
+# Cmd_Alias being used.
+# 
+# <:Note- person developing this template ignores this line, this is
+#   instruction for the 'sudo implementation team... and the _ADJ
+#   owner can ajust this instruction to include any other directions
+#   to the sudo implementation team>
+# -----Do not change anything below this line, excepting to replace ----------
+# -----         <:path *> content with local pathing.       ------------------
+#
+
+# Assigned To group from NA or GLB template
+IBM_UNIX_SID_BAU  ALL = (ALL) NOPASSWD: ALL,!IBM_NONE_SA, !IBM_SHELLS_ALL, /usr/bin/su -			
+
+
+# Begin Anthem SA 2.0  Date 2016-01-14  * Maintenance * Refer NA15223031-approved- Begin #
+# <:NA notes- If you do not need a 'Maintenance' type entry, you can simply 
+#      delete from the "Begin ... * Maintenance" line to the 
+#      "End ... * Maintenance" line. >
+
+# Available only during scheduled change/installation windows.
+
+Cmnd_Alias	IBMUTILSU = /bin/su, /sbin/su, /usr/bin/su, /usr/sbin/su, /usr/local/bin/su, /usr/local/sbin/su
+Cmnd_Alias	IBMUTILSH = /bin/bsh, /bin/csh, /bin/ksh, /bin/psh, /bin/tsh, /sbin/sh, /bin/sh, /usr/bin/bash, /usr/bin/bsh, /usr/bin/csh, /usr/bin/keysh, /usr/bin/ksh, /usr/bin/psh, /usr/bin/rksh, /usr/bin/rsh, /usr/bin/sh, /usr/bin/tsh, /bin/bash, /usr/bin/script
+Cmnd_Alias	IBMUTILUM = /sbin/usermod, /usr/sbin/usermod, /sbin/userdel, /usr/sbin/userdel, /sbin/useradd, /usr/sbin/useradd, /sbin/groupadd, /usr/sbin/groupadd, /sbin/groupdel, /usr/sbin/groupdel, /sbin/groupmod, /usr/sbin/groupmod, /bin/mkuser, /usr/bin/mkuser, /bin/mkgroup, /usr/bin/mkgroup, /bin/rmuser, /usr/bin/rmuser, /bin/rmgroup, /usr/bin/rmgroup, /bin/gpasswd, /usr/bin/gpasswd
+ 
+IBM_UNIX_SA_ADM  ALL = (ALL) NOPASSWD: ALL,!IBMUTILSU,!IBMUTILSH,!IBMUTILUM
+
+
+# End Anthem SA Ver 2.0  Date 2016-01-14 * Maintenance * Refer NA15223031-approved- End #
+
+# End  Anthem SA standard template Ver 2.0 Date 2016-01-14 * Master * Refer NA15223031-approved- End #

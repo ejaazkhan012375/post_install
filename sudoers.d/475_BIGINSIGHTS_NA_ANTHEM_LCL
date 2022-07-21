@@ -1,0 +1,120 @@
+# Begin  Anthem BIGINSIGHTS standard template Ver 1.0 Date 2017-07-24  * Master * Refer NA17205011 Begin #
+# Description BIGINSIGHTS
+# Software products and versions
+# Supported OS platforms - Linux
+# local functional ID
+#
+# Version control
+# V1.0 - venkyram@us.ibm.com / 897 - Initial Version
+#          plus any comments you want included into the sudoers file.
+#
+# 
+# <:NA notes- Rename this file to your application name, ensure you keep it a
+#      'pure' unix text file, otherwise it may not work right when #included.
+#      Recommend use of VIM to edit:  https://ibm.biz/NAsudoVim
+#      Reminder when replacing 'BIGINSIGHTS' below, use all CAPS, that is 
+#      syntatically required by sudo. >
+#
+#=====================================================================================
+#
+# Replace sample group names with real group names for your account
+# 
+User_Alias      IBM_BIGINSIGHTS_BAU = %ibmbibau
+
+User_Alias      IBM_BIGINSIGHTS_ADM = %ibmbiadm # Use only if you have a 'type B'
+                    # sudo entry, otherwise delete.  If used, it MUST be a 
+                    # different group then used for the IBM_*_BAU entry, and 
+                    # will normally be empty.  ID Admin will populate this
+                    # group during change windows/problem event, then empty
+                    # the group when the event is complete.
+
+
+# List the systems this template will be active on.
+
+Host_Alias	BIGINSIGHTS_HOSTS = sl01dlvbiu001,\
+	sl01dlvbiu002,\
+	sl01dlvbim001,\
+	sl01dlvbim002,\
+	sl01dlvbim003,\
+	sl01dlvbim004,\
+	sl01dlvbic001,\
+	sl01dlvbic002,\
+	sl01dlvbic003,\
+	sl01dlvbic004,\
+	sl01dlvbic005,\
+	sl01dlvbic006,\
+	sl01dlvbic007,\
+	sl01dlvbic008,\
+	sl01dlvbic009,\
+	sl01dlvbic010,\
+	sl01dlvbis001,\
+	sl01dlvbis002
+
+#
+# -----Do not change anything below this line, excepting to replace ----------
+# -----         <:path *> content with local pathing.       ------------------
+#
+# add as many lines as needed, make sure all lines but the last have a ', \'
+# continuation character, and make sure the last one DOES NOT.  Sudo does not
+# allow 'instream' comments within an alias.  Put any needed comments at the
+# end. 
+#
+Cmnd_Alias IBM_BIGINSIGHTS_BAU_CMDS = \
+	/usr/bin/ls, /bin/ls, \
+	/usr/bin/kill, /bin/kill, \
+	/usr/bin/du, /bin/du, \
+	/usr/bin/df, /bin/df, \
+	/usr/bin/fuser, /bin/fuser, \
+	/usr/bin/sar, /bin/sar, \
+	/usr/bin/crontab -l, /bin/crontab -l,\
+	/usr/bin/crontab -v, /bin/crontab -v, \
+	/usr/bin/su - apache,	/bin/su - apache, \
+	/usr/bin/su - ams,	/bin/su - ams, \
+	/usr/bin/su - postgres,	/bin/su - postgres, \
+	/usr/bin/su - hive,	/bin/su - hive, \
+	/usr/bin/su - oozie,	/bin/su - oozie, \
+	/usr/bin/su - ambari-qa,	/bin/su - ambari-qa, \
+	/usr/bin/su - flume,	/bin/su - flume, \
+	/usr/bin/su - hdfs,	/bin/su - hdfs, \
+	/usr/bin/su - solr,	/bin/su - solr, \
+	/usr/bin/su - knox,	/bin/su - knox, \
+	/usr/bin/su - spark,	/bin/su - spark, \
+	/usr/bin/su - mapred,	/bin/su - mapred, \
+	/usr/bin/su - hbase,	/bin/su - hbase, \
+	/usr/bin/su - zookeeper,	/bin/su - zookeeper, \
+	/usr/bin/su - sqoop,	/bin/su - sqoop, \
+	/usr/bin/su - yarn,	/bin/su - yarn, \
+	/usr/bin/su - hcat,	/bin/su - hcat, \
+	/usr/bin/su - rrdcached,	/bin/su - rrdcached, \
+	/usr/bin/su - mysql,	/bin/su - mysql, \
+	/usr/bin/su - hadoop,	/bin/su - hadoop, \
+	/usr/bin/su - kafka,	/bin/su - kafka, \
+	/usr/bin/su - titan,	/bin/su - titan, \
+	/usr/bin/su - bigsheets,	/bin/su - bigsheets, \
+	/usr/bin/su - tauser,	/bin/su - tauser, \
+	/usr/bin/su - bigsql,	/bin/su - bigsql, \
+	/usr/bin/su - uiuser,	/bin/su - uiuser, \
+	/usr/bin/su - bigr,	/bin/su - bigr, \
+	/usr/bin/su - dsmuser,	/bin/su - dsmuser
+
+
+# Assigned To group
+IBM_BIGINSIGHTS_BAU  BIGINSIGHTS_HOSTS = IBM_BIGINSIGHTS_BAU_CMDS			
+
+
+# Begin Anthem BIGINSIGHTS 1.0  Date 2017-07-24  * Maintenance * Refer NA17205011 Begin #
+# <:NA notes- If you do not need a 'Maintenance' type entry, you can simply 
+#      delete from the "Begin ... * Maintenance" line to the 
+#      "End ... * Maintenance" line. >
+
+# Available only during scheduled change/installation windows.
+
+Cmnd_Alias	IBM_BIGINSIGHTS_ADM_CMDS = \
+	/usr/bin/su - ,	/bin/su - 
+ 
+IBM_BIGINSIGHTS_ADM  BIGINSIGHTS_HOSTS = IBM_BIGINSIGHTS_ADM_CMDS
+
+
+# End Anthem BIGINSIGHTS Ver 1.0  Date 2017-07-24 * Maintenance * Refer NA17205011 End #
+
+# End  Anthem BIGINSIGHTS standard template Ver 1.0 Date 2017-07-24    * Master * Refer NA17205011 End #

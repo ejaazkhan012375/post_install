@@ -1,0 +1,299 @@
+# Begin Global Tivoli Workload Automation standard template - Ver 1.0.3 Date 2017-10-30 * Master * Refer xxxxxx Begin #
+#
+#Software products supported:  Tivoli Workload Automation Family, 
+#                              Tivoli Workload Scheduler (TWS) Versions 9.X / 8.X, 
+#                              Tivoli Dynamic Workload Console (TDWC) version 9.X / 8.X, 
+#                              Tivoli Dynamic Workload Broker 9.x / 8.x, 
+#                              Tivoli Workload Scheduler for Application (TWS4APPS) Versions 8.X,
+#                              Tivoli Integrated Portal, JazzSM	
+#
+# Supported OS platforms: AIX, HP-UX, Solaris SPARC, Solaris x64, Linux on x86, Linux on x86-64, Linux on System z, Linux on POWER
+#
+#
+# Justification: The Tivoli Workload Scheduler/Automation
+# support group requires these commands in order to support
+# the Tivoli Workload Automation and all the family products
+#
+# Version control
+#
+# See changelog on Global sudo wiki https://ibm.biz/ChlogMiddlewareTemplates for previous changes
+#
+# Updates in this version:
+#
+#----------------------------------------------------------------
+#
+# V1.0.3 - mya@br.ibm.com - minor update 
+#
+#+/<:INSERT_INST_DIR>/TWS/bin/,\
+#+/<:INSERT_EWAS_TWS_INST_DIR>/eWAS/java*/bin/,\
+#+/<:INSERT_EWAS_TWS_INST_DIR>/eWAS/java*/jre/bin/,\
+#+/<:INSERT_EWAS_TWS_INST_DIR>/WebSphere/AppServer/java*/bin/,\
+#+/<:INSERT_EWAS_TWS_INST_DIR>/WebSphere/AppServer/java*/jre/bin/,\
+#-sudoedit /<:INSERT_INST_DIR>/TWS/bin/*,\
+#                           
+#================================================================
+#
+# Replace sample group names with real group names for your account
+#
+User_Alias IBM_TWA_BAU = %iwsadm
+#
+# use a different group for maintenance windows, so all we need to do is add/remove folks from group:
+#
+User_Alias IBM_TWA_ADM = %iwsmain
+#
+#
+# Specify hosts commands apply to
+Host_Alias	TWA_SERVER = sl01dlvbis001, sl01dlvbis002, sl01dlvbiu001, sl01plvbiu001, sl01plvbiu002
+#
+# --------------Do not change anything below this line, excepting to replace <:path *> content with local pathing. ------------------
+#
+#  The following key words need to be replaced with local values:
+#     <:INSERT_LOCAL_REPOSITORY> ->  Local Code Repository (e.g. /tivrepos)
+#     <:INSERT_EWAS_TWS_INST_DIR> -> belongs to the WebSphere installation dir. Repeat this section 
+#     to every WebSphere instance you have installed on the environment. (e.g. /opt/ibm/TWA/)
+#     /<:INSERT_JazzSM_DIR>/ -> belongs to the JazzSM / DWC installation dir. 
+#     Repeat this section to every WebSphere instance you have installed on the environment.
+#     (.e.g. /opt/tws/IBM/)
+#
+#
+# Allows specific environmental variables to be 'added' for users in %twa_adm admin
+# This is necessary for Tivoli Workload Automation.
+# Users should run '. /<:INSERT_EWAS_TWS_INST_DIR>/twa_env.sh ' 
+# prior to running sudo commands.
+# <:INSERT_EWAS_TWS_INST_DIR> 
+#
+Defaults:IBM_TWA_BAU	env_keep+="BINDIR \
+LIBDIR \
+PATH \
+LIBPATH \
+XUSERFILESEARCHPATH \
+DISPLAY \
+XNLSPATH \
+NLSPATH"
+#
+#  The following Applications are covered in this list:
+#	Tivoli Workload Automation
+#	Tivoli Workload Scheduler
+#	Tivoli Workload Dynamic Console
+#	Tivoli Workload Dynamic Broker
+#	Tivoli Workload Scheduler for Applications
+#	Tivoli Workload Scheduler for zOS/connector
+#	Tivoli Integrated Portal
+#
+Cmnd_Alias IBM_TWA_BAU_CMDS = \
+   /bin/su - srciws
+#
+IBM_TWA_BAU TWA_SERVER = NOPASSWD: IBM_TWA_BAU_CMDS
+#
+#
+Cmnd_Alias IBM_TWA_INFRA_CMDS = \
+/opt/IBM/TWA/wastools/,\
+/opt/IBM/wastools/,\
+/opt/IBM/TWA/TWS/bin/,\
+/usr/bin/kill, \
+/bin/kill, \
+/usr/bin/env "", \
+/bin/env "", \
+/bin/ls,\
+/bin/gencore,\
+/usr/bin/gencore,\
+/usr/sbin/lsof,\
+/usr/sbin/iptrace,\
+/usr/sbin/slibclean,\
+/usr/sbin/tcpdump, \
+/usr/bin/lsof,\
+/usr/bin/iptrace,\
+/usr/bin/slibclean,\
+/usr/bin/tcpdump
+
+Cmnd_Alias IBM_EWAS_CMDS = \
+/opt/IBM/TWA/InstallationManager/eclipse/,\
+/opt/IBM/TWA/eWAS/bin/,\
+/opt/IBM/TWA/eWAS/java/bin/,\
+/opt/IBM/TWA/eWAS/java/jre/bin/,\
+/opt/IBM/TWA/eWAS/java*/bin/,\
+/opt/IBM/TWA/eWAS/java*/jre/bin/,\
+/opt/IBM/TWA/WebSphere/AppServer/bin/,\
+/opt/IBM/TWA/WebSphere/AppServer/java/bin/,\
+/opt/IBM/TWA/WebSphere/AppServer/java/jre/bin/,\
+/opt/IBM/TWA/WebSphere/AppServer/java*/bin/,\
+/opt/IBM/TWA/WebSphere/AppServer/java*/jre/bin/,\
+sudoedit /opt/IBM/TWA/eWAS/profiles/TIPProfile/config/cells/TIPCell/nodes/TIPNode/servers/server1/*,\
+sudoedit /opt/IBM/TWA/eWAS/profiles/TIPProfile/config/cells/TIPCell/*,\
+sudoedit /opt/IBM/TWA/eWAS/profiles/TIPProfile/properties/*,\
+sudoedit /opt/IBM/TWA/eWAS/profiles/TIPProfile/registry/*,\
+sudoedit /opt/IBM/JazzSM/profile/*,\
+sudoedit /opt/IBM/JazzSM/profile/config/cells/JazzSMNode01Cell/*,\
+sudoedit /opt/IBM/JazzSM/profile/config/cells/JazzSMNode01Cell/nodes/JazzSMNode01/servers/server1/*,\
+sudoedit /opt/IBM/JazzSM/profile/logs/server1/*,\
+sudoedit /opt/IBM/JazzSM/profile/registry/*,\
+sudoedit /opt/IBM/TWA/WAS/TWSProfile*,\
+sudoedit /opt/IBM/TWA/WAS/TWSProfile/config/cells/TWSNodeCell/nodes/TWSNode/servers/server1/*,\
+sudoedit /opt/IBM/TWA/WAS/TWSProfile/config/cells/TWSNodeCell*,\
+/usr/bin/chmod [0-7][01456][0145] /opt/IBM/TWA/*,\
+/bin/chmod [0-7][01456][0145] /opt/IBM/TWA/*,\
+/usr/bin/touch /opt/IBM/TWA/TWS/bin/*,\
+/bin/touch /opt/IBM/TWA/TWS/bin/*,\
+/usr/bin/mkdir /opt/IBM/TWA/*,\
+/bin/mkdir /opt/IBM/TWA/*,\
+/usr/bin/cp /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/usr/bin/cp /opt/IBM/TWA/eWAS/profiles/* /opt/IBM/TWA/eWAS/profiles/*,\
+/usr/bin/cp /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/usr/bin/cp /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*,\
+/bin/cp /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/bin/cp /opt/IBM/TWA/eWAS/profiles/* /opt/IBM/TWA/eWAS/profiles/*,\
+/bin/cp /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/bin/cp /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*,\
+/usr/bin/cp -r /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/usr/bin/cp -r /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/usr/bin/cp -r /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/usr/bin/cp -r /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*,\
+/bin/cp -r /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/bin/cp -r /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/bin/cp -r /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/bin/cp -r /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*,\
+/usr/bin/mv /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/usr/bin/mv /opt/IBM/TWA/eWAS/profiles/* /opt/IBM/TWA/eWAS/profiles/*,\
+/usr/bin/mv /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/usr/bin/mv /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*,\
+/bin/mv /opt/IBM/TWA/TWS/bin/* /opt/IBM/TWA/TWS/bin/*,\
+/bin/mv /opt/IBM/TWA/eWAS/profiles/* /opt/IBM/TWA/eWAS/profiles/*,\
+/bin/mv /opt/IBM/JazzSM/profile/* /opt/IBM/JazzSM/profile/*,\
+/bin/mv /opt/IBM/TWA/WAS/TWSProfile* /opt/IBM/TWA/WAS/TWSProfile*
+
+Cmnd_Alias IBM_TWA_OS_CMDS = \
+sudoedit /etc/hosts,\
+sudoedit /etc/Tivoli/*, \
+sudoedit /etc/TWA/*, \
+sudoedit /etc/TWS/*, \
+sudoedit /opt/Tivoli/*,\
+sudoedit /usr/Tivoli/TWS/*,\
+/usr/bin/chmod [0-7][01456][0145] /etc/Tivoli/*,\
+/usr/bin/chmod [0-7][01456][0145] /etc/TWA/*,\
+/usr/bin/chmod [0-7][01456][0145] /etc/TWS/*,\
+/bin/chmod [0-7][01456][0145] /etc/Tivoli/*,\
+/bin/chmod [0-7][01456][0145] /etc/TWA/*,\
+/bin/chmod [0-7][01456][0145] /etc/TWS/*,\
+/usr/bin/crontab -l, \
+/usr/sbin/mount, \
+/usr/sbin/mount -f, \
+/usr/sbin/umount, \
+   !/usr/sbin/mount /,\
+   !/usr/sbin/mount /usr*,\
+   !/usr/sbin/mount /home*,\
+   !/usr/sbin/mount /var*,\
+   !/usr/sbin/mount /tmp*,\
+   !/usr/sbin/mount /proc*,\
+   !/usr/sbin/mount /syslocal*, \
+   !/usr/sbin/umount /,\
+   !/usr/sbin/umount /usr*,\
+   !/usr/sbin/umount /home*,\
+   !/usr/sbin/umount /var*,\
+   !/usr/sbin/umount /tmp*,\
+   !/usr/sbin/umount /proc*,\
+   !/usr/sbin/umount /syslocal*, \
+/usr/bin/cat /etc/Tivoli/*,\
+/usr/bin/cat /etc/TWA/*,\
+/usr/bin/cat /etc/TWS/*,\
+/usr/bin/cat /usr/Tivoli/*,\
+/usr/bin/cat /var/ibm/InstallationManager/*,\
+/bin/cat /var/ibm/InstallationManager/*,\
+/bin/cat /etc/Tivoli/*,\
+/bin/cat /etc/TWA/*,\
+/bin/cat /etc/TWS/*,\
+/bin/cat /usr/Tivoli/*,\
+/usr/bin/touch /etc/Tivoli/*, \
+/usr/bin/touch /etc/TWA/*, \
+/usr/bin/touch /etc/TWS/*, \
+/usr/bin/touch /opt/Tivoli/*,\
+/usr/bin/touch /usr/Tivoli/TWS/*,\
+/bin/touch /etc/Tivoli/*, \
+/bin/touch /etc/TWA/*, \
+/bin/touch /etc/TWS/*, \
+/bin/touch /opt/Tivoli/*,\
+/bin/touch /usr/Tivoli/TWS/*,\
+/usr/bin/cp /etc/Tivoli/* /etc/Tivoli/*,\
+/usr/bin/cp /etc/TWA/* /etc/TWA/*,\
+/usr/bin/cp /etc/TWS/* /etc/TWS/*,\
+/usr/bin/cp /opt/Tivoli/* /opt/Tivoli/*,\
+/usr/bin/cp /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/usr/bin/cp -r /etc/Tivoli/* /etc/Tivoli/*,\
+/usr/bin/cp -r /etc/TWA/* /etc/TWA/*,\
+/usr/bin/cp -r /etc/TWS/* /etc/TWS/*,\
+/usr/bin/cp -r /opt/Tivoli/* /opt/Tivoli/*,\
+/usr/bin/cp -r /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/bin/cp /etc/Tivoli/* /etc/Tivoli/*,\
+/bin/cp /etc/TWA/* /etc/TWA/*,\
+/bin/cp /etc/TWS/* /etc/TWS/*,\
+/bin/cp /opt/Tivoli/* /opt/Tivoli/*,\
+/bin/cp /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/bin/cp -r /etc/Tivoli/* /etc/Tivoli/*,\
+/bin/cp -r /etc/TWA/* /etc/TWA/*,\
+/bin/cp -r /etc/TWS/* /etc/TWS/*,\
+/bin/cp -r /opt/Tivoli/* /opt/Tivoli/*,\
+/bin/cp -r /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/usr/bin/mv /etc/Tivoli/* /etc/Tivoli/*,\
+/usr/bin/mv /etc/TWA/* /etc/TWA/*,\
+/usr/bin/mv /etc/TWS/* /etc/TWS/*,\
+/usr/bin/mv /opt/Tivoli/* /opt/Tivoli/*,\
+/usr/bin/mv /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/bin/mv /etc/Tivoli/* /etc/Tivoli/*,\
+/bin/mv /etc/TWA/* /etc/TWA/*,\
+/bin/mv /etc/TWS/* /etc/TWS/*,\
+/bin/mv /opt/Tivoli/* /opt/Tivoli/*,\
+/bin/mv /usr/Tivoli/TWS/* /usr/Tivoli/TWS/*,\
+/usr/bin/rm -* /etc/Tivoli/*, \
+/usr/bin/rm -* /etc/TWA/*, \
+/usr/bin/rm -*/etc/TWS/*, \
+/usr/bin/rm -* /opt/Tivoli/*,\
+/usr/bin/rm -*/usr/Tivoli/TWS/*,\
+/usr/bin/rm  /etc/Tivoli/*, \
+/usr/bin/rm  /etc/TWA/*, \
+/usr/bin/rm /etc/TWS/*, \
+/usr/bin/rm  /opt/Tivoli/*,\
+/usr/bin/rm /usr/Tivoli/TWS/*,\
+/bin/rm /etc/Tivoli/*, \
+/bin/rm /etc/TWA/*, \
+/bin/rm /etc/TWS/*, \
+/bin/rm /usr/Tivoli/TWS/*,\
+/bin/rm /opt/Tivoli/*,\
+/bin/rm -* /etc/Tivoli/*, \
+/bin/rm -* /etc/TWA/*, \
+/bin/rm -* /etc/TWS/*, \
+/bin/rm -* /opt/Tivoli/*,\
+/bin/rm -* /usr/Tivoli/TWS/*,\
+/bin/rmdir /etc/Tivoli/*, \
+/bin/rmdir /etc/TWA/*, \
+/bin/rmdir /etc/TWS/*, \
+/bin/rmdir /opt/Tivoli/*,\
+/bin/rmdir /usr/Tivoli/TWS/*
+
+
+Cmnd_Alias   IBM_TIV_NEG = IBM_CAT_NEG, IBM_CHMOD_NEG, IBM_CP_NEG, \
+  IBM_FIND_NEG, IBM_MKDIR_NEG, IBM_MV_NEG, \
+  IBM_MOUNT_NEG, IBM_UMOUNT_NEG,\
+  IBM_RM_NEG, IBM_RMDIR_NEG, \
+  IBM_TOUCH_NEG
+
+
+IBM_TWA_BAU TWA_SERVER=NOPASSWD:IBM_TWA_INFRA_CMDS,\
+	IBM_EWAS_CMDS, NOEXEC:IBM_TWA_OS_CMDS,IBM_TIV_NEG
+
+# Begin Global Tivoli Workload Automation standard template - Ver 1.0.3 Date 2017-10-30 * Maintenance * Refer xxxxxx Begin #
+####
+#### These entries are for scheduled Changes
+#### User privilege specification for full root access during scheduled changes
+#### or critical situations
+####
+
+Cmnd_Alias IBM_TWA_ADM_CMDS =\
+   /usr/bin/su - root,\
+   /bin/su - root
+
+IBM_TWA_ADM TWA_SERVER=IBM_TWA_ADM_CMDS
+# End Global Tivoli Workload Automation standard template - Ver 1.0.3 Date 2017-10-30 * Maintenance * Refer xxxxxx End #
+
+###
+# End Global Tivoli Workload Automation standard template - Ver 1.0.3 Date 2017-10-30 * Master * Refer xxxxxx End #
+
+

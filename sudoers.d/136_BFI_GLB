@@ -1,0 +1,86 @@
+# Begin Global BFI standard template - Ver 1.0.0 Date 2016-10-07  * Master * Refer NA16314032 Begin #
+
+# Product names, versions: BFI, 9.2.*, 9.3.*, 9.5.* and higher
+# OS Platforms: Linux
+
+# Version control
+# V1.0.0 - dawnu@us.ibm.com - new Global template 
+
+# =====================================================================================
+
+#(A ) Requested  Business As Usual (BAU) SUDO Commands 
+
+#-----------------------------------------------------------------------------
+# The User_Alias name IBM_* to identify the Alias as the
+# 'application related' alias for IBM owned ID's.
+#
+User_Alias  IBM_BFI_BAU = %bfibau
+
+# replace teamgroup with the
+# -group- that contains the account specific IBM
+# application support team ID's. 
+# DO NOT use this group for customer owned ID's.
+#-----------------------------------------------------------------------------
+#
+User_Alias  IBM_BFI_ADM = %bfiadm
+
+# replace teamgroup_cw with the
+# -group- that is permitted to contain the account specific IBM
+# application support team ID's during problem / change / install windows
+# DO NOT use this group for customer owned ID's.
+#-----------------------------------------------------------------------------
+# Host Aliases 
+#
+Host_Alias BFI_HOSTS = ALL 
+
+# In this template, we assume all
+# systems are managed by the IBM support team.
+# Indicate a subset of systems if not all will be
+# managed by this IBM team.
+
+# Note to sudo implementation teams:  You may comment out the above and include
+# them in the 'main' sudoers file 'just above' the include statement for this
+# template: eg:  (replace * with template specific name)
+# > IBM_*_BAU = %<:teamgroup>
+# > #include /etc/sudoers.d/202_*_NA 
+
+## bfiadmin would be local group with the correct team's personal id's added to them.
+
+
+# User privilege specification
+
+Cmnd_Alias IBM_BFI_BAU_CMDS =\
+	/etc/init.d/BFIserver *,\
+	/etc/init.d/besclient *,\
+	/bin/su - db2inst1,\
+	/bin/ls,\
+	/bin/cp /opt/ibm/BFI/* /tmp,\
+	/bin/cp /var/opt/BESClient/* /tmp,\
+	/bin/cat,\
+	/usr/bin/tail -f,\
+	/bin/kill,\
+	/opt/ibm/BFI/cli/srvstatus.sh,\
+	/opt/ibm/BFI/wlp/bin/securityUtility *,\
+	sudoedit /opt/ibm/BFI/wlp/usr/servers/server1/server.xml,\
+	sudoedit /opt/ibm/BFI/wlp/usr/servers/server1/config/*.yml,\
+	sudoedit /opt/ibm/BFI/BESClient/besclient.config,\
+	sudoedit /etc/opt/BESClient/actionsite.afxm
+
+
+IBM_BFI_BAU BFI_HOSTS = IBM_BFI_BAU_CMDS, IBM_LS_NEG, IBM_CP_NEG, IBM_CAT_NEG, IBM_TAIL_NEG
+
+# Begin Global BFI standard template - Ver 1.0.0 Date 2016-10-07 * Maintenance * Refer xxxxx Begin #
+
+#( B) Standard entries for use in Change/Installation Window  and Problem Determination/Recovery Situation situations:
+# Link to installation requirements:
+# https://www.ibm.com/support/knowledgecenter/SSKLLW_9.5.0/com.ibm.bigfix.inventory.doc/Inventory/planinconf/t_interactive_installation.html
+#
+# User privilege specification for full root access during scheduled changes:
+
+Cmnd_Alias IBM_BFI_ADM_CMDS = /bin/su - root
+
+IBM_BFI_ADM  BFI_HOSTS = IBM_BFI_ADM_CMDS
+
+# End Global BFI standard template - Ver 1.0.0 Date 2016-10-07 * Maintenance * Refer xxxxx End #
+
+# End Global BFI standard template - Ver 1.0.0 Date 2016-10-07 * Master * Refer NA16314032 End #

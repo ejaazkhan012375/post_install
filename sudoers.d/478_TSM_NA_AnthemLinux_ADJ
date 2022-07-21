@@ -1,0 +1,56 @@
+# Begin  Anthem-Linux TSM ADJ template Ver 1.0 Date 2016-05-05  * Master*  Refer NA16130038 Approved for pre-deployment Begin #
+# Description : <: Add addtional sudo commands>
+# Software products and versions : TSM
+# Supported OS platforms : AIX
+#
+# Version control
+# V1.0 - moharaj1@in.ibm.com - <:moharaj1 and  744
+#          plus any comments you want included into the sudoers file.>
+#
+# 
+# <:NA notes- rename this file to your application name, ensure you keep it a
+#      'pure' unix text file, otherwise it may not work right when #included.
+#      Recommend use of VIM to edit:  https://ibm.biz/NAsudoVim
+#      Reminder when replacing 'yourAppName' below, use all CAPS, that is 
+#      syntatically required by sudo. >
+#
+#=====================================================================================
+#
+# Note:  It is -critical- that when you 'customize' 
+#    IBM_yourAppName_BAU
+#    IBM_yourAppName_ADM 
+#    yourAppName_HOSTS
+# below the names MUST match the user_alias and host_alias that aligns
+# with the NA or GLB template you are adjusting.  It is equally important
+# that the Cmd_Alias name -not- match exactly with the template you are
+# adjusting, the Cmd_Alias name needs to be unique Vs any other
+# Cmd_Alias being used.
+# 
+# <:Note- person developing this template ignores this line, this is
+#   instruction for the 'sudo implementation team... and the _ADJ
+#   owner can ajust this instruction to include any other directions
+#   to the sudo implementation team>
+# -----Do not change anything below this line, excepting to replace ----------
+# -----         <:path *> content with local pathing.       ------------------
+#
+
+# Assigned To group from NA or GLB template
+IBM_TSM_BAU  TSM_HOSTS = IBM_TSM_BAU_ADJ_CMDS	
+IBM_TSM_ADM  TSM_HOSTS = IBM_TSM_ADM_ADJ_CMDS	
+
+Cmnd_Alias IBM_TSM_BAU_ADJ_CMDS = \
+                 sudoedit /opt/tivoli/tsm/client/ba/bin*/inclexcl, \
+                 sudoedit /opt/tivoli/tsm/client/api/bin*/inclexcl
+
+
+# Begin Anthem-Linux TSM 1.0  Date 2015-05-05  * Maintenance * Refer NA16130038 Begin #
+Cmnd_Alias IBM_TSM_ADM_ADJ_CMDS = \
+/bin/rpm -i TIV*, \
+/bin/rpm -e TIV*, \
+/bin/rpm -U TIV*, \
+/bin/rpm -i gsk*, \
+/bin/rpm -e gsk*, \
+/bin/rpm -U gsk*
+# End Anthem-Linux TSM Ver 1.0  Date 2016-05-05 * Maintenance * Refer NA16130038 End #	
+
+# End  Anthem-Linux TSM ADJ template Ver 1.0 Date 2016-05-05 * Master *  Refer NA16130038 Approved for pre-deployment End #
